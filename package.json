@@ -74,7 +74,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/JBcoin-JBC/jbcoin-lib.git"
+    "url": "https://github.com/10wpressure/jbcoin-lib.git"
   },
   "readmeFilename": "README.md",
   "engines": {

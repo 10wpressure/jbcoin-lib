@@ -1,5 +1,5 @@
 # jbcoin-lib
 
 ```
-$ npm install --save git+https://github.com/JBcoin-JBC/jbcoin-lib.git
+$ npm install --save https://github.com/10wpressure/jbcoin-lib.git
 ```

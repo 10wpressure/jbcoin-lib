@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as common from '../common';
 import { Connection } from '../common';
 import { FormattedTransactionType } from '../transaction/types';
@@ -20,14 +21,7 @@ export declare type RequestBookOffersArgs = {
     taker_gets: Issue;
     taker_pays: Issue;
 };
-declare function renameCounterpartyToIssuerInOrder(order: RequestBookOffersArgs): RequestBookOffersArgs & Partial<{
-    taker_gets: Issue & {
-        issuer?: string;
-    };
-    taker_pays: Issue & {
-        issuer?: string;
-    };
-}>;
+declare function renameCounterpartyToIssuerInOrder(order: RequestBookOffersArgs): RequestBookOffersArgs & _.Dictionary<any>;
 /**
  *  Order two jbcoind transactions based on their ledger_index.
  *  If two transactions took place in the same ledger, sort
