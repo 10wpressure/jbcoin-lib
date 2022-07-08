@@ -7,7 +7,7 @@ function verifyPaymentChannelClaim(channel, amount, signature, publicKey) {
     common_1.validate.verifyPaymentChannelClaim({ channel, amount, signature, publicKey });
     const signingData = binary.encodeForSigningClaim({
         channel: channel,
-        amount: common_1.jbcToDrops(amount)
+        amount: (0, common_1.jbcToDrops)(amount)
     });
     return keypairs.verify(signingData, signature, publicKey);
 }

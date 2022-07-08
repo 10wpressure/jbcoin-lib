@@ -15,13 +15,13 @@ function parseFlag(flagsValue, trueValue, falseValue) {
 }
 function parseTrustline(tx) {
     assert(tx.TransactionType === 'TrustSet');
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         limit: tx.LimitAmount.value,
         currency: tx.LimitAmount.currency,
         counterparty: tx.LimitAmount.issuer,
-        memos: utils_1.parseMemos(tx),
-        qualityIn: utils_1.parseQuality(tx.QualityIn),
-        qualityOut: utils_1.parseQuality(tx.QualityOut),
+        memos: (0, utils_1.parseMemos)(tx),
+        qualityIn: (0, utils_1.parseQuality)(tx.QualityIn),
+        qualityOut: (0, utils_1.parseQuality)(tx.QualityOut),
         ripplingDisabled: parseFlag(tx.Flags, flags.SetNoJbcoin, flags.ClearNoJbcoin),
         frozen: parseFlag(tx.Flags, flags.SetFreeze, flags.ClearFreeze),
         authorized: parseFlag(tx.Flags, flags.SetAuth, 0)

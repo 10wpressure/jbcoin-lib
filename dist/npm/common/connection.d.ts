@@ -40,8 +40,8 @@ declare class Connection extends EventEmitter {
     _updateFees(data: any): void;
     _parseMessage(message: any): [string, Object] | ['error', string, string, Object];
     _onMessage(message: any): void;
-    readonly _state: number;
-    readonly _shouldBeConnected: boolean;
+    get _state(): number;
+    get _shouldBeConnected(): boolean;
     isConnected(): boolean;
     _onUnexpectedClose(beforeOpen: any, resolve: any, reject: any, code: any): void;
     _calculateTimeout(retriesCount: any): number;
@@ -52,10 +52,10 @@ declare class Connection extends EventEmitter {
     _unbindOnUnxpectedClose(): void;
     _onOpenError(reject: any, error: any): void;
     _createWebSocket(): WebSocket;
-    connect(): Promise<{}>;
-    disconnect(): Promise<{}>;
-    _disconnect(calledByUser: any): Promise<{}>;
-    reconnect(): Promise<{}>;
+    connect(): Promise<void>;
+    disconnect(): Promise<void>;
+    _disconnect(calledByUser: any): Promise<void>;
+    reconnect(): Promise<void>;
     _whenReady<T>(promise: Promise<T>): Promise<T>;
     getLedgerVersion(): Promise<number>;
     hasLedgerVersions(lowLedgerVersion: any, highLedgerVersion: any): Promise<boolean>;

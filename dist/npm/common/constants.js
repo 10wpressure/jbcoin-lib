@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AccountFlags = exports.AccountFlagIndices = exports.AccountFields = void 0;
 const txflags_1 = require("./txflags");
 // Ordering from https://developers.jbcoin.com/accountroot.html
 const accountRootFlags = {

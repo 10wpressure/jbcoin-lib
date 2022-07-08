@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isPartialPayment = exports.adjustQualityForJBC = exports.parseTimestamp = exports.hexToString = exports.parseMemos = exports.parseOutcome = exports.parseQuality = void 0;
 const _ = require("lodash");
 const transactionParser = require("ripple-lib-transactionparser");
 const bignumber_js_1 = require("bignumber.js");
@@ -61,15 +62,15 @@ function parseDeliveredAmount(tx) {
     }
     // parsable delivered_amount
     if (tx.meta.delivered_amount) {
-        return amount_1.default(tx.meta.delivered_amount);
+        return (0, amount_1.default)(tx.meta.delivered_amount);
     }
     // DeliveredAmount only present on partial payments
     if (tx.meta.DeliveredAmount) {
-        return amount_1.default(tx.meta.DeliveredAmount);
+        return (0, amount_1.default)(tx.meta.DeliveredAmount);
     }
     // no partial payment flag, use tx.Amount
     if (tx.Amount && !isPartialPayment(tx)) {
-        return amount_1.default(tx.Amount);
+        return (0, amount_1.default)(tx.Amount);
     }
     // DeliveredAmount field was introduced at
     // ledger 4594095 - after that point its absence
@@ -78,7 +79,7 @@ function parseDeliveredAmount(tx) {
     // transferred with a partial payment before
     // that date must be derived from metadata.
     if (tx.Amount && tx.ledger_index > 4594094) {
-        return amount_1.default(tx.Amount);
+        return (0, amount_1.default)(tx.Amount);
     }
     return undefined;
 }

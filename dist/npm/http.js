@@ -1,6 +1,7 @@
 "use strict";
 /* eslint-disable new-cap */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createHTTPServer = void 0;
 const assert = require("assert");
 const _ = require("lodash");
 const jayson = require("jayson");

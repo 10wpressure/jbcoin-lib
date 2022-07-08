@@ -1,13 +1,15 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JbcoinAPI = void 0;
 const events_1 = require("events");
 const common_1 = require("./common");
 const server_1 = require("./server/server");
@@ -128,7 +130,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         if (serverURL !== undefined) {
             this.connection = new common_1.Connection(serverURL, options);
             this.connection.on('ledgerClosed', message => {
-                this.emit('ledger', server_1.formatLedgerClose(message));
+                this.emit('ledger', (0, server_1.formatLedgerClose)(message));
             });
             this.connection.on('error', (errorCode, errorMessage, data) => {
                 this.emit('error', errorCode, errorMessage, data);
@@ -148,7 +150,7 @@ class JbcoinAPI extends events_1.EventEmitter {
     }
     request(command, params = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.connection.request(Object.assign({}, params, { command }));
+            return this.connection.request(Object.assign(Object.assign({}, params), { command }));
         });
     }
     /**
@@ -209,8 +211,8 @@ class JbcoinAPI extends events_1.EventEmitter {
             let lastBatchLength;
             const results = [];
             do {
-                const countRemaining = utils_1.clamp(countTo - count, 10, 400);
-                const repeatProps = Object.assign({}, params, { limit: countRemaining, marker });
+                const countRemaining = (0, utils_1.clamp)(countTo - count, 10, 400);
+                const repeatProps = Object.assign(Object.assign({}, params), { limit: countRemaining, marker });
                 const singleResult = yield this.request(command, repeatProps);
                 const collectedData = singleResult[collectKey];
                 marker = singleResult['marker'];
@@ -229,6 +231,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         });
     }
 }
+exports.JbcoinAPI = JbcoinAPI;
 // these are exposed only for use by unit tests; they are not part of the API.
 JbcoinAPI._PRIVATE = {
     validate: common_1.validate,
@@ -238,5 +241,4 @@ JbcoinAPI._PRIVATE = {
 };
 JbcoinAPI.renameCounterpartyToIssuer = utils_1.renameCounterpartyToIssuer;
 JbcoinAPI.formatBidsAndAsks = orderbook_1.formatBidsAndAsks;
-exports.JbcoinAPI = JbcoinAPI;
 //# sourceMappingURL=api.js.map

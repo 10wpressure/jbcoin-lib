@@ -9,16 +9,16 @@ function createEscrowCreationTransaction(account, payment) {
         TransactionType: 'EscrowCreate',
         Account: account,
         Destination: payment.destination,
-        Amount: common_1.jbcToDrops(payment.amount)
+        Amount: (0, common_1.jbcToDrops)(payment.amount)
     };
     if (payment.condition !== undefined) {
         txJSON.Condition = payment.condition;
     }
     if (payment.allowCancelAfter !== undefined) {
-        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(payment.allowCancelAfter);
+        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowCancelAfter);
     }
     if (payment.allowExecuteAfter !== undefined) {
-        txJSON.FinishAfter = common_1.iso8601ToJbcoinTime(payment.allowExecuteAfter);
+        txJSON.FinishAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowExecuteAfter);
     }
     if (payment.sourceTag !== undefined) {
         txJSON.SourceTag = payment.sourceTag;

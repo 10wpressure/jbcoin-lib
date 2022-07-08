@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateAddressAPI = void 0;
 const keypairs = require("ripple-keypairs");
 const common = require("../common");
 const { errors, validate } = common;

@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isValidAddress = exports.isValidSecret = exports.schemaValidate = void 0;
 const _ = require("lodash");
 const assert = require("assert");
 const { Validator } = require('jsonschema');
 const errors_1 = require("./errors");
 const ripple_address_codec_1 = require("ripple-address-codec");
-exports.isValidAddress = ripple_address_codec_1.isValidAddress;
+Object.defineProperty(exports, "isValidAddress", { enumerable: true, get: function () { return ripple_address_codec_1.isValidAddress; } });
 const utils_1 = require("./utils");
-exports.isValidSecret = utils_1.isValidSecret;
+Object.defineProperty(exports, "isValidSecret", { enumerable: true, get: function () { return utils_1.isValidSecret; } });
 function loadSchemas() {
     // listed explicitly for webpack (instead of scanning schemas directory)
     const schemas = [
@@ -133,13 +134,13 @@ function loadSchemas() {
         if (instance === undefined) {
             return true;
         }
-        return ripple_address_codec_1.isValidAddress(instance);
+        return (0, ripple_address_codec_1.isValidAddress)(instance);
     };
     validator.customFormats.secret = function (instance) {
         if (instance === undefined) {
             return true;
         }
-        return utils_1.isValidSecret(instance);
+        return (0, utils_1.isValidSecret)(instance);
     };
     // Register under the root URI '/'
     _.forEach(schemas, schema => validator.addSchema(schema, '/' + schema.title));

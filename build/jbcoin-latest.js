@@ -61,7 +61,7 @@ var jbcoin =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 106);
+/******/ 	return __webpack_require__(__webpack_require__.s = 107);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,26 +71,27 @@ var jbcoin =
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants = __webpack_require__(107);
+exports.txFlags = exports.Connection = exports.jbcoinTimeToISO8601 = exports.iso8601ToJbcoinTime = exports.convertKeysFromSnakeCaseToCamelCase = exports.removeUndefined = exports.toJbcoindAmount = exports.jbcToDrops = exports.dropsToJbc = exports.serverInfo = exports.validate = exports.errors = exports.constants = void 0;
+const constants = __webpack_require__(108);
 exports.constants = constants;
 const errors = __webpack_require__(29);
 exports.errors = errors;
-const validate = __webpack_require__(111);
+const validate = __webpack_require__(112);
 exports.validate = validate;
 const serverInfo = __webpack_require__(80);
 exports.serverInfo = serverInfo;
 var utils_1 = __webpack_require__(54);
-exports.dropsToJbc = utils_1.dropsToJbc;
-exports.jbcToDrops = utils_1.jbcToDrops;
-exports.toJbcoindAmount = utils_1.toJbcoindAmount;
-exports.removeUndefined = utils_1.removeUndefined;
-exports.convertKeysFromSnakeCaseToCamelCase = utils_1.convertKeysFromSnakeCaseToCamelCase;
-exports.iso8601ToJbcoinTime = utils_1.iso8601ToJbcoinTime;
-exports.jbcoinTimeToISO8601 = utils_1.jbcoinTimeToISO8601;
-var connection_1 = __webpack_require__(263);
-exports.Connection = connection_1.default;
+Object.defineProperty(exports, "dropsToJbc", { enumerable: true, get: function () { return utils_1.dropsToJbc; } });
+Object.defineProperty(exports, "jbcToDrops", { enumerable: true, get: function () { return utils_1.jbcToDrops; } });
+Object.defineProperty(exports, "toJbcoindAmount", { enumerable: true, get: function () { return utils_1.toJbcoindAmount; } });
+Object.defineProperty(exports, "removeUndefined", { enumerable: true, get: function () { return utils_1.removeUndefined; } });
+Object.defineProperty(exports, "convertKeysFromSnakeCaseToCamelCase", { enumerable: true, get: function () { return utils_1.convertKeysFromSnakeCaseToCamelCase; } });
+Object.defineProperty(exports, "iso8601ToJbcoinTime", { enumerable: true, get: function () { return utils_1.iso8601ToJbcoinTime; } });
+Object.defineProperty(exports, "jbcoinTimeToISO8601", { enumerable: true, get: function () { return utils_1.jbcoinTimeToISO8601; } });
+var connection_1 = __webpack_require__(264);
+Object.defineProperty(exports, "Connection", { enumerable: true, get: function () { return connection_1.default; } });
 var txflags_1 = __webpack_require__(73);
-exports.txFlags = txflags_1.txFlags;
+Object.defineProperty(exports, "txFlags", { enumerable: true, get: function () { return txflags_1.txFlags; } });
 
 
 /***/ }),
@@ -641,9 +642,9 @@ if (typeof Object.create === 'function') {
 
 
 
-var base64 = __webpack_require__(264)
-var ieee754 = __webpack_require__(265)
-var isArray = __webpack_require__(266)
+var base64 = __webpack_require__(265)
+var ieee754 = __webpack_require__(266)
+var isArray = __webpack_require__(81)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -5348,14 +5349,16 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*! bignumber.js v4.1.0 https://github.com/Mik
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.common = exports.prepareTransaction = exports.convertMemo = exports.convertStringToHex = void 0;
 const bignumber_js_1 = __webpack_require__(7);
 const common = __webpack_require__(0);
 exports.common = common;
@@ -5501,8 +5504,9 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isPartialPayment = exports.adjustQualityForJBC = exports.parseTimestamp = exports.hexToString = exports.parseMemos = exports.parseOutcome = exports.parseQuality = void 0;
 const _ = __webpack_require__(1);
-const transactionParser = __webpack_require__(293);
+const transactionParser = __webpack_require__(292);
 const bignumber_js_1 = __webpack_require__(7);
 const common = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
@@ -5562,15 +5566,15 @@ function parseDeliveredAmount(tx) {
     }
     // parsable delivered_amount
     if (tx.meta.delivered_amount) {
-        return amount_1.default(tx.meta.delivered_amount);
+        return (0, amount_1.default)(tx.meta.delivered_amount);
     }
     // DeliveredAmount only present on partial payments
     if (tx.meta.DeliveredAmount) {
-        return amount_1.default(tx.meta.DeliveredAmount);
+        return (0, amount_1.default)(tx.meta.DeliveredAmount);
     }
     // no partial payment flag, use tx.Amount
     if (tx.Amount && !isPartialPayment(tx)) {
-        return amount_1.default(tx.Amount);
+        return (0, amount_1.default)(tx.Amount);
     }
     // DeliveredAmount field was introduced at
     // ledger 4594095 - after that point its absence
@@ -5579,7 +5583,7 @@ function parseDeliveredAmount(tx) {
     // transferred with a partial payment before
     // that date must be derived from metadata.
     if (tx.Amount && tx.ledger_index > 4594094) {
-        return amount_1.default(tx.Amount);
+        return (0, amount_1.default)(tx.Amount);
     }
     return undefined;
 }
@@ -5871,16 +5875,16 @@ module.exports = {
 
 var elliptic = exports;
 
-elliptic.version = __webpack_require__(131).version;
-elliptic.utils = __webpack_require__(132);
+elliptic.version = __webpack_require__(132).version;
+elliptic.utils = __webpack_require__(133);
 elliptic.rand = __webpack_require__(78);
-elliptic.hmacDRBG = __webpack_require__(133);
+elliptic.hmacDRBG = __webpack_require__(134);
 elliptic.curve = __webpack_require__(45);
-elliptic.curves = __webpack_require__(138);
+elliptic.curves = __webpack_require__(139);
 
 // Protocols
-elliptic.ec = __webpack_require__(140);
-elliptic.eddsa = __webpack_require__(143);
+elliptic.ec = __webpack_require__(141);
+elliptic.eddsa = __webpack_require__(144);
 
 
 /***/ }),
@@ -5963,7 +5967,7 @@ exports.default = parseAmount;
 
   var Buffer;
   try {
-    Buffer = __webpack_require__(318).Buffer;
+    Buffer = __webpack_require__(317).Buffer;
   } catch (e) {
   }
 
@@ -12252,6 +12256,7 @@ exports.shr64_lo = shr64_lo;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.common = exports.clamp = exports.isPendingLedgerVersion = exports.hasCompleteLedgerRange = exports.getRecursive = exports.renameCounterpartyToIssuerInOrder = exports.renameCounterpartyToIssuer = exports.compareTransactions = exports.ensureLedgerVersion = exports.getJBCBalance = void 0;
 const _ = __webpack_require__(1);
 const assert = __webpack_require__(2);
 const common = __webpack_require__(0);
@@ -12880,8 +12885,8 @@ function isUndefined(arg) {
 
 
 
-var punycode = __webpack_require__(114);
-var util = __webpack_require__(115);
+var punycode = __webpack_require__(115);
+var util = __webpack_require__(116);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -12956,7 +12961,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(116);
+    querystring = __webpack_require__(117);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -13599,9 +13604,9 @@ var hash = exports;
 
 hash.utils = __webpack_require__(18);
 hash.common = __webpack_require__(39);
-hash.sha = __webpack_require__(120);
-hash.ripemd = __webpack_require__(124);
-hash.hmac = __webpack_require__(125);
+hash.sha = __webpack_require__(121);
+hash.ripemd = __webpack_require__(125);
+hash.hmac = __webpack_require__(126);
 
 // Proxy hash functions to the main object
 hash.sha1 = hash.sha.sha1;
@@ -13666,7 +13671,7 @@ var util = __webpack_require__(41);
 util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
-var Readable = __webpack_require__(84);
+var Readable = __webpack_require__(85);
 var Writable = __webpack_require__(56);
 
 util.inherits(Duplex, Readable);
@@ -13750,20 +13755,20 @@ function forEach(xs, f) {
 var enums = __webpack_require__(33);var
 Field = enums.Field;var _require =
 __webpack_require__(59),AccountID = _require.AccountID;var _require2 =
-__webpack_require__(317),Amount = _require2.Amount;var _require3 =
-__webpack_require__(319),Blob = _require3.Blob;var _require4 =
+__webpack_require__(316),Amount = _require2.Amount;var _require3 =
+__webpack_require__(318),Blob = _require3.Blob;var _require4 =
 __webpack_require__(63),Currency = _require4.Currency;var _require5 =
-__webpack_require__(320),Hash128 = _require5.Hash128;var _require6 =
+__webpack_require__(319),Hash128 = _require5.Hash128;var _require6 =
 __webpack_require__(60),Hash160 = _require6.Hash160;var _require7 =
-__webpack_require__(92),Hash256 = _require7.Hash256;var _require8 =
-__webpack_require__(321),PathSet = _require8.PathSet;var _require9 =
-__webpack_require__(322),STArray = _require9.STArray;var _require10 =
-__webpack_require__(93),STObject = _require10.STObject;var _require11 =
-__webpack_require__(323),UInt16 = _require11.UInt16;var _require12 =
-__webpack_require__(324),UInt32 = _require12.UInt32;var _require13 =
-__webpack_require__(91),UInt64 = _require13.UInt64;var _require14 =
-__webpack_require__(325),UInt8 = _require14.UInt8;var _require15 =
-__webpack_require__(326),Vector256 = _require15.Vector256;
+__webpack_require__(93),Hash256 = _require7.Hash256;var _require8 =
+__webpack_require__(320),PathSet = _require8.PathSet;var _require9 =
+__webpack_require__(321),STArray = _require9.STArray;var _require10 =
+__webpack_require__(94),STObject = _require10.STObject;var _require11 =
+__webpack_require__(322),UInt16 = _require11.UInt16;var _require12 =
+__webpack_require__(323),UInt32 = _require12.UInt32;var _require13 =
+__webpack_require__(92),UInt64 = _require13.UInt64;var _require14 =
+__webpack_require__(324),UInt8 = _require14.UInt8;var _require15 =
+__webpack_require__(325),Vector256 = _require15.Vector256;
 
 var coreTypes = {
   AccountID: AccountID,
@@ -13801,20 +13806,20 @@ module.exports = coreTypes;
 var enums = __webpack_require__(35);var 
 Field = enums.Field;var _require = 
 __webpack_require__(66);var AccountID = _require.AccountID;var _require2 = 
-__webpack_require__(348);var Amount = _require2.Amount;var _require3 = 
-__webpack_require__(349);var Blob = _require3.Blob;var _require4 = 
+__webpack_require__(347);var Amount = _require2.Amount;var _require3 = 
+__webpack_require__(348);var Blob = _require3.Blob;var _require4 = 
 __webpack_require__(70);var Currency = _require4.Currency;var _require5 = 
-__webpack_require__(350);var Hash128 = _require5.Hash128;var _require6 = 
+__webpack_require__(349);var Hash128 = _require5.Hash128;var _require6 = 
 __webpack_require__(67);var Hash160 = _require6.Hash160;var _require7 = 
-__webpack_require__(99);var Hash256 = _require7.Hash256;var _require8 = 
-__webpack_require__(351);var PathSet = _require8.PathSet;var _require9 = 
-__webpack_require__(352);var STArray = _require9.STArray;var _require10 = 
-__webpack_require__(100);var STObject = _require10.STObject;var _require11 = 
-__webpack_require__(353);var UInt16 = _require11.UInt16;var _require12 = 
-__webpack_require__(354);var UInt32 = _require12.UInt32;var _require13 = 
-__webpack_require__(98);var UInt64 = _require13.UInt64;var _require14 = 
-__webpack_require__(355);var UInt8 = _require14.UInt8;var _require15 = 
-__webpack_require__(356);var Vector256 = _require15.Vector256;
+__webpack_require__(100);var Hash256 = _require7.Hash256;var _require8 = 
+__webpack_require__(350);var PathSet = _require8.PathSet;var _require9 = 
+__webpack_require__(351);var STArray = _require9.STArray;var _require10 = 
+__webpack_require__(101);var STObject = _require10.STObject;var _require11 = 
+__webpack_require__(352);var UInt16 = _require11.UInt16;var _require12 = 
+__webpack_require__(353);var UInt32 = _require12.UInt32;var _require13 = 
+__webpack_require__(99);var UInt64 = _require13.UInt64;var _require14 = 
+__webpack_require__(354);var UInt8 = _require14.UInt8;var _require15 = 
+__webpack_require__(355);var Vector256 = _require15.Vector256;
 
 var coreTypes = { 
   AccountID: AccountID, 
@@ -13851,8 +13856,9 @@ module.exports = coreTypes;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LedgerVersionError = exports.MissingLedgerHistoryError = exports.PendingLedgerVersionError = exports.NotFoundError = exports.ValidationError = exports.ResponseFormatError = exports.TimeoutError = exports.JbcoindNotInitializedError = exports.DisconnectedError = exports.NotConnectedError = exports.JbcoindError = exports.ConnectionError = exports.UnexpectedError = exports.JbcoinError = void 0;
 const util_1 = __webpack_require__(36);
-const browserHacks = __webpack_require__(110);
+const browserHacks = __webpack_require__(111);
 class JbcoinError extends Error {
     constructor(message = '', data) {
         super(message);
@@ -13866,7 +13872,7 @@ class JbcoinError extends Error {
     toString() {
         let result = '[' + this.name + '(' + this.message;
         if (this.data) {
-            result += ', ' + util_1.inspect(this.data);
+            result += ', ' + (0, util_1.inspect)(this.data);
         }
         result += ')]';
         return result;
@@ -13938,7 +13944,7 @@ exports.PendingLedgerVersionError = PendingLedgerVersionError;
 
 
 var hashjs = __webpack_require__(25);
-var apiFactory = __webpack_require__(126);
+var apiFactory = __webpack_require__(127);
 
 var NODE_PUBLIC = 28;
 var NODE_PRIVATE = 32;
@@ -13986,7 +13992,7 @@ var Secp256k1 = elliptic.ec('secp256k1');
 var addressCodec = __webpack_require__(30);
 var derivePrivateKey = __webpack_require__(79).derivePrivateKey;
 var accountPublicFromPublicGenerator = __webpack_require__(79).accountPublicFromPublicGenerator;
-var utils = __webpack_require__(152);
+var utils = __webpack_require__(153);
 var hexToBytes = utils.hexToBytes;
 var bytesToHex = utils.bytesToHex;
 
@@ -14189,7 +14195,7 @@ var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];
 var _ = __webpack_require__(1);var _require =
 __webpack_require__(11),parseBytes = _require.parseBytes,serializeUIntN = _require.serializeUIntN;
 var makeClass = __webpack_require__(5);
-var enums = __webpack_require__(316);
+var enums = __webpack_require__(315);
 
 function transformWith(func, obj) {
   return _.transform(obj, func);
@@ -14407,7 +14413,7 @@ var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];
 var _ = __webpack_require__(1);var _require = 
 __webpack_require__(12);var parseBytes = _require.parseBytes;var serializeUIntN = _require.serializeUIntN;
 var makeClass = __webpack_require__(6);
-var enums = __webpack_require__(347);
+var enums = __webpack_require__(346);
 
 function transformWith(func, obj) {
   return _.transform(obj, func);}
@@ -15058,7 +15064,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = __webpack_require__(108);
+exports.isBuffer = __webpack_require__(109);
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -15102,7 +15108,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = __webpack_require__(109);
+exports.inherits = __webpack_require__(110);
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -15574,13 +15580,13 @@ BlockHash.prototype._pad = function pad() {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(84);
+exports = module.exports = __webpack_require__(85);
 exports.Stream = exports;
 exports.Readable = exports;
 exports.Writable = __webpack_require__(56);
 exports.Duplex = __webpack_require__(26);
-exports.Transform = __webpack_require__(87);
-exports.PassThrough = __webpack_require__(282);
+exports.Transform = __webpack_require__(88);
+exports.PassThrough = __webpack_require__(281);
 
 
 /***/ }),
@@ -15703,7 +15709,7 @@ function objectToString(o) {
 
 "use strict";
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;};var assert = __webpack_require__(2);
-var coreTypes = __webpack_require__(315);var
+var coreTypes = __webpack_require__(314);var
 quality =
 
 
@@ -15856,10 +15862,10 @@ module.exports = {
 
 var curve = exports;
 
-curve.base = __webpack_require__(134);
-curve.short = __webpack_require__(135);
-curve.mont = __webpack_require__(136);
-curve.edwards = __webpack_require__(137);
+curve.base = __webpack_require__(135);
+curve.short = __webpack_require__(136);
+curve.mont = __webpack_require__(137);
+curve.edwards = __webpack_require__(138);
 
 
 /***/ }),
@@ -21065,12 +21071,12 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 var BigNumber = __webpack_require__(7);
 var decodeAddress = __webpack_require__(30).decodeAddress;
-var binary = __webpack_require__(345);
-var hashprefixes = __webpack_require__(102);
-var SHAMap = __webpack_require__(103).SHAMap;
-var SHAMapTreeNode = __webpack_require__(103).SHAMapTreeNode;
-var ledgerspaces = __webpack_require__(361);
-var sha512half = __webpack_require__(104);
+var binary = __webpack_require__(344);
+var hashprefixes = __webpack_require__(103);
+var SHAMap = __webpack_require__(104).SHAMap;
+var SHAMapTreeNode = __webpack_require__(104).SHAMapTreeNode;
+var ledgerspaces = __webpack_require__(360);
+var sha512half = __webpack_require__(105);
 
 function hash(hex) {
   return sha512half(new Buffer(hex, 'hex'));
@@ -21392,13 +21398,14 @@ module.exports = function(module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isValidSecret = exports.iso8601ToJbcoinTime = exports.jbcoinTimeToISO8601 = exports.removeUndefined = exports.convertKeysFromSnakeCaseToCamelCase = exports.toJbcoindAmount = exports.jbcToDrops = exports.dropsToJbc = void 0;
 const _ = __webpack_require__(1);
 const bignumber_js_1 = __webpack_require__(7);
 const ripple_keypairs_1 = __webpack_require__(31);
 const errors_1 = __webpack_require__(29);
 function isValidSecret(secret) {
     try {
-        ripple_keypairs_1.deriveKeypair(secret);
+        (0, ripple_keypairs_1.deriveKeypair)(secret);
         return true;
     }
     catch (err) {
@@ -21682,12 +21689,12 @@ util.inherits = __webpack_require__(3);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __webpack_require__(280)
+  deprecate: __webpack_require__(279)
 };
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(85);
+var Stream = __webpack_require__(86);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -21703,7 +21710,7 @@ function _isUint8Array(obj) {
 
 /*</replacement>*/
 
-var destroyImpl = __webpack_require__(86);
+var destroyImpl = __webpack_require__(87);
 
 util.inherits(Writable, Stream);
 
@@ -22287,7 +22294,7 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(278).setImmediate, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(277).setImmediate, __webpack_require__(9)))
 
 /***/ }),
 /* 57 */
@@ -22319,7 +22326,7 @@ Writable.prototype._destroy = function (err, cb) {
 
 /*<replacement>*/
 
-var Buffer = __webpack_require__(281).Buffer;
+var Buffer = __webpack_require__(280).Buffer;
 /*</replacement>*/
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
@@ -22600,23 +22607,23 @@ function simpleEnd(buf) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-const payment_1 = __webpack_require__(297);
-const trustline_1 = __webpack_require__(298);
-const order_1 = __webpack_require__(299);
-const cancellation_1 = __webpack_require__(300);
-const settings_1 = __webpack_require__(301);
-const escrow_creation_1 = __webpack_require__(302);
-const escrow_execution_1 = __webpack_require__(303);
-const escrow_cancellation_1 = __webpack_require__(304);
-const check_create_1 = __webpack_require__(305);
-const check_cash_1 = __webpack_require__(306);
-const check_cancel_1 = __webpack_require__(307);
-const deposit_preauth_1 = __webpack_require__(308);
-const payment_channel_create_1 = __webpack_require__(309);
-const payment_channel_fund_1 = __webpack_require__(310);
-const payment_channel_claim_1 = __webpack_require__(311);
-const fee_update_1 = __webpack_require__(312);
-const amendment_1 = __webpack_require__(313);
+const payment_1 = __webpack_require__(296);
+const trustline_1 = __webpack_require__(297);
+const order_1 = __webpack_require__(298);
+const cancellation_1 = __webpack_require__(299);
+const settings_1 = __webpack_require__(300);
+const escrow_creation_1 = __webpack_require__(301);
+const escrow_execution_1 = __webpack_require__(302);
+const escrow_cancellation_1 = __webpack_require__(303);
+const check_create_1 = __webpack_require__(304);
+const check_cash_1 = __webpack_require__(305);
+const check_cancel_1 = __webpack_require__(306);
+const deposit_preauth_1 = __webpack_require__(307);
+const payment_channel_create_1 = __webpack_require__(308);
+const payment_channel_fund_1 = __webpack_require__(309);
+const payment_channel_claim_1 = __webpack_require__(310);
+const fee_update_1 = __webpack_require__(311);
+const amendment_1 = __webpack_require__(312);
 function parseTransactionType(type) {
     // Ordering matches https://developers.jbcoin.com/transaction-types.html
     const mapping = {
@@ -22672,14 +22679,14 @@ function parseTransaction(tx, includeRawTransaction) {
     if (!parser) {
         includeRawTransaction = true;
     }
-    const outcome = utils_1.parseOutcome(tx);
-    return common_1.removeUndefined({
+    const outcome = (0, utils_1.parseOutcome)(tx);
+    return (0, common_1.removeUndefined)({
         type: type,
         address: tx.Account,
         sequence: tx.Sequence,
         id: tx.hash,
-        specification: common_1.removeUndefined(specification),
-        outcome: outcome ? common_1.removeUndefined(outcome) : undefined,
+        specification: (0, common_1.removeUndefined)(specification),
+        outcome: outcome ? (0, common_1.removeUndefined)(outcome) : undefined,
         rawTransaction: includeRawTransaction ? JSON.stringify(tx) : undefined
     });
 }
@@ -23019,7 +23026,7 @@ module.exports = {
 var BN = __webpack_require__(15);
 var types = __webpack_require__(27);var _require =
 __webpack_require__(43),HashPrefix = _require.HashPrefix;var _require2 =
-__webpack_require__(327),BinaryParser = _require2.BinaryParser;var _require3 =
+__webpack_require__(326),BinaryParser = _require2.BinaryParser;var _require3 =
 __webpack_require__(62),BinarySerializer = _require3.BinarySerializer,BytesList = _require3.BytesList;var _require4 =
 __webpack_require__(11),bytesToHex = _require4.bytesToHex,slice = _require4.slice,parseBytes = _require4.parseBytes;var _require5 =
 
@@ -23090,11 +23097,11 @@ module.exports = {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 var inherits = __webpack_require__(3)
-var md5 = __webpack_require__(328)
-var RIPEMD160 = __webpack_require__(330)
-var sha = __webpack_require__(336)
+var md5 = __webpack_require__(327)
+var RIPEMD160 = __webpack_require__(329)
+var sha = __webpack_require__(335)
 
-var Base = __webpack_require__(341)
+var Base = __webpack_require__(340)
 
 function HashNoConstructor (hash) {
   Base.call(this, 'digest')
@@ -23476,7 +23483,7 @@ module.exports = {
 var BN = __webpack_require__(15);
 var types = __webpack_require__(28);var _require = 
 __webpack_require__(44);var HashPrefix = _require.HashPrefix;var _require2 = 
-__webpack_require__(357);var BinaryParser = _require2.BinaryParser;var _require3 = 
+__webpack_require__(356);var BinaryParser = _require2.BinaryParser;var _require3 = 
 __webpack_require__(69);var BinarySerializer = _require3.BinarySerializer;var BytesList = _require3.BytesList;var _require4 = 
 __webpack_require__(12);var bytesToHex = _require4.bytesToHex;var slice = _require4.slice;var parseBytes = _require4.parseBytes;var _require5 = 
 
@@ -23547,53 +23554,55 @@ module.exports = {
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JbcoinAPI = void 0;
 const events_1 = __webpack_require__(23);
 const common_1 = __webpack_require__(0);
-const server_1 = __webpack_require__(292);
-const transaction_1 = __webpack_require__(88);
-const transactions_1 = __webpack_require__(314);
-const trustlines_1 = __webpack_require__(362);
-const balances_1 = __webpack_require__(364);
-const balance_sheet_1 = __webpack_require__(365);
-const pathfind_1 = __webpack_require__(366);
-const orders_1 = __webpack_require__(368);
-const orderbook_1 = __webpack_require__(370);
-const settings_1 = __webpack_require__(372);
-const accountinfo_1 = __webpack_require__(373);
-const accountobjects_1 = __webpack_require__(374);
-const payment_channel_1 = __webpack_require__(375);
-const payment_1 = __webpack_require__(377);
-const trustline_1 = __webpack_require__(378);
-const order_1 = __webpack_require__(379);
-const ordercancellation_1 = __webpack_require__(380);
-const escrow_creation_1 = __webpack_require__(381);
-const escrow_execution_1 = __webpack_require__(382);
-const escrow_cancellation_1 = __webpack_require__(383);
-const payment_channel_create_1 = __webpack_require__(384);
-const payment_channel_fund_1 = __webpack_require__(385);
-const payment_channel_claim_1 = __webpack_require__(386);
-const check_create_1 = __webpack_require__(387);
-const check_cancel_1 = __webpack_require__(388);
-const check_cash_1 = __webpack_require__(389);
-const settings_2 = __webpack_require__(390);
-const sign_1 = __webpack_require__(391);
-const combine_1 = __webpack_require__(392);
-const submit_1 = __webpack_require__(393);
-const generate_address_1 = __webpack_require__(394);
-const derive_1 = __webpack_require__(395);
-const ledgerhash_1 = __webpack_require__(396);
-const sign_payment_channel_claim_1 = __webpack_require__(397);
-const verify_payment_channel_claim_1 = __webpack_require__(398);
-const ledger_1 = __webpack_require__(399);
-const rangeset_1 = __webpack_require__(81);
+const server_1 = __webpack_require__(291);
+const transaction_1 = __webpack_require__(89);
+const transactions_1 = __webpack_require__(313);
+const trustlines_1 = __webpack_require__(361);
+const balances_1 = __webpack_require__(363);
+const balance_sheet_1 = __webpack_require__(364);
+const pathfind_1 = __webpack_require__(365);
+const orders_1 = __webpack_require__(367);
+const orderbook_1 = __webpack_require__(369);
+const settings_1 = __webpack_require__(371);
+const accountinfo_1 = __webpack_require__(372);
+const accountobjects_1 = __webpack_require__(373);
+const payment_channel_1 = __webpack_require__(374);
+const payment_1 = __webpack_require__(376);
+const trustline_1 = __webpack_require__(377);
+const order_1 = __webpack_require__(378);
+const ordercancellation_1 = __webpack_require__(379);
+const escrow_creation_1 = __webpack_require__(380);
+const escrow_execution_1 = __webpack_require__(381);
+const escrow_cancellation_1 = __webpack_require__(382);
+const payment_channel_create_1 = __webpack_require__(383);
+const payment_channel_fund_1 = __webpack_require__(384);
+const payment_channel_claim_1 = __webpack_require__(385);
+const check_create_1 = __webpack_require__(386);
+const check_cancel_1 = __webpack_require__(387);
+const check_cash_1 = __webpack_require__(388);
+const settings_2 = __webpack_require__(389);
+const sign_1 = __webpack_require__(390);
+const combine_1 = __webpack_require__(391);
+const submit_1 = __webpack_require__(392);
+const generate_address_1 = __webpack_require__(393);
+const derive_1 = __webpack_require__(394);
+const ledgerhash_1 = __webpack_require__(395);
+const sign_payment_channel_claim_1 = __webpack_require__(396);
+const verify_payment_channel_claim_1 = __webpack_require__(397);
+const ledger_1 = __webpack_require__(398);
+const rangeset_1 = __webpack_require__(82);
 const ledgerUtils = __webpack_require__(19);
 const transactionUtils = __webpack_require__(8);
 const schemaValidator = __webpack_require__(74);
@@ -23675,7 +23684,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         if (serverURL !== undefined) {
             this.connection = new common_1.Connection(serverURL, options);
             this.connection.on('ledgerClosed', message => {
-                this.emit('ledger', server_1.formatLedgerClose(message));
+                this.emit('ledger', (0, server_1.formatLedgerClose)(message));
             });
             this.connection.on('error', (errorCode, errorMessage, data) => {
                 this.emit('error', errorCode, errorMessage, data);
@@ -23695,7 +23704,7 @@ class JbcoinAPI extends events_1.EventEmitter {
     }
     request(command, params = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.connection.request(Object.assign({}, params, { command }));
+            return this.connection.request(Object.assign(Object.assign({}, params), { command }));
         });
     }
     /**
@@ -23756,8 +23765,8 @@ class JbcoinAPI extends events_1.EventEmitter {
             let lastBatchLength;
             const results = [];
             do {
-                const countRemaining = utils_1.clamp(countTo - count, 10, 400);
-                const repeatProps = Object.assign({}, params, { limit: countRemaining, marker });
+                const countRemaining = (0, utils_1.clamp)(countTo - count, 10, 400);
+                const repeatProps = Object.assign(Object.assign({}, params), { limit: countRemaining, marker });
                 const singleResult = yield this.request(command, repeatProps);
                 const collectedData = singleResult[collectKey];
                 marker = singleResult['marker'];
@@ -23776,6 +23785,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         });
     }
 }
+exports.JbcoinAPI = JbcoinAPI;
 // these are exposed only for use by unit tests; they are not part of the API.
 JbcoinAPI._PRIVATE = {
     validate: common_1.validate,
@@ -23785,7 +23795,6 @@ JbcoinAPI._PRIVATE = {
 };
 JbcoinAPI.renameCounterpartyToIssuer = utils_1.renameCounterpartyToIssuer;
 JbcoinAPI.formatBidsAndAsks = orderbook_1.formatBidsAndAsks;
-exports.JbcoinAPI = JbcoinAPI;
 
 
 /***/ }),
@@ -23795,6 +23804,7 @@ exports.JbcoinAPI = JbcoinAPI;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.txFlagIndices = exports.txFlags = void 0;
 const txFlags = {
     // Universal flags can apply to any transaction type
     Universal: {
@@ -23859,18 +23869,18 @@ exports.txFlagIndices = txFlagIndices;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isValidAddress = exports.isValidSecret = exports.schemaValidate = void 0;
 const _ = __webpack_require__(1);
 const assert = __webpack_require__(2);
-const { Validator } = __webpack_require__(112);
+const { Validator } = __webpack_require__(113);
 const errors_1 = __webpack_require__(29);
 const ripple_address_codec_1 = __webpack_require__(30);
-exports.isValidAddress = ripple_address_codec_1.isValidAddress;
+Object.defineProperty(exports, "isValidAddress", { enumerable: true, get: function () { return ripple_address_codec_1.isValidAddress; } });
 const utils_1 = __webpack_require__(54);
-exports.isValidSecret = utils_1.isValidSecret;
+Object.defineProperty(exports, "isValidSecret", { enumerable: true, get: function () { return utils_1.isValidSecret; } });
 function loadSchemas() {
     // listed explicitly for webpack (instead of scanning schemas directory)
     const schemas = [
-        __webpack_require__(153),
         __webpack_require__(154),
         __webpack_require__(155),
         __webpack_require__(156),
@@ -23979,7 +23989,8 @@ function loadSchemas() {
         __webpack_require__(259),
         __webpack_require__(260),
         __webpack_require__(261),
-        __webpack_require__(262)
+        __webpack_require__(262),
+        __webpack_require__(263)
     ];
     const titles = schemas.map(schema => schema.title);
     const duplicates = _.keys(_.pickBy(_.countBy(titles), count => count > 1));
@@ -23992,13 +24003,13 @@ function loadSchemas() {
         if (instance === undefined) {
             return true;
         }
-        return ripple_address_codec_1.isValidAddress(instance);
+        return (0, ripple_address_codec_1.isValidAddress)(instance);
     };
     validator.customFormats.secret = function (instance) {
         if (instance === undefined) {
             return true;
         }
-        return utils_1.isValidSecret(instance);
+        return (0, utils_1.isValidSecret)(instance);
     };
     // Register under the root URI '/'
     _.forEach(schemas, schema => validator.addSchema(schema, '/' + schema.title));
@@ -24583,7 +24594,7 @@ if (typeof self === 'object') {
 } else {
   // Node.js or Web worker with no crypto support
   try {
-    var crypto = __webpack_require__(130);
+    var crypto = __webpack_require__(131);
     if (typeof crypto.randomBytes !== 'function')
       throw new Error('Not supported');
 
@@ -24604,7 +24615,7 @@ if (typeof self === 'object') {
 
 var elliptic = __webpack_require__(13);
 var secp256k1 = elliptic.ec('secp256k1');
-var Sha512 = __webpack_require__(146);
+var Sha512 = __webpack_require__(147);
 
 function deriveScalar(bytes, discrim) {
   var order = secp256k1.curve.n;
@@ -24674,14 +24685,16 @@ module.exports = {
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFee = exports.getServerInfo = void 0;
 const _ = __webpack_require__(1);
 const utils_1 = __webpack_require__(54);
 const bignumber_js_1 = __webpack_require__(7);
@@ -24693,7 +24706,7 @@ function renameKeys(object, mapping) {
 }
 function getServerInfo() {
     return this.request('server_info').then(response => {
-        const info = utils_1.convertKeysFromSnakeCaseToCamelCase(response.info);
+        const info = (0, utils_1.convertKeysFromSnakeCaseToCamelCase)(response.info);
         renameKeys(info, { hostid: 'hostID' });
         if (info.validatedLedger) {
             renameKeys(info.validatedLedger, {
@@ -24737,6 +24750,17 @@ exports.getFee = getFee;
 
 /***/ }),
 /* 81 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24793,7 +24817,7 @@ exports.default = RangeSet;
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {exports.fetch = isFunction(global.fetch) && isFunction(global.ReadableStream)
@@ -24873,10 +24897,10 @@ xhr = null // Help gc
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(82)
+/* WEBPACK VAR INJECTION */(function(process, Buffer, global) {var capability = __webpack_require__(83)
 var inherits = __webpack_require__(3)
 var stream = __webpack_require__(40)
 
@@ -25097,7 +25121,7 @@ IncomingMessage.prototype._onXHRProgress = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(4).Buffer, __webpack_require__(9)))
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25132,7 +25156,7 @@ var pna = __webpack_require__(46);
 module.exports = Readable;
 
 /*<replacement>*/
-var isArray = __webpack_require__(274);
+var isArray = __webpack_require__(81);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -25150,7 +25174,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream = __webpack_require__(85);
+var Stream = __webpack_require__(86);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -25172,7 +25196,7 @@ util.inherits = __webpack_require__(3);
 /*</replacement>*/
 
 /*<replacement>*/
-var debugUtil = __webpack_require__(275);
+var debugUtil = __webpack_require__(274);
 var debug = void 0;
 if (debugUtil && debugUtil.debuglog) {
   debug = debugUtil.debuglog('stream');
@@ -25181,8 +25205,8 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __webpack_require__(276);
-var destroyImpl = __webpack_require__(86);
+var BufferList = __webpack_require__(275);
+var destroyImpl = __webpack_require__(87);
 var StringDecoder;
 
 util.inherits(Readable, Stream);
@@ -26119,14 +26143,14 @@ function indexOf(xs, x) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(17)))
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(23).EventEmitter;
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26206,7 +26230,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26426,16 +26450,17 @@ function done(stream, er, data) {
 }
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -26498,7 +26523,7 @@ function formatResponse(options, tx) {
     if (tx.validated !== true || !isTransactionInRange(tx, options)) {
         throw new common_1.errors.NotFoundError('Transaction not found');
     }
-    return transaction_1.default(tx, options.includeRawTransaction);
+    return (0, transaction_1.default)(tx, options.includeRawTransaction);
 }
 function getTransaction(id, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -26521,7 +26546,7 @@ exports.default = getTransaction;
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26663,7 +26688,7 @@ module.exports.parseFinalBalances = parseFinalBalances
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26717,7 +26742,7 @@ exports.default = parseFields;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26772,7 +26797,7 @@ module.exports = {
   UInt64: UInt64 };
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26793,7 +26818,7 @@ module.exports = {
   Hash256: Hash256 };
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26864,7 +26889,7 @@ module.exports = {
   STObject: STObject };
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -26895,10 +26920,10 @@ var inherits = __webpack_require__(3);
 
 inherits(Stream, EE);
 Stream.Readable = __webpack_require__(40);
-Stream.Writable = __webpack_require__(332);
-Stream.Duplex = __webpack_require__(333);
-Stream.Transform = __webpack_require__(334);
-Stream.PassThrough = __webpack_require__(335);
+Stream.Writable = __webpack_require__(331);
+Stream.Duplex = __webpack_require__(332);
+Stream.Transform = __webpack_require__(333);
+Stream.PassThrough = __webpack_require__(334);
 
 // Backwards-compat with node 0.4.x
 Stream.Stream = Stream;
@@ -26997,7 +27022,7 @@ Stream.prototype.pipe = function(dest, options) {
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -27138,7 +27163,7 @@ module.exports = Sha256
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(3)
@@ -27404,7 +27429,7 @@ module.exports = Sha512
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27517,7 +27542,7 @@ module.exports = {
   ShaMap: ShaMap };
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27572,7 +27597,7 @@ module.exports = {
   UInt64: UInt64 };
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27593,7 +27618,7 @@ module.exports = {
   Hash256: Hash256 };
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27664,7 +27689,7 @@ module.exports = {
   STObject: STObject };
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27777,7 +27802,7 @@ module.exports = {
   ShaMap: ShaMap };
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27817,15 +27842,15 @@ exports.HASH_LEDGER = 0x4C575200;
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 
 var util = __webpack_require__(36);
-var hashprefixes = __webpack_require__(102);
-var sha512half = __webpack_require__(104);
+var hashprefixes = __webpack_require__(103);
+var sha512half = __webpack_require__(105);
 var HEX_ZERO = '00000000000000000000000000000000' +
                '00000000000000000000000000000000';
 
@@ -28131,7 +28156,7 @@ exports.SHAMapTreeNodeLeaf = SHAMapTreeNodeLeaf;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28151,12 +28176,13 @@ module.exports = sha512half;
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.trustlineFlags = exports.orderFlags = void 0;
 const orderFlags = {
     Passive: 0x00010000,
     Sell: 0x00020000 // offer was placed as a sell
@@ -28176,26 +28202,28 @@ exports.trustlineFlags = trustlineFlags;
 
 
 /***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var api_1 = __webpack_require__(72);
-exports.JbcoinAPI = api_1.JbcoinAPI;
-// Broadcast api is experimental
-var broadcast_1 = __webpack_require__(401);
-exports.JbcoinAPIBroadcast = broadcast_1.JbcoinAPIBroadcast;
-
-
-/***/ }),
 /* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JbcoinAPIBroadcast = exports.JbcoinAPI = void 0;
+var api_1 = __webpack_require__(72);
+Object.defineProperty(exports, "JbcoinAPI", { enumerable: true, get: function () { return api_1.JbcoinAPI; } });
+// Broadcast api is experimental
+var broadcast_1 = __webpack_require__(400);
+Object.defineProperty(exports, "JbcoinAPIBroadcast", { enumerable: true, get: function () { return broadcast_1.JbcoinAPIBroadcast; } });
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AccountFlags = exports.AccountFlagIndices = exports.AccountFields = void 0;
 const txflags_1 = __webpack_require__(73);
 // Ordering from https://developers.jbcoin.com/accountroot.html
 const accountRootFlags = {
@@ -28269,7 +28297,7 @@ exports.AccountFields = AccountFields;
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports) {
 
 module.exports = function isBuffer(arg) {
@@ -28280,7 +28308,7 @@ module.exports = function isBuffer(arg) {
 }
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -28309,12 +28337,13 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setPrototypeOf = exports.getConstructorName = void 0;
 function setPrototypeOf(object, prototype) {
     // Object.setPrototypeOf not supported on Internet Explorer 9
     Object.setPrototypeOf ? Object.setPrototypeOf(object, prototype) :
@@ -28333,12 +28362,13 @@ exports.getConstructorName = getConstructorName;
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.instructions = exports.apiOptions = exports.verifyPaymentChannelClaim = exports.signPaymentChannelClaim = exports.generateAddress = exports.computeLedgerHash = exports.submit = exports.combine = exports.sign = exports.prepareCheckCancel = exports.prepareCheckCash = exports.prepareCheckCreate = exports.preparePaymentChannelClaim = exports.preparePaymentChannelFund = exports.preparePaymentChannelCreate = exports.prepareEscrowExecution = exports.prepareEscrowCancellation = exports.prepareEscrowCreation = exports.prepareSettings = exports.prepareTrustline = exports.prepareOrderCancellation = exports.prepareOrder = exports.preparePayment = exports.getLedger = exports.getPaymentChannel = exports.getTransaction = exports.getOrderbook = exports.getOrders = exports.getBalanceSheet = exports.getBalances = exports.getTrustlines = exports.getAccountInfo = exports.getSettings = exports.getTransactions = exports.getPaths = void 0;
 const _ = __webpack_require__(1);
 const errors_1 = __webpack_require__(29);
 const schema_validator_1 = __webpack_require__(74);
@@ -28354,7 +28384,7 @@ function validateLedgerRange(options) {
     }
 }
 function validateOptions(schema, instance) {
-    schema_validator_1.schemaValidate(schema, instance);
+    (0, schema_validator_1.schemaValidate)(schema, instance);
     validateLedgerRange(instance.options);
 }
 exports.getPaths = _.partial(schema_validator_1.schemaValidate, 'getPathsParameters');
@@ -28395,13 +28425,13 @@ exports.instructions = _.partial(schema_validator_1.schemaValidate, 'instruction
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Validator = module.exports.Validator = __webpack_require__(113);
+var Validator = module.exports.Validator = __webpack_require__(114);
 
 module.exports.ValidatorResult = __webpack_require__(37).ValidatorResult;
 module.exports.ValidationError = __webpack_require__(37).ValidationError;
@@ -28414,7 +28444,7 @@ module.exports.validate = function (instance, schema, options) {
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28422,7 +28452,7 @@ module.exports.validate = function (instance, schema, options) {
 
 var urilib = __webpack_require__(24);
 
-var attribute = __webpack_require__(119);
+var attribute = __webpack_require__(120);
 var helpers = __webpack_require__(37);
 var ValidatorResult = helpers.ValidatorResult;
 var SchemaError = helpers.SchemaError;
@@ -28755,7 +28785,7 @@ module.exports = Validator;
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -29294,7 +29324,7 @@ module.exports = Validator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(53)(module), __webpack_require__(9)))
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29317,18 +29347,18 @@ module.exports = {
 
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(117);
-exports.encode = exports.stringify = __webpack_require__(118);
+exports.decode = exports.parse = __webpack_require__(118);
+exports.encode = exports.stringify = __webpack_require__(119);
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29419,7 +29449,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29511,7 +29541,7 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30356,21 +30386,21 @@ module.exports = attribute;
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.sha1 = __webpack_require__(121);
-exports.sha224 = __webpack_require__(122);
+exports.sha1 = __webpack_require__(122);
+exports.sha224 = __webpack_require__(123);
 exports.sha256 = __webpack_require__(76);
-exports.sha384 = __webpack_require__(123);
+exports.sha384 = __webpack_require__(124);
 exports.sha512 = __webpack_require__(77);
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30451,7 +30481,7 @@ SHA1.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30488,7 +30518,7 @@ SHA224.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30530,7 +30560,7 @@ SHA384.prototype._digest = function digest(enc) {
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30683,7 +30713,7 @@ var sh = [
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30737,13 +30767,13 @@ Hmac.prototype.digest = function digest(enc) {
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var codecFactory = __webpack_require__(127);
+var codecFactory = __webpack_require__(128);
 
 var ALPHABETS = {
   bitcoin: '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
@@ -30831,7 +30861,7 @@ function apiFactory(options) {
 module.exports = apiFactory;
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30841,9 +30871,9 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var baseCodec = __webpack_require__(128);
+var baseCodec = __webpack_require__(129);
 
-var _require = __webpack_require__(129);
+var _require = __webpack_require__(130);
 
 var seqEqual = _require.seqEqual;
 var concatArgs = _require.concatArgs;
@@ -31018,7 +31048,7 @@ function codecFactory(injected) {
 module.exports = codecFactory;
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports) {
 
 // base-x encoding
@@ -31110,7 +31140,7 @@ module.exports = function base (ALPHABET) {
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31173,19 +31203,19 @@ module.exports = {
 };
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports) {
 
 module.exports = {"name":"elliptic","version":"5.2.1","description":"EC cryptography","main":"lib/elliptic.js","scripts":{"test":"make lint && istanbul test _mocha --reporter=spec test/*-test.js","coveralls":"cat ./coverage/lcov.info | coveralls"},"repository":{"type":"git","url":"git@github.com:indutny/elliptic"},"keywords":["EC","Elliptic","curve","Cryptography"],"author":"Fedor Indutny <fedor@indutny.com>","license":"MIT","bugs":{"url":"https://github.com/indutny/elliptic/issues"},"homepage":"https://github.com/indutny/elliptic","devDependencies":{"browserify":"^3.44.2","coveralls":"^2.11.3","istanbul":"^0.3.17","jscs":"^1.11.3","jshint":"^2.6.0","mocha":"^2.1.0","uglify-js":"^2.4.13"},"dependencies":{"bn.js":"^3.1.1","brorand":"^1.0.1","hash.js":"^1.0.0","inherits":"^2.0.1"}}
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31365,7 +31395,7 @@ utils.intFromLE = intFromLE;
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31486,7 +31516,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31844,7 +31874,7 @@ BasePoint.prototype.dblp = function dblp(k) {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32758,7 +32788,7 @@ JPoint.prototype.isInfinity = function isInfinity() {
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32941,7 +32971,7 @@ Point.prototype.getX = function getX() {
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33354,7 +33384,7 @@ Point.prototype.mixedAdd = Point.prototype.add;
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33527,7 +33557,7 @@ defineCurve('ed25519', {
 
 var pre;
 try {
-  pre = __webpack_require__(139);
+  pre = __webpack_require__(140);
 } catch (e) {
   pre = undefined;
 }
@@ -33566,7 +33596,7 @@ defineCurve('secp256k1', {
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -34352,7 +34382,7 @@ module.exports = {
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34363,8 +34393,8 @@ var elliptic = __webpack_require__(13);
 var utils = elliptic.utils;
 var assert = utils.assert;
 
-var KeyPair = __webpack_require__(141);
-var Signature = __webpack_require__(142);
+var KeyPair = __webpack_require__(142);
+var Signature = __webpack_require__(143);
 
 function EC(options) {
   if (!(this instanceof EC))
@@ -34569,7 +34599,7 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34683,7 +34713,7 @@ KeyPair.prototype.inspect = function inspect() {
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34825,7 +34855,7 @@ Signature.prototype.toDER = function toDER(enc) {
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34836,8 +34866,8 @@ var elliptic = __webpack_require__(13);
 var utils = elliptic.utils;
 var assert = utils.assert;
 var parseBytes = utils.parseBytes;
-var KeyPair = __webpack_require__(144);
-var Signature = __webpack_require__(145);
+var KeyPair = __webpack_require__(145);
+var Signature = __webpack_require__(146);
 
 function EDDSA(curve) {
   assert(curve === 'ed25519', 'only tested with ed25519 so far');
@@ -34950,7 +34980,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35053,7 +35083,7 @@ module.exports = KeyPair;
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35126,15 +35156,15 @@ module.exports = Signature;
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
  // eslint-disable-line strict
 
-var _createClass = __webpack_require__(147)['default'];
+var _createClass = __webpack_require__(148)['default'];
 
-var _classCallCheck = __webpack_require__(151)['default'];
+var _classCallCheck = __webpack_require__(152)['default'];
 
 var hashjs = __webpack_require__(25);
 var BigNum = __webpack_require__(16);
@@ -35178,13 +35208,13 @@ module.exports = (function () {
 })();
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Object$defineProperty = __webpack_require__(148)["default"];
+var _Object$defineProperty = __webpack_require__(149)["default"];
 
 exports["default"] = (function () {
   function defineProperties(target, props) {
@@ -35208,22 +35238,22 @@ exports["default"] = (function () {
 exports.__esModule = true;
 
 /***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(149), __esModule: true };
-
-/***/ }),
 /* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $ = __webpack_require__(150);
+module.exports = { "default": __webpack_require__(150), __esModule: true };
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__(151);
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports) {
 
 var $Object = Object;
@@ -35241,7 +35271,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35256,7 +35286,7 @@ exports["default"] = function (instance, Constructor) {
 exports.__esModule = true;
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35296,667 +35326,667 @@ module.exports = {
 };
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"tx","link":"https://jbcoin.com/build/transactions/","description":"An object in jbcoind txJSON format","type":"object","properties":{"Account":{"$ref":"address"}},"required":["Account"]}
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"transactionType","link":"transaction-types","description":"The type of the transaction.","type":"string","enum":["payment","order","orderCancellation","trustline","settings","escrowCreation","escrowCancellation","escrowExecution","paymentChannelCreate","paymentChannelFund","paymentChannelClaim","checkCreate","checkCancel","checkCash"]}
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"hash128","description":"The hexadecimal representation of a 128-bit hash","type":"string","pattern":"^[A-F0-9]{32}$"}
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"hash256","description":"The hexadecimal representation of a 256-bit hash","type":"string","pattern":"^[A-F0-9]{64}$"}
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"sequence","link":"account-sequence-number","description":"An account transaction sequence number","type":"integer","minimum":1}
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"signature","description":"The hexadecimal representation of a signature.","type":"string","pattern":"^[A-F0-9]+$"}
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"issue","description":"A currency-counterparty pair, or just currency if it's JBC","allOf":[{"$ref":"amountbase"},{"not":{"required":["value"]}}]}
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"ledgerVersion","description":"A ledger version number","oneOf":[{"type":"integer","minimum":1},{"type":"string","enum":["validated","closed","current"]}]}
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"maxAdjustment","type":"object","properties":{"address":{"$ref":"address","description":"The address to send from."},"maxAmount":{"$ref":"laxAmount","description":"The maximum amount to send. (This field is exclusive with source.amount)"},"tag":{"$ref":"tag"}},"required":["address","maxAmount"],"additionalProperties":false}
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"memo","description":"Memo objects represent arbitrary data that can be included in a transaction","type":"object","properties":{"type":{"pattern":"^[A-Za-z0-9\\-._~:/?#[\\]@!$&'()*+,;=%]*$","description":"Conventionally, a unique relation (according to [RFC 5988](http://tools.ietf.org/html/rfc5988#section-4)) that defines the format of this memo. Only characters allowed in URLs are permitted."},"format":{"pattern":"^[A-Za-z0-9\\-._~:/?#[\\]@!$&'()*+,;=%]*$","description":"Conventionally containing information on how the memo is encoded, for example as a [MIME type](http://www.iana.org/assignments/media-types/media-types.xhtml). Only characters allowed in URLs are permitted."},"data":{"type":"string","description":"Arbitrary string, conventionally containing the content of the memo."}},"additionalProperties":false,"anyOf":[{"required":["data"]},{"required":["type"]}]}
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"memos","link":"transaction-memos","description":"Array of memos to attach to the transaction.","type":"array","items":{"$ref":"memo"}}
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"publicKey","description":"The hexadecimal representation of a secp256k1 or Ed25519 public key.","type":"string","pattern":"^[A-F0-9]+$"}
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"privateKey","description":"The hexadecimal representation of a secp256k1 or Ed25519 private key.","type":"string","pattern":"^[A-F0-9]+$"}
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"uint32","description":"A 32-bit unsigned integer","type":"integer","minimum":0,"maximum":4294967295}
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"value","link":"value","description":"A string representation of a non-negative floating point number","type":"string","pattern":"^[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$"}
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"sourceAdjustment","type":"object","oneOf":[{"$ref":"sourceExactAdjustment"},{"$ref":"maxAdjustment"}]}
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"destinationAdjustment","type":"object","oneOf":[{"$ref":"destinationExactAdjustment"},{"$ref":"minAdjustment"}]}
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"tag","description":"An arbitrary unsigned 32-bit integer that identifies a reason for payment or a non-Jbcoin account.","type":"integer","$ref":"uint32"}
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"laxAmount","description":"Amount where counterparty is optional","link":"amount","type":"object","properties":{"currency":{"$ref":"currency"},"counterparty":{"$ref":"address"},"value":{"$ref":"value"}},"required":["currency","value"],"additionalProperties":false}
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"laxLaxAmount","description":"Amount where counterparty and value are optional","link":"amount","type":"object","properties":{"currency":{"$ref":"currency"},"counterparty":{"$ref":"address"},"value":{"$ref":"value"}},"required":["currency"],"additionalProperties":false}
 
 /***/ }),
-/* 173 */
+/* 174 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"minAdjustment","type":"object","properties":{"address":{"$ref":"address","description":"The address to send to."},"minAmount":{"$ref":"laxAmount","description":"The minimum amount to be delivered. (This field is exclusive with destination.amount)"},"tag":{"$ref":"tag"}},"required":["address","minAmount"],"additionalProperties":false}
 
 /***/ }),
-/* 174 */
+/* 175 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"sourceExactAdjustment","type":"object","properties":{"address":{"$ref":"address","description":"The address to send from."},"amount":{"$ref":"laxAmount","description":"An exact amount to send. If the counterparty is not specified, amounts with any counterparty may be used. (This field is exclusive with source.maxAmount)"},"tag":{"$ref":"tag"}},"required":["address","amount"],"additionalProperties":false}
 
 /***/ }),
-/* 175 */
+/* 176 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"destinationExactAdjustment","type":"object","properties":{"address":{"$ref":"address","description":"The address to receive at."},"amount":{"$ref":"laxAmount","description":"An exact amount to deliver to the recipient. If the counterparty is not specified, amounts with any counterparty may be used. (This field cannot be used with `destination.minAmount`.)"},"tag":{"$ref":"tag"}},"required":["address","amount"],"additionalProperties":false}
 
 /***/ }),
-/* 176 */
+/* 177 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"destinationAddressTag","description":"A destination address and optional tag, with no amount included. When parsing an incoming transaction, the original specification's amount is hidden to prevent misinterpretation. For the amount that the transaction delivered, see `outcome.deliveredAmount`.","type":"object","properties":{"address":{"$ref":"address","description":"The address to receive at."},"tag":{"$ref":"tag"}},"required":["address"],"additionalProperties":false}
 
 /***/ }),
-/* 177 */
+/* 178 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"transactionHash","link":"transaction-id","description":"A hash of a transaction used to identify the transaction, represented in hexadecimal.","type":"string","pattern":"^[A-F0-9]{64}$"}
 
 /***/ }),
-/* 178 */
+/* 179 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"address","description":"A Jbcoin account address","type":"string","format":"address","link":"address","pattern":"^r[1-9A-HJ-NP-Za-km-z]{25,34}$"}
 
 /***/ }),
-/* 179 */
+/* 180 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"adjustment","type":"object","properties":{"address":{"$ref":"address"},"amount":{"$ref":"amount"},"tag":{"$ref":"tag"}},"required":["address","amount"],"additionalProperties":false}
 
 /***/ }),
-/* 180 */
+/* 181 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"quality","description":"Ratio for incoming/outgoing transit fees.","type":"number","minimum":1e-9,"maximum":4.294967295}
 
 /***/ }),
-/* 181 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"amount","link":"amount","description":"An Amount on the JBC Ledger","allOf":[{"$ref":"amountbase"},{"required":["value"]}]}
 
 /***/ }),
-/* 182 */
+/* 183 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"amountbase","description":"Base class for amount and issue","type":"object","properties":{"value":{"description":"The quantity of the currency, denoted as a string to retain floating point precision","$ref":"value"},"currency":{"description":"The three-character code or hexadecimal string used to denote currencies, or \"drops\" for the smallest unit of JBC.","$ref":"currency"},"counterparty":{"description":"The Jbcoin address of the account that owes or is owed the funds (omitted if `currency` is \"JBC\" or \"drops\")","$ref":"address"}},"additionalProperties":false,"required":["currency"],"oneOf":[{"properties":{"currency":{"not":{"enum":["JBC","drops"]}}},"required":["counterparty"]},{"properties":{"currency":{"enum":["JBC","drops"]}},"not":{"required":["counterparty"]}}]}
 
 /***/ }),
-/* 183 */
+/* 184 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"balance","description":"Balance amount","link":"amount","type":"object","properties":{"value":{"description":"The balance on the trustline","$ref":"signedValue"},"currency":{"description":"The three-character code or hexadecimal string used to denote currencies","$ref":"currency"},"counterparty":{"description":"The Jbcoin address of the account that owes or is owed the funds.","$ref":"address"}},"additionalProperties":false,"required":["currency","value"],"oneOf":[{"properties":{"currency":{"not":{"enum":["JBC"]}}},"required":["counterparty"]},{"properties":{"currency":{"enum":["JBC"]}},"not":{"required":["counterparty"]}}]}
 
 /***/ }),
-/* 184 */
+/* 185 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"blob","description":"An uppercase hexadecimal string representation of a transaction","type":"string","minLength":1,"pattern":"^[0-9A-F]*$"}
 
 /***/ }),
-/* 185 */
+/* 186 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"currency","description":"The three-character code or hexadecimal string used to denote currencies","type":"string","link":"currency","pattern":"^([a-zA-Z0-9<>(){}[\\]|?!@#$%^&*]{3}|[A-F0-9]{40}|drops)$"}
 
 /***/ }),
-/* 186 */
+/* 187 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"signedValue","description":"A string representation of a floating point number","type":"string","link":"value","pattern":"^[-]?[0-9]*[.]?[0-9]+([eE][-+]?[0-9]+)?$"}
 
 /***/ }),
-/* 187 */
+/* 188 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"orderbook","type":"object","properties":{"base":{"$ref":"issue"},"counter":{"$ref":"issue"}},"required":["base","counter"],"additionalProperties":false}
 
 /***/ }),
-/* 188 */
+/* 189 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"instructions","link":"transaction-instructions","description":"Instructions for executing the transaction","type":"object","properties":{"sequence":{"description":"The initiating account's sequence number for this transaction.","$ref":"sequence"},"fee":{"description":"An exact fee to pay for the transaction. See [Transaction Fees](#transaction-fees) for more information.","$ref":"value"},"maxFee":{"description":"Deprecated: Use `maxFeeJBC` in the JbcoinAPI constructor instead. The maximum fee to pay for this transaction. If this exceeds `maxFeeJBC`, `maxFeeJBC` will be used instead. See [Transaction Fees](#transaction-fees) for more information.","$ref":"value"},"maxLedgerVersion":{"description":"The highest ledger version that the transaction can be included in. If this option and `maxLedgerVersionOffset` are both omitted, the `maxLedgerVersion` option will default to 3 greater than the current validated ledger version (equivalent to `maxLedgerVersionOffset=3`). Use `null` to not set a maximum ledger version.","oneOf":[{"$ref":"ledgerVersion"},{"type":"null"}]},"maxLedgerVersionOffset":{"description":"Offset from current validated ledger version to highest ledger version that the transaction can be included in.","type":"integer","minimum":0},"signersCount":{"description":"Number of signers that will be signing this transaction.","type":"integer","minimum":1}},"additionalProperties":false,"not":{"anyOf":[{"description":"fee and maxFee are mutually exclusive","required":["fee","maxFee"]},{"description":"maxLedgerVersion and maxLedgerVersionOffset are mutually exclusive","required":["maxLedgerVersion","maxLedgerVersionOffset"]}]}}
 
 /***/ }),
-/* 189 */
+/* 190 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"settingsPlusMemos","type":"object","properties":{"defaultJbcoin":{"type":"boolean","description":"Enable [rippling](https://jbcoin.com/build/understanding-the-nojbcoin-flag/) on this account’s trust lines by default. (New in [jbcoind 0.27.3](https://github.com/jbcoin/jbcoind/releases/tag/0.27.3))"},"depositAuth":{"type":"boolean","description":"Enable [Deposit Authorization](https://jbcoin.com/build/deposit-authorization/) on this account. If set, transactions cannot send value of any kind to this account unless the sender of those transactions is the account itself. (Requires the [DepositAuth amendment](https://jbcoin.com/build/known-amendments/#depositauth))"},"disableMasterKey":{"type":"boolean","description":"Disallows use of the master key to sign transactions for this account."},"disallowIncomingJBC":{"type":"boolean","description":"Indicates that client applications should not send JBC to this account. Not enforced by jbcoind."},"domain":{"type":"string","description":" The domain that owns this account, as a hexadecimal string representing the ASCII for the domain in lowercase."},"emailHash":{"description":"Hash of an email address to be used for generating an avatar image. Conventionally, clients use Gravatar to display this image. Use `null` to clear.","oneOf":[{"type":"null"},{"$ref":"hash128"}]},"enableTransactionIDTracking":{"type":"boolean","description":"Track the ID of this account’s most recent transaction."},"globalFreeze":{"type":"boolean","description":"Freeze all assets issued by this account."},"memos":{"$ref":"memos"},"messageKey":{"type":"string","description":"Public key for sending encrypted messages to this account. Conventionally, it should be a secp256k1 key, the same encryption that is used by the rest of Jbcoin."},"noFreeze":{"type":"boolean","description":"Permanently give up the ability to freeze individual trust lines. This flag can never be disabled after being enabled."},"passwordSpent":{"type":"boolean","description":"Indicates that the account has used its free SetRegularKey transaction."},"regularKey":{"oneOf":[{"$ref":"address"},{"type":"null"}],"description":"The public key of a new keypair, to use as the regular key to this account, as a base-58-encoded string in the same format as an account address. Use `null` to remove the regular key."},"requireAuthorization":{"type":"boolean","description":"If set, this account must individually approve other users in order for those users to hold this account’s issuances."},"requireDestinationTag":{"type":"boolean","description":"Requires incoming payments to specify a destination tag."},"signers":{"type":"object","description":"Settings that determine what sets of accounts can be used to sign a transaction on behalf of this account using multisigning.","properties":{"threshold":{"$ref":"uint32","description":"A target number for the signer weights. A multi-signature from this list is valid only if the sum weights of the signatures provided is equal or greater than this value. To delete the signers setting, use the value `0`."},"weights":{"type":"array","description":"Weights of signatures for each signer.","items":{"type":"object","description":"An association of an address and a weight.","properties":{"address":{"$ref":"address"},"weight":{"$ref":"uint32","description":"The weight that the signature of this account counts as towards the threshold."}},"required":["address","weight"],"additionalProperties":false},"minItems":1,"maxItems":8}},"required":["threshold","weights"],"additionalProperties":false},"transferRate":{"description":" The fee to charge when users transfer this account’s issuances, as the decimal amount that must be sent to deliver 1 unit. Has precision up to 9 digits beyond the decimal point. Use `null` to set no fee.","oneOf":[{"type":"null"},{"type":"number","minimum":1,"maximum":4.294967295}]}},"additionalProperties":false}
 
 /***/ }),
-/* 190 */
+/* 191 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"settings","link":"settings","$ref":"settingsPlusMemos","oneOf":[{"required":["memos"],"minProperties":2,"maxProperties":2},{"not":{"required":["memos"]},"minProperties":1,"maxProperties":1}]}
 
 /***/ }),
-/* 191 */
+/* 192 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"payment","link":"payment","type":"object","properties":{"source":{"$ref":"sourceAdjustment","description":"The source of the funds to be sent."},"destination":{"$ref":"destinationAdjustment","description":"The destination of the funds to be sent."},"paths":{"type":"string","description":"The paths of trustlines and orders to use in executing the payment."},"memos":{"$ref":"memos"},"invoiceID":{"description":"A 256-bit hash that can be used to identify a particular payment.","$ref":"hash256"},"allowPartialPayment":{"description":"If true, this payment should proceed even if the whole amount cannot be delivered due to a lack of liquidity or a lack of funds in the source account.","type":"boolean"},"noDirectJbcoin":{"description":"If true and paths are specified, the sender would like the JBC Ledger to disregard any direct paths from the source account to the destination account. This may be used to take advantage of an arbitrage opportunity or by gateways wishing to issue balances from a hot wallet to a user who has mistakenly set a trustline directly to the hot wallet.","type":"boolean"},"limitQuality":{"description":"Only take paths where all the conversions have an input:output ratio that is equal or better than the ratio of destination.amount:source.maxAmount.","type":"boolean"}},"required":["source","destination"],"additionalProperties":false}
 
 /***/ }),
-/* 192 */
+/* 193 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getPayment","description":"A specification of a payment in a response for getTransaction or getTransactions.","type":"object","properties":{"source":{"$ref":"sourceAdjustment","description":"The source of the funds to be sent."},"destination":{"$ref":"destinationAddressTag","description":"The destination of the funds to be sent. Since this is a payment response, the amount is not shown here. For the amount that the transaction delivered, see `outcome.deliveredAmount`."},"paths":{"type":"string","description":"The paths of trustlines and orders to use in executing the payment."},"memos":{"$ref":"memos"},"invoiceID":{"description":"A 256-bit hash that can be used to identify a particular payment.","$ref":"hash256"},"allowPartialPayment":{"description":"If true, this payment should proceed even if the whole amount cannot be delivered due to a lack of liquidity or a lack of funds in the source account.","type":"boolean"},"noDirectJbcoin":{"description":"If true and paths are specified, the sender would like the JBC Ledger to disregard any direct paths from the source account to the destination account. This may be used to take advantage of an arbitrage opportunity or by gateways wishing to issue balances from a hot wallet to a user who has mistakenly set a trustline directly to the hot wallet.","type":"boolean"},"limitQuality":{"description":"Only take paths where all the conversions have an input:output ratio that is equal or better than the ratio of destination.amount:source.maxAmount.","type":"boolean"}},"required":["source","destination"],"additionalProperties":false}
 
 /***/ }),
-/* 193 */
+/* 194 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"escrowCancellation","link":"escrow-cancellation","type":"object","properties":{"memos":{"$ref":"memos"},"owner":{"$ref":"address","description":"The address of the owner of the escrow to cancel."},"escrowSequence":{"$ref":"sequence","description":"The [account sequence number](#account-sequence-number) of the [Escrow Creation](#escrow-creation) transaction for the escrow to cancel."}},"required":["owner","escrowSequence"],"additionalProperties":false}
 
 /***/ }),
-/* 194 */
+/* 195 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"orderCancellation","link":"order-cancellation","type":"object","properties":{"orderSequence":{"$ref":"sequence","description":"The [account sequence number](#account-sequence-number) of the order to cancel."},"memos":{"$ref":"memos"}},"required":["orderSequence"],"additionalProperties":false}
 
 /***/ }),
-/* 195 */
+/* 196 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"order","link":"order","type":"object","properties":{"direction":{"type":"string","enum":["buy","sell"],"description":"Equal to \"buy\" for buy orders and \"sell\" for sell orders."},"quantity":{"$ref":"amount","description":"The amount of currency to buy or sell."},"totalPrice":{"$ref":"amount","description":"The total price to be paid for the `quantity` to be bought or sold."},"immediateOrCancel":{"type":"boolean","description":"Treat the offer as an [Immediate or Cancel order](http://en.wikipedia.org/wiki/Immediate_or_cancel). If enabled, the offer will never become a ledger node: it only attempts to match existing offers in the ledger. This cannot be used with `fillOrKill`."},"fillOrKill":{"type":"boolean","description":"Treat the offer as a [Fill or Kill order](http://en.wikipedia.org/wiki/Fill_or_kill). Only attempt to match existing offers in the ledger, and only do so if the entire quantity can be exchanged. This cannot be used with `immediateOrCancel`."},"passive":{"description":"If enabled, the offer will not consume offers that exactly match it, and instead becomes an Offer node in the ledger. It will still consume offers that cross it.","type":"boolean"},"expirationTime":{"type":"string","format":"date-time","description":"Time after which the offer is no longer active, as an [ISO 8601 date-time](https://en.wikipedia.org/wiki/ISO_8601)."},"orderToReplace":{"$ref":"sequence","description":"The [account sequence number](#account-sequence-number) of an order to cancel before the new order is created, effectively replacing the old order."},"memos":{"$ref":"memos"}},"required":["direction","quantity","totalPrice"],"additionalProperties":false,"not":{"description":"immediateOrCancel and fillOrKill are mutually exclusive","required":["immediateOrCancel","fillOrKill"]}}
 
 /***/ }),
-/* 196 */
+/* 197 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"escrowExecution","link":"escrow-execution","type":"object","properties":{"memos":{"$ref":"memos"},"owner":{"$ref":"address","description":"The address of the owner of the escrow to execute."},"escrowSequence":{"$ref":"sequence","description":"The [account sequence number](#account-sequence-number) of the [Escrow Creation](#escrow-creation) transaction for the escrow to execute."},"condition":{"type":"string","description":"A hex value representing a [PREIMAGE-SHA-256 crypto-condition](https://tools.ietf.org/html/draft-thomas-crypto-conditions-02#section-8.1). This must match the original `condition` from the escrow creation transaction.","pattern":"^[A-F0-9]{0,256}$"},"fulfillment":{"type":"string","description":"A hex value representing the [PREIMAGE-SHA-256 crypto-condition](https://tools.ietf.org/html/draft-thomas-crypto-conditions-02#section-8.1) fulfillment for `condition`.","pattern":"^[A-F0-9]+$"}},"required":["owner","escrowSequence"],"additionalProperties":false}
 
 /***/ }),
-/* 197 */
+/* 198 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"escrowCreation","link":"escrow-creation","type":"object","properties":{"amount":{"$ref":"value","description":"Amount of JBC for sender to escrow."},"destination":{"$ref":"address","description":"Address to receive escrowed JBC."},"memos":{"$ref":"memos"},"condition":{"type":"string","description":"A hex value representing a [PREIMAGE-SHA-256 crypto-condition](https://tools.ietf.org/html/draft-thomas-crypto-conditions-02#section-8.1). If present, `fulfillment` is required upon execution.","pattern":"^[A-F0-9]{0,256}$"},"allowCancelAfter":{"type":"string","format":"date-time","description":"If present, the escrow may be cancelled after this time."},"allowExecuteAfter":{"type":"string","format":"date-time","description":"If present, the escrow can not be executed before this time."},"sourceTag":{"$ref":"tag","description":"Source tag."},"destinationTag":{"$ref":"tag","description":"Destination tag."}},"required":["amount","destination"],"additionalProperties":false}
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"paymentChannelCreate","link":"payment-channel-create","type":"object","properties":{"amount":{"$ref":"value","description":"Amount of JBC for sender to set aside in this channel."},"destination":{"$ref":"address","description":"Address to receive JBC claims against this channel."},"settleDelay":{"type":"number","description":"Amount of seconds the source address must wait before closing the channel if it has unclaimed JBC."},"publicKey":{"$ref":"publicKey","description":"Public key of the key pair the source may use to sign claims against this channel."},"cancelAfter":{"type":"string","format":"date-time","description":"Time when this channel expires. This expiration cannot be changed after creating the channel."},"sourceTag":{"$ref":"tag","description":"Source tag."},"destinationTag":{"$ref":"tag","description":"Destination tag."}},"required":["amount","destination","settleDelay","publicKey"],"additionalProperties":false}
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"paymentChannelFund","link":"payment-channel-fund","type":"object","properties":{"amount":{"$ref":"value","description":"Amount of JBC to fund the channel with."},"channel":{"$ref":"hash256","description":"256-bit hexadecimal channel identifier."},"expiration":{"type":"string","format":"date-time","description":"New expiration for this channel. (This does not change the cancelAfter expiration, if the channel has one.) Cannot move the expiration sooner than settleDelay seconds from time of the request."}},"required":["amount","channel"],"additionalProperties":false}
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"paymentChannelClaim","link":"payment-channel-claim","type":"object","properties":{"channel":{"$ref":"hash256","description":"256-bit hexadecimal channel identifier."},"amount":{"$ref":"value","description":"Amount of JBC authorized by this signature."},"balance":{"$ref":"value","description":"Total JBC balance delivered by this channel after claim is processed."},"signature":{"$ref":"signature","description":"Signed claim authorizing withdrawal of JBC from the channel. (Required except from the channel's source address.)"},"publicKey":{"$ref":"publicKey","description":"Public key of the channel. (For verifying the signature.)"},"renew":{"type":"boolean","description":"Clear the channel's expiration time."},"close":{"type":"boolean","description":"Request to close the channel. If the channel has no JBC remaining or the destination address requests it, closes the channel immediately (returning unclaimed JBC to the source address). Otherwise, sets the channel to expire after settleDelay seconds have passed."}},"required":["channel"],"additionalProperties":false}
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"checkCreate","link":"check-create","type":"object","properties":{"destination":{"$ref":"address","description":"Address of the account that can cash the check."},"sendMax":{"$ref":"laxAmount","description":"Amount of source currency the check is allowed to debit the sender, including transfer fees on non-JBC currencies."},"destinationTag":{"$ref":"tag","description":"Destination tag that identifies the reason for the check, or a hosted recipient to pay."},"expiration":{"type":"string","format":"date-time","description":"Time after which the check is no longer valid."},"invoiceID":{"$ref":"hash256","description":"256-bit hash, as a 64-character hexadecimal string, representing a specific reason or identifier for this check."}},"required":["destination","sendMax"],"additionalProperties":false}
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"checkCash","link":"check-cash","type":"object","properties":{"checkID":{"$ref":"hash256","description":"The ID of the Check ledger object to cash, as a 64-character hexadecimal string."},"amount":{"$ref":"laxAmount","description":"Redeem the Check for exactly this amount, if possible. The currency must match that of the sendMax of the corresponding CheckCreate transaction. You must provide either this field or deliverMin."},"deliverMin":{"$ref":"laxAmount","description":"Redeem the Check for at least this amount and for as much as possible. The currency must match that of the sendMax of the corresponding CheckCreate transaction. You must provide either this field or amount."}},"required":["checkID"],"oneOf":[{"required":["amount"]},{"required":["deliverMin"]}],"additionalProperties":false}
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"checkCancel","link":"check-cancel","type":"object","properties":{"checkID":{"$ref":"hash256","description":"The ID of the Check ledger object to cancel, as a 64-character hexadecimal string."}},"required":["checkID"],"additionalProperties":false}
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"trustline","link":"trustline","type":"object","properties":{"currency":{"$ref":"currency","description":"The currency this trustline applies to."},"counterparty":{"$ref":"address","description":"The address of the account this trustline extends trust to."},"limit":{"$ref":"value","description":"The maximum amount that the owner of the trustline can be owed through the trustline."},"qualityIn":{"$ref":"quality","description":"Incoming balances on this trustline are valued at this ratio."},"qualityOut":{"$ref":"quality","description":"Outgoing balances on this trustline are valued at this ratio."},"ripplingDisabled":{"type":"boolean","description":"If true, payments cannot jbcoin through this trustline."},"authorized":{"type":"boolean","description":"If true, authorize the counterparty to hold issuances from this account."},"frozen":{"type":"boolean","description":"If true, the trustline is frozen, which means that funds can only be sent to the owner."},"memos":{"$ref":"memos"}},"required":["currency","counterparty","limit"],"additionalProperties":false}
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"sign","type":"object","properties":{"signedTransaction":{"type":"string","pattern":"^[A-F0-9]+$","description":"The signed transaction represented as an uppercase hexadecimal string."},"id":{"$ref":"transactionHash","description":"The [Transaction ID](#transaction-id) of the signed transaction."}},"required":["signedTransaction","id"],"additionalProperties":false}
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"submit","type":"object","properties":{"resultCode":{"type":"string","description":"Deprecated: Use `engine_result` instead."},"resultMessage":{"type":"string","description":"Deprecated: Use `engine_result_message` instead."},"engine_result":{"type":"string","description":"Code indicating the preliminary result of the transaction, for example tesSUCCESS. [List of transaction responses](https://jbcoin.com/build/transactions/#full-transaction-response-list)"},"engine_result_code":{"type":"integer","description":"Numeric code indicating the preliminary result of the transaction, directly correlated to `engine_result`"},"engine_result_message":{"type":"string","description":"Human-readable explanation of the transaction's preliminary result."},"tx_blob":{"type":"string","description":"The complete transaction in hex string format."},"tx_json":{"$ref":"tx","description":"The complete transaction in JSON format."}},"required":["resultCode","resultMessage","engine_result","engine_result_code","engine_result_message","tx_blob","tx_json"],"additionalProperties":false}
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getAccountInfo","type":"object","properties":{"sequence":{"$ref":"sequence","description":"The next (smallest unused) sequence number for this account."},"jbcBalance":{"$ref":"value","description":"The JBC balance owned by the account."},"ownerCount":{"type":"integer","minimum":0,"description":"Number of other ledger entries (specifically, trust lines and offers) attributed to this account. This is used to calculate the total reserve required to use the account."},"previousInitiatedTransactionID":{"$ref":"hash256","description":"Hash value representing the most recent transaction that was initiated by this account."},"previousAffectingTransactionID":{"$ref":"hash256","description":"Hash value representing the most recent transaction that affected this account node directly. **Note:** This does not include changes to the account’s trust lines and offers."},"previousAffectingTransactionLedgerVersion":{"$ref":"ledgerVersion","description":"The ledger version that the transaction identified by the `previousAffectingTransactionID` was validated in."}},"required":["sequence","jbcBalance","ownerCount","previousAffectingTransactionID","previousAffectingTransactionLedgerVersion"],"additionalProperties":false}
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"AccountObjectsResponse","description":"Response format for account_objects","type":"object","properties":{"account":{"$ref":"address","description":"Unique address of the account this request corresponds to."},"account_objects":{"type":"array","items":{"type":"object"},"description":"Array of objects owned by this account. Each object is in its raw ledger format."},"ledger_hash":{"type":"string","description":"(May be omitted) The identifying hash of the ledger that was used to generate this response."},"ledger_index":{"$ref":"ledgerVersion","description":"(May be omitted) The sequence number of the ledger that was used to generate this response."},"ledger_current_index":{"$ref":"ledgerVersion","description":"(May be omitted) The sequence number of the ledger that was used to generate this response."},"limit":{"type":"integer","description":"(May be omitted) The limit that was used in this request, if any."},"validated":{"type":"boolean","description":"If included and set to true, the information in this request comes from a validated ledger version. Otherwise, the information is subject to change."}},"required":["account","account_objects"],"additionalProperties":false}
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getBalances","type":"array","items":{"$ref":"balance"}}
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getBalanceSheet","description":"getBalanceSheet response","type":"object","properties":{"balances":{"type":"array","items":{"$ref":"amount"},"description":"Amounts issued to the hotwallet accounts from the request. The keys are hot wallet addresses and the values are arrays of currency amounts they hold. The issuer (omitted from the currency amounts) is the account from the request."},"assets":{"type":"array","items":{"$ref":"amount"},"description":"Total amounts held that are issued by others. For the recommended gateway configuration, there should be none."},"obligations":{"type":"array","items":{"type":"object","required":["currency","value"],"additionalProperties":false,"properties":{"currency":{"$ref":"currency"},"value":{"$ref":"value"}},"description":"An amount that is owed."},"description":"Total amounts issued to accounts that are not hot wallets, as a map of currencies to the total value issued."}},"additionalProperties":false}
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getLedger","type":"object","properties":{"stateHash":{"$ref":"hash256","description":"Hash of all state information in this ledger."},"closeTime":{"type":"string","format":"date-time","description":"The time at which this ledger was closed."},"closeTimeResolution":{"type":"integer","minimum":1,"description":"Approximate number of seconds between closing one ledger version and closing the next one."},"closeFlags":{"type":"integer","minimum":0,"description":"A bit-map of flags relating to the closing of this ledger. Currently, the ledger has only one flag defined for `closeFlags`: **sLCF_NoConsensusTime** (value 1). If this flag is enabled, it means that validators were in conflict regarding the correct close time for the ledger, but built otherwise the same ledger, so they declared consensus while \"agreeing to disagree\" on the close time. In this case, the consensus ledger contains a `closeTime` value that is 1 second after that of the previous ledger. (In this case, there is no official close time, but the actual real-world close time is probably 3-6 seconds later than the specified `closeTime`.)"},"ledgerHash":{"$ref":"hash256","description":"Unique identifying hash of the entire ledger."},"ledgerVersion":{"$ref":"ledgerVersion","description":"The ledger version of this ledger."},"parentLedgerHash":{"$ref":"hash256","description":"Unique identifying hash of the ledger that came immediately before this one."},"parentCloseTime":{"type":"string","format":"date-time","description":"The time at which the previous ledger was closed."},"totalDrops":{"$ref":"value","description":"Total number of drops (1/1,000,000th of an JBC) in the network, as a quoted integer. (This decreases as transaction fees cause JBC to be destroyed.)"},"transactionHash":{"$ref":"hash256","description":"Hash of the transaction information included in this ledger."},"transactions":{"description":"Array of all transactions that were validated in this ledger. Transactions are represented in the same format as the return value of [getTransaction](#gettransaction).","type":"array","items":{"$ref":"getTransaction","description":"A transaction in the same format as the return value of [getTransaction](#gettransaction)."}},"transactionHashes":{"description":"An array of hashes of all transactions that were validated in this ledger.","type":"array","items":{"$ref":"transactionHash"}},"rawState":{"type":"string","description":"A JSON string containing all state data for this ledger in jbcoind JSON format."},"stateHashes":{"description":"An array of hashes of all state data in this ledger.","type":"array","items":{"$ref":"hash256"}}},"required":["stateHash","closeTime","closeTimeResolution","closeFlags","ledgerHash","ledgerVersion","parentLedgerHash","parentCloseTime","totalDrops","transactionHash"],"additionalProperties":false}
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getOrderbook","type":"object","properties":{"bids":{"$ref":"orderbookOrders","description":"The buy orders in the order book."},"asks":{"$ref":"orderbookOrders","description":"The sell orders in the order book."}},"required":["bids","asks"],"additionalProperties":false}
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getOrders","type":"array","items":{"type":"object","properties":{"specification":{"$ref":"order","description":"An order specification that would create an order equivalent to the current state of this order."},"properties":{"description":"Properties of the order not in the specification.","type":"object","properties":{"maker":{"$ref":"address","description":"The address of the account that submitted the order."},"sequence":{"$ref":"sequence","description":"The account sequence number of the transaction that created this order."},"makerExchangeRate":{"$ref":"value","description":"The exchange rate from the point of view of the account that submitted the order (also known as \"quality\")."}},"required":["maker","sequence","makerExchangeRate"],"addtionalProperties":false}},"required":["specification","properties"],"additionalProperties":false}}
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"orderChange","type":"object","description":"A change to an order.","properties":{"direction":{"type":"string","enum":["buy","sell"],"description":"Equal to \"buy\" for buy orders and \"sell\" for sell orders."},"quantity":{"$ref":"amount","description":"The amount to be bought or sold by the maker."},"totalPrice":{"$ref":"amount","description":"The total amount to be paid or received by the taker."},"makerExchangeRate":{"$ref":"value","description":"The exchange rate between the `quantity` currency and the `totalPrice` currency from the point of view of the maker."},"sequence":{"$ref":"sequence","description":"The order sequence number, used to identify the order for cancellation"},"status":{"enum":["created","filled","partially-filled","cancelled"],"description":"The status of the order. One of \"created\", \"filled\", \"partially-filled\", \"cancelled\"."},"expirationTime":{"type":"string","format":"date-time","description":"The time after which the order expires, if any."}},"required":["direction","quantity","totalPrice","sequence","status"],"additionalProperties":false}
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getPaymentChannel","type":"object","properties":{"account":{"$ref":"address","description":"Address that created the payment channel."},"destination":{"$ref":"address","description":"Address to receive JBC claims against this channel."},"amount":{"$ref":"value","description":"The total amount of JBC funded in this channel."},"balance":{"$ref":"value","description":"The total amount of JBC delivered by this channel."},"settleDelay":{"type":"number","description":"Amount of seconds the source address must wait before closing the channel if it has unclaimed JBC."},"expiration":{"type":"string","format":"date-time","description":"Time when this channel expires."},"publicKey":{"$ref":"publicKey","description":"Public key of the key pair the source will use to sign claims against this channel."},"cancelAfter":{"type":"string","format":"date-time","description":"Time when this channel expires as specified at creation."},"sourceTag":{"$ref":"tag","description":"Source tag."},"destinationTag":{"$ref":"tag","description":"Destination tag."},"previousAffectingTransactionID":{"$ref":"hash256","description":"Hash value representing the most recent transaction that affected this payment channel."},"previousAffectingTransactionLedgerVersion":{"$ref":"ledgerVersion","description":"The ledger version that the transaction identified by the `previousAffectingTransactionID` was validated in."}},"required":["account","destination","amount","balance","settleDelay","previousAffectingTransactionID","previousAffectingTransactionLedgerVersion"],"additionalProperties":false}
 
 /***/ }),
-/* 216 */
+/* 217 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepare","description":"Result of prepare function","type":"object","properties":{"txJSON":{"type":"string","description":"The prepared transaction in jbcoind JSON format."},"instructions":{"description":"The instructions for how to execute the transaction after adding automatic defaults.","type":"object","properties":{"fee":{"$ref":"value","description":"An exact fee to pay for the transaction. See [Transaction Fees](#transaction-fees) for more information."},"sequence":{"$ref":"sequence","description":"The initiating account's sequence number for this transaction."},"maxLedgerVersion":{"oneOf":[{"$ref":"ledgerVersion"},{"type":"null"}],"description":"The highest ledger version that the transaction can be included in. Set to `null` if there is no maximum."}},"additionalProperties":false,"required":["fee","sequence","maxLedgerVersion"]}},"additionalProperties":false,"required":["txJSON","instructions"]}
 
 /***/ }),
-/* 217 */
+/* 218 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"ledgerEvent","description":"A ledger event message","type":"object","properties":{"baseFeeJBC":{"$ref":"value","description":"Base fee, in JBC."},"ledgerHash":{"$ref":"hash256","description":"Unique hash of the ledger that was closed, as hex."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Ledger version of the ledger that closed."},"ledgerTimestamp":{"type":"string","format":"date-time","description":"The time at which this ledger closed."},"reserveBaseJBC":{"$ref":"value","description":"The minimum reserve, in JBC, that is required for an account."},"reserveIncrementJBC":{"$ref":"value","description":"The increase in account reserve that is added for each item the account owns, such as offers or trust lines."},"transactionCount":{"type":"integer","minimum":0,"description":"Number of new transactions included in this ledger."},"validatedLedgerVersions":{"type":"string","description":"Range of ledgers that the server has available. This may be discontiguous."}},"addtionalProperties":false,"required":["baseFeeJBC","ledgerHash","ledgerTimestamp","reserveBaseJBC","reserveIncrementJBC","transactionCount","ledgerVersion","validatedLedgerVersions"]}
 
 /***/ }),
-/* 218 */
+/* 219 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getPaths","type":"array","items":{"type":"object","properties":{"source":{"$ref":"sourceAdjustment","description":"Properties of the source of the payment."},"destination":{"$ref":"destinationAdjustment","description":"Properties of the destination of the payment."},"paths":{"type":"string","description":"The paths of trustlines and orders to use in executing the payment."}},"required":["source","destination","paths"],"additionalProperties":false}}
 
 /***/ }),
-/* 219 */
+/* 220 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getServerInfo","type":"object","properties":{"buildVersion":{"type":"string","description":"The version number of the running jbcoind version."},"completeLedgers":{"type":"string","pattern":"[0-9,-]+","description":"Range expression indicating the sequence numbers of the ledger versions the local jbcoind has in its database. It is possible to be a disjoint sequence, e.g. “2500-5000,32570-7695432”."},"hostID":{"type":"string","description":"On an admin request, returns the hostname of the server running the jbcoind instance; otherwise, returns a unique four letter word."},"ioLatencyMs":{"type":"number","description":"Amount of time spent waiting for I/O operations to be performed, in milliseconds. If this number is not very, very low, then the jbcoind server is probably having serious load issues."},"load":{"type":"object","description":"*(Admin only)* Detailed information about the current load state of the server.","properties":{"jobTypes":{"type":"array","description":"*(Admin only)* Information about the rate of different types of jobs being performed by the server and how much time it spends on each.","items":{"type":"object"}},"threads":{"type":"number","description":"*(Admin only)* The number of threads in the server’s main job pool, performing various Jbcoin Network operations."}},"required":["jobTypes","threads"]},"lastClose":{"type":"object","description":"Information about the last time the server closed a ledger.","properties":{"convergeTimeS":{"type":"number","description":"The time it took to reach a consensus for the last ledger closing, in seconds."},"proposers":{"type":"integer","minimum":0,"description":"Number of trusted validators participating in the ledger closing."}},"required":["convergeTimeS","proposers"]},"loadFactor":{"type":"number","description":"The load factor the server is currently enforcing, as a multiplier on the base transaction fee. The load factor is determined by the highest of the individual server’s load factor, cluster’s load factor, and the overall network’s load factor."},"peers":{"type":"integer","minimum":0,"description":"How many other jbcoind servers the node is currently connected to."},"pubkeyNode":{"type":"string","description":"Public key used to verify this node for internal communications; this key is automatically generated by the server the first time it starts up. (If deleted, the node can just create a new pair of keys.)"},"pubkeyValidator":{"type":"string","description":"*(Admin only)* Public key used by this node to sign ledger validations."},"serverState":{"type":"string","description":"A string indicating to what extent the server is participating in the network. See [Possible Server States](https://jbcoin.com/build/jbcoind-apis/#possible-server-states) for more details.","enum":["disconnected","connected","syncing","tracking","full","validating","proposing"]},"validatedLedger":{"type":"object","description":"Information about the fully-validated ledger with the highest sequence number (the most recent).","properties":{"age":{"type":"integer","minimum":0,"description":"The time since the ledger was closed, in seconds."},"baseFeeJBC":{"$ref":"value","description":"Base fee, in JBC. This may be represented in scientific notation such as 1e-05 for 0.00005."},"hash":{"$ref":"hash256","description":"Unique hash for the ledger, as an uppercase hexadecimal string."},"reserveBaseJBC":{"$ref":"value","description":"Minimum amount of JBC necessary for every account to keep in reserve."},"reserveIncrementJBC":{"$ref":"value","description":"Amount of JBC added to the account reserve for each object an account is responsible for in the ledger."},"ledgerVersion":{"type":"integer","minimum":0,"description":"Identifying sequence number of this ledger version."}},"additionalProperties":false,"required":["age","baseFeeJBC","hash","reserveBaseJBC","reserveIncrementJBC","ledgerVersion"]},"validationQuorum":{"type":"number","description":"Minimum number of trusted validations required in order to validate a ledger version. Some circumstances may cause the server to require more validations."}},"required":["buildVersion","completeLedgers","hostID","ioLatencyMs","lastClose","loadFactor","peers","pubkeyNode","serverState","validatedLedger","validationQuorum"],"additionalProperties":false}
 
 /***/ }),
-/* 220 */
+/* 221 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getSettings","$ref":"settingsPlusMemos","not":{"required":["memos"]}}
 
 /***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"orderbookOrders","type":"array","items":{"description":"An order in the order book.","type":"object","properties":{"specification":{"$ref":"order","description":"An order specification that would create an order equivalent to the current state of this order."},"properties":{"description":"Properties of the order not in the specification.","type":"object","properties":{"maker":{"$ref":"address","description":"The address of the account that submitted the order."},"sequence":{"$ref":"sequence","description":"The account sequence number of the transaction that created this order."},"makerExchangeRate":{"$ref":"value","description":"The exchange rate from the point of view of the account that submitted the order (also known as \"quality\")."}},"required":["maker","sequence","makerExchangeRate"],"addtionalProperties":false},"state":{"description":"The state of the order.","type":"object","properties":{"fundedAmount":{"$ref":"amount","description":"How much of the amount the maker would have to pay that the maker currently holds."},"priceOfFundedAmount":{"$ref":"amount","description":"How much the `fundedAmount` would convert to through the exchange rate of this order."}},"required":["fundedAmount","priceOfFundedAmount"],"additionalProperties":false},"data":{"description":"The raw order data. This may include `owner_funds`, `Flags`, and other fields.","type":"object","additionalProperties":true}},"required":["specification","properties","data"],"additionalProperties":false}}
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"outcome","type":"object","description":"The outcome of the transaction (what effects it had).","properties":{"result":{"type":"string","description":"Result code returned by jbcoind. See [Transaction Results](https://jbcoin.com/build/transactions/#full-transaction-response-list) for a complete list."},"timestamp":{"type":"string","format":"date-time","description":"The timestamp when the transaction was validated. (May be missing when requesting transactions in binary mode.)"},"fee":{"$ref":"value","description":"The JBC fee that was charged for the transaction."},"deliveredAmount":{"$ref":"amount","description":"For payment transactions, it is impossible to reliably compute the actual delivered amount from the balanceChanges due to fixed precision. If the payment is not a partial payment and the transaction succeeded, the deliveredAmount should always be considered to be the amount specified in the transaction."},"balanceChanges":{"type":"object","additionalProperties":{"type":"array","description":"Key is the JBC Ledger address; value is an array of signed amounts representing changes of balances for that address.","items":{"$ref":"balance"}}},"orderbookChanges":{"type":"object","additionalProperties":{"type":"array","description":"Key is the maker's JBC Ledger address; value is an array of changes","items":{"$ref":"orderChange"}}},"channelChanges":{"type":"object","description":"Properties reflecting the details of the payment channel."},"ledgerVersion":{"$ref":"ledgerVersion","description":"The ledger version that the transaction was validated in."},"indexInLedger":{"type":"integer","minimum":0,"description":"The ordering index of the transaction in the ledger."}},"required":["result","fee","balanceChanges","orderbookChanges","ledgerVersion","indexInLedger"],"additionalProperties":false}
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTransaction","description":"getTransaction response","link":"gettransaction","properties":{"type":{"$ref":"transactionType"},"specification":{"description":"A specification that would produce the same outcome as this transaction. *Exception:* For payment transactions, this omits the `destination.amount` field, to prevent misunderstanding. The structure of the specification depends on the value of the `type` field (see [Transaction Types](#transaction-types) for details). *Note:* This is **not** necessarily the same as the original specification."},"outcome":{"$ref":"outcome","description":"The outcome of the transaction (what effects it had)."},"id":{"$ref":"transactionHash","description":"A hash of the transaction that can be used to identify it."},"address":{"$ref":"address","description":"The address of the account that initiated the transaction."},"sequence":{"$ref":"sequence","description":"The account sequence number of the transaction for the account that initiated it."},"rawTransaction":{"description":"The raw transaction data as a JSON string. For advanced users only; exercise caution when interpreting this data.","type":"string"}},"required":["id","address","sequence","type","specification","outcome"],"additionalProperties":false,"oneOf":[{"properties":{"type":{"enum":["payment"]},"specification":{"$ref":"getPayment"}}},{"properties":{"type":{"enum":["order"]},"specification":{"$ref":"order"}}},{"properties":{"type":{"enum":["orderCancellation"]},"specification":{"$ref":"orderCancellation"}}},{"properties":{"type":{"enum":["trustline"]},"specification":{"$ref":"trustline"}}},{"properties":{"type":{"enum":["settings"]},"specification":{"$ref":"getSettings"}}},{"properties":{"type":{"enum":["checkCreate"]},"specification":{"$ref":"checkCreate"}}},{"properties":{"type":{"enum":["checkCancel"]},"specification":{"$ref":"checkCancel"}}},{"properties":{"type":{"enum":["checkCash"]},"specification":{"$ref":"checkCash"}}},{"properties":{"type":{"enum":["escrowCreation"]},"specification":{"$ref":"escrowCreation"}}},{"properties":{"type":{"enum":["escrowCancellation"]},"specification":{"$ref":"escrowCancellation"}}},{"properties":{"type":{"enum":["escrowExecution"]},"specification":{"$ref":"escrowExecution"}}},{"properties":{"type":{"enum":["paymentChannelCreate"]},"specification":{"$ref":"paymentChannelCreate"}}},{"properties":{"type":{"enum":["paymentChannelFund"]},"specification":{"$ref":"paymentChannelFund"}}},{"properties":{"type":{"enum":["paymentChannelClaim"]},"specification":{"$ref":"paymentChannelClaim"}}}]}
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTransactions","type":"array","items":{"$ref":"getTransaction"}}
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTrustlines","type":"array","items":{"properties":{"specification":{"$ref":"trustline","description":"A trustline specification that would produce this trustline in its current state."},"counterparty":{"properties":{"limit":{"$ref":"value","description":"The maximum amount that the counterparty can be owed through the trustline."},"ripplingDisabled":{"type":"boolean","description":"If true, payments cannot jbcoin through this trustline."},"frozen":{"type":"boolean","description":"If true, the trustline is frozen, which means that funds can only be sent to the counterparty."},"authorized":{"type":"boolean","description":"If true, the counterparty authorizes this party to hold issuances from the counterparty."}},"description":"Properties of the trustline from the perspective of the counterparty.","required":["limit"],"additionalProperties":false},"state":{"properties":{"balance":{"$ref":"signedValue","description":"The balance on the trustline, representing which party owes the other and by how much."}},"description":"Properties of the trustline regarding it's current state that are not part of the specification.","required":["balance"],"additionalProperties":false}},"required":["specification","counterparty","state"],"additionalProperties":false}}
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"signPaymentChannelClaim","type":"string","$ref":"signature","additionalProperties":false}
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"verifyPaymentChannelClaim","type":"boolean","additionalProperties":false}
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getBalancesParameters","description":"Parameters for getBalances","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get balances for."},"options":{"description":"Options to filter and determine which balances to return.","properties":{"counterparty":{"$ref":"address","description":"Only return balances with this counterparty."},"currency":{"$ref":"currency","description":"Only return balances for this currency."},"limit":{"type":"integer","minimum":1,"description":"Return at most this many balances."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Return balances as they were in this historical ledger version."}},"additionalProperties":false}},"additionalProperties":false,"required":["address"]}
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getBalanceSheetParameters","description":"Parameters for getBalanceSheet","type":"object","properties":{"address":{"$ref":"address","description":"The Jbcoin address of the account to get the balance sheet of."},"options":{"properties":{"excludeAddresses":{"type":"array","items":{"$ref":"address"},"uniqueItems":true,"description":"Addresses to exclude from the balance totals."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Get the balance sheet as of this historical ledger version."}},"description":"Options to determine how the balances will be calculated.","additionalProperties":false}},"additionalProperties":false,"required":["address"]}
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getLedgerParameters","description":"Parameters for getLedger","type":"object","properties":{"options":{"description":"Options affecting what ledger and how much data to return.","properties":{"ledgerHash":{"type":"string","description":"Get ledger data for this historical ledger hash."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Get ledger data for this historical ledger version."},"includeAllData":{"type":"boolean","description":"Include full transactions and/or state information if `includeTransactions` and/or `includeState` is set."},"includeTransactions":{"type":"boolean","description":"Return an array of hashes for each transaction or an array of all transactions that were validated in this ledger version, depending on whether `includeAllData` is set."},"includeState":{"type":"boolean","description":"Return an array of hashes for all state data or an array of all state data in this ledger version, depending on whether `includeAllData` is set."}},"additionalProperties":false}},"additionalProperties":false}
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getOrdersParameters","description":"Parameters for getOrders","type":"object","properties":{"address":{"$ref":"address","description":"The Jbcoin address of the account to get open orders for."},"options":{"description":"Options that determine what orders will be returned.","properties":{"limit":{"type":"integer","minimum":1,"description":"At most this many orders will be returned."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Return orders as of this historical ledger version."}},"additionalProperties":false}},"required":["address"],"additionalProperties":false}
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getOrderbookParameters","description":"Parameters for getOrderbook","type":"object","properties":{"address":{"$ref":"address","description":"Address of an account to use as point-of-view. (This affects which unfunded offers are returned.)"},"orderbook":{"$ref":"orderbook","description":"The order book to get."},"options":{"description":"Options to determine what to return.","properties":{"limit":{"type":"integer","minimum":1,"description":"Return at most this many orders from the order book."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Return the order book as of this historical ledger version."}},"additionalProperties":false}},"required":["address","orderbook"],"additionalProperties":false}
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getPathsParameters","type":"object","properties":{"pathfind":{"description":"Specification of a pathfind request.","properties":{"source":{"description":"Properties of the source of funds.","type":"object","properties":{"address":{"$ref":"address","description":"The Jbcoin address of the account where funds will come from."},"amount":{"$ref":"laxAmount","description":"The amount of funds to send."},"currencies":{"description":"An array of currencies (with optional counterparty) that may be used in the payment paths.","type":"array","items":{"description":"A currency with optional counterparty.","type":"object","properties":{"currency":{"$ref":"currency"},"counterparty":{"$ref":"address","description":"The counterparty for the currency; if omitted any counterparty may be used."}},"required":["currency"],"additionalProperties":false},"uniqueItems":true}},"not":{"required":["amount","currencies"]},"additionalProperties":false,"required":["address"]},"destination":{"description":"Properties of the destination of funds.","type":"object","properties":{"address":{"$ref":"address","description":"The address to send to."},"amount":{"$ref":"laxLaxAmount","description":"The amount to be received by the receiver (`value` may be ommitted if a source amount is specified)."}},"required":["address","amount"],"additionalProperties":false}},"required":["source","destination"],"additionalProperties":false}},"additionalProperties":false,"required":["pathfind"]}
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getPaymentChannelParameters","description":"Parameters for getPaymentChannel","type":"object","properties":{"id":{"$ref":"hash256","description":"256-bit hexadecimal channel identifier."}},"additionalProperties":false,"required":["id"]}
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"api-options","type":"object","properties":{"trace":{"type":"boolean","description":"If true, log jbcoind requests and responses to stdout."},"feeCushion":{"type":"number","minimum":1,"description":"Factor to multiply estimated fee by to provide a cushion in case the required fee rises during submission of a transaction. Defaults to `1.2`."},"maxFeeJBC":{"type":"string","description":"Maximum fee to use with transactions, in JBC. Must be a string-encoded number. Defaults to `'2'`."},"server":{"type":"string","description":"URI for jbcoind websocket port to connect to. Must start with `wss://`, `ws://`, `wss+unix://`, or `ws+unix://`.","format":"uri","pattern":"^(wss?|wss?\\+unix)://"},"proxy":{"format":"uri","description":"URI for HTTP/HTTPS proxy to use to connect to the jbcoind server."},"timeout":{"type":"integer","description":"Timeout in milliseconds before considering a request to have failed.","minimum":1},"proxyAuthorization":{"type":"string","description":"Username and password for HTTP basic authentication to the proxy in the format **username:password**."},"authorization":{"type":"string","description":"Username and password for HTTP basic authentication to the jbcoind server in the format **username:password**."},"trustedCertificates":{"type":"array","description":"Array of PEM-formatted SSL certificates to trust when connecting to a proxy. This is useful if you want to use a self-signed certificate on the proxy server. Note: Each element must contain a single certificate; concatenated certificates are not valid.","items":{"type":"string","description":"A PEM-formatted SSL certificate to trust when connecting to a proxy."}},"key":{"type":"string","description":"A string containing the private key of the client in PEM format. (Can be an array of keys)."},"passphrase":{"type":"string","description":"The passphrase for the private key of the client."},"certificate":{"type":"string","description":"A string containing the certificate key of the client in PEM format. (Can be an array of certificates)."}},"additionalProperties":false}
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getSettingsParameters","description":"Parameters for getSettings","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get the settings of."},"options":{"description":"Options that affect what to return.","properties":{"ledgerVersion":{"$ref":"ledgerVersion","description":"Get the settings as of this historical ledger version."}},"additionalProperties":false}},"required":["address"],"additionalProperties":false}
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getAccountInfoParameters","description":"Parameters for getAccountInfo","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get the account info of."},"options":{"description":"Options that affect what to return.","properties":{"ledgerVersion":{"$ref":"ledgerVersion","description":"Get the account info as of this historical ledger version."}},"additionalProperties":false}},"required":["address"],"additionalProperties":false}
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getAccountObjectsOptions","description":"Request options for getAccountObjects","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get the account objects of."},"options":{"description":"Options that affect what to return.","properties":{"type":{"type":"string","enum":["check","escrow","offer","payment_channel","signer_list","state"],"description":"(Optional) Filter results to include only this type of ledger object. The valid types are: `check`, `escrow`, `offer`, `payment_channel`, `signer_list`, and `state` (trust line)."},"ledgerHash":{"type":"string","description":"(Optional) A 20-byte hex string for the ledger version to use."},"ledgerIndex":{"oneOf":[{"$ref":"ledgerVersion"},{"type":"string"}],"description":"(Optional) The sequence number of the ledger to use, or a shortcut string to choose a ledger automatically."},"limit":{"type":"integer","minimum":1,"description":"(Optional) The maximum number of objects to include in the results."}},"additionalProperties":false}},"required":["address"],"additionalProperties":false}
 
 /***/ }),
-/* 239 */
+/* 240 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTransactionParameters","description":"Parameters for getTransaction","type":"object","properties":{"id":{"$ref":"transactionHash"},"options":{"description":"Options to limit the ledger versions to search and/or to include raw transaction data.","properties":{"minLedgerVersion":{"$ref":"ledgerVersion","description":"The lowest ledger version to search."},"maxLedgerVersion":{"$ref":"ledgerVersion","description":"The highest ledger version to search"},"includeRawTransaction":{"description":"Include raw transaction data. For advanced users; exercise caution when interpreting this data. "}},"additionalProperties":false}},"additionalProperties":false,"required":["id"]}
 
 /***/ }),
-/* 240 */
+/* 241 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTransactionsParameters","description":"Parameters for getTransactions","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get transactions for."},"options":{"description":"Options to filter the resulting transactions.","properties":{"start":{"$ref":"hash256","description":"If specified, this transaction will be the first transaction in the result. You cannot use `start` with `minLedgerVersion` or `maxLedgerVersion`. When `start` is specified, these ledger versions will be determined internally."},"limit":{"type":"integer","minimum":1,"description":"If specified, return at most this many transactions."},"minLedgerVersion":{"$ref":"ledgerVersion","description":"Return only transactions in this ledger verion or higher."},"maxLedgerVersion":{"$ref":"ledgerVersion","description":"Return only transactions in this ledger version or lower."},"earliestFirst":{"type":"boolean","description":"If true, sort transactions so that the earliest ones come first. By default, the newest transactions will come first."},"excludeFailures":{"type":"boolean","description":"If true, the result will omit transactions that did not succeed."},"initiated":{"type":"boolean","description":"If true, return only transactions initiated by the account specified by `address`. If false, return only transactions not initiated by the account specified by `address`."},"counterparty":{"$ref":"address","description":"If provided, only return transactions with this account as a counterparty to the transaction."},"types":{"type":"array","items":{"$ref":"transactionType"},"description":"Only return transactions of the specified [Transaction Types](#transaction-types)."},"includeRawTransactions":{"description":"Include raw transaction data. For advanced users; exercise caution when interpreting this data. "},"binary":{"type":"boolean","description":"If true, the transactions will be sent from the server in a condensed binary format rather than JSON."}},"additionalProperties":false,"not":{"anyOf":[{"required":["start","minLedgerVersion"]},{"required":["start","maxLedgerVersion"]}]}}},"additionalProperties":false,"required":["address"]}
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"getTrustlinesParameters","description":"Parameters for getTrustlines","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account to get trustlines for."},"options":{"description":"Options to filter and determine which trustlines to return.","properties":{"counterparty":{"$ref":"address","description":"Only return trustlines with this counterparty."},"currency":{"$ref":"currency","description":"Only return trustlines for this currency."},"limit":{"type":"integer","minimum":1,"description":"Return at most this many trustlines."},"ledgerVersion":{"$ref":"ledgerVersion","description":"Return trustlines as they were in this historical ledger version."}},"additionalProperties":false}},"additionalProperties":false,"required":["address"]}
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"preparePaymentParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"payment":{"$ref":"payment","description":"The specification of the payment to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","payment"]}
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareOrderParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"order":{"$ref":"order","description":"The specification of the order to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","order"]}
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareTrustlineParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"trustline":{"$ref":"trustline","description":"The specification of the trustline to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","trustline"]}
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareOrderCancellationParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"orderCancellation":{"$ref":"orderCancellation","description":"The specification of the order cancellation to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","orderCancellation"]}
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareSettingsParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"settings":{"$ref":"settings","description":"The specification of the settings to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","settings"]}
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareEscrowCreationParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"escrowCreation":{"$ref":"escrowCreation","description":"The specification of the escrow creation to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","escrowCreation"]}
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareEscrowCancellationParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"escrowCancellation":{"$ref":"escrowCancellation","description":"The specification of the escrow cancellation to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","escrowCancellation"]}
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareEscrowExecutionParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"escrowExecution":{"$ref":"escrowExecution","description":"The specification of the escrow execution to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","escrowExecution"]}
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"preparePaymentChannelCreateParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"paymentChannelCreate":{"$ref":"paymentChannelCreate","description":"The specification of the payment channel to create."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","paymentChannelCreate"]}
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"preparePaymentChannelFundParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"paymentChannelFund":{"$ref":"paymentChannelFund","description":"The channel to fund, and the details of how to fund it."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","paymentChannelFund"]}
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"preparePaymentChannelClaimParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"paymentChannelClaim":{"$ref":"paymentChannelClaim","description":"Details of the channel and claim."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","paymentChannelClaim"]}
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareCheckCreateParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"checkCreate":{"$ref":"checkCreate","description":"The specification of the Check create creation to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","checkCreate"]}
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareCheckCashParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"checkCash":{"$ref":"checkCash","description":"The specification of the Check cash to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","checkCash"]}
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"prepareCheckCancelParameters","type":"object","properties":{"address":{"$ref":"address","description":"The address of the account that is creating the transaction."},"checkCancel":{"$ref":"checkCancel","description":"The specification of the Check cancellation to prepare."},"instructions":{"$ref":"instructions"}},"additionalProperties":false,"required":["address","checkCancel"]}
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"computeLedgerHashParameters","type":"object","properties":{"ledger":{"$ref":"getLedger","description":"The ledger header to hash."}},"additionalProperties":false,"required":["ledger"]}
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"signParameters","type":"object","properties":{"txJSON":{"type":"string","description":"Transaction represented as a JSON string in jbcoind format."},"secret":{"type":"string","format":"secret","description":"The secret of the account that is initiating the transaction. (This field is exclusive with keypair)."},"keypair":{"type":"object","properties":{"privateKey":{"type":"privateKey","description":"The uppercase hexadecimal representation of the secp256k1 or Ed25519 private key."},"publicKey":{"type":"publicKey","description":"The uppercase hexadecimal representation of the secp256k1 or Ed25519 public key."}},"description":"The private and public key of the account that is initiating the transaction. (This field is exclusive with secret).","required":["privateKey","publicKey"],"additionalProperties":false},"options":{"type":"object","description":"Options that control the type of signature that will be generated.","properties":{"signAs":{"$ref":"address","description":"The account that the signature should count for in multisigning."}},"additionalProperties":false}},"additionalProperties":false,"required":["txJSON"],"oneOf":[{"required":["secret"],"not":{"required":["keypair"]}},{"required":["keypair"],"not":{"required":["secret"]}}]}
 
 /***/ }),
-/* 258 */
+/* 259 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"submitParameters","type":"object","properties":{"signedTransaction":{"$ref":"blob","description":"A signed transaction as returned by [sign](#sign)."}},"additionalProperties":false,"required":["signedTransaction"]}
 
 /***/ }),
-/* 259 */
+/* 260 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"generateAddressParameters","type":"object","properties":{"options":{"type":"object","description":"Options to control how the address and secret are generated.","properties":{"entropy":{"type":"array","items":{"type":"integer","minimum":0,"maximum":255},"description":"The entropy to use to generate the seed."},"algorithm":{"type":"string","enum":["ecdsa-secp256k1","ed25519"],"description":"The digital signature algorithm to generate an address for. Can be `ecdsa-secp256k1` (default) or `ed25519`."}},"additionalProperties":false}},"additionalProperties":false}
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"signPaymentChannelClaimParameters","type":"object","properties":{"channel":{"$ref":"hash256","description":"256-bit hexadecimal channel identifier."},"amount":{"$ref":"value","description":"Amount of JBC authorized by the claim."},"privateKey":{"$ref":"publicKey","description":"The private key to sign the payment channel claim."}},"additionalProperties":false,"required":["channel","amount","privateKey"]}
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"verifyPaymentChannelClaimParameters","type":"object","properties":{"channel":{"$ref":"hash256","description":"256-bit hexadecimal channel identifier."},"amount":{"$ref":"value","description":"Amount of JBC authorized by the claim."},"signature":{"$ref":"signature","description":"Signature of this claim."},"publicKey":{"$ref":"publicKey","description":"Public key of the channel's sender"}},"additionalProperties":false,"required":["channel","amount","signature","publicKey"]}
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, exports) {
 
 module.exports = {"$schema":"http://json-schema.org/draft-04/schema#","title":"combineParameters","type":"object","properties":{"signedTransactions":{"type":"array","description":"An array of signed transactions (from the output of [sign](#sign)) to combine.","items":{"type":"string","pattern":"^[A-F0-9]+$","description":"A single-signed transaction represented as an uppercase hexadecimal string (from the output of [sign](#sign))"},"minLength":1}},"additionalProperties":false,"required":["signedTransactions"]}
 
 /***/ }),
-/* 263 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35966,7 +35996,7 @@ const _ = __webpack_require__(1);
 const events_1 = __webpack_require__(23);
 const url_1 = __webpack_require__(24);
 const WebSocket = __webpack_require__(267);
-const rangeset_1 = __webpack_require__(81);
+const rangeset_1 = __webpack_require__(82);
 const errors_1 = __webpack_require__(29);
 class Connection extends events_1.EventEmitter {
     constructor(url, options = {}) {
@@ -36164,8 +36194,8 @@ class Connection extends events_1.EventEmitter {
     _createWebSocket() {
         const options = {};
         if (this._proxyURL !== undefined) {
-            const parsedURL = url_1.parse(this._url);
-            const parsedProxyURL = url_1.parse(this._proxyURL);
+            const parsedURL = (0, url_1.parse)(this._url);
+            const parsedProxyURL = (0, url_1.parse)(this._proxyURL);
             const proxyOverrides = _.omitBy({
                 secureEndpoint: (parsedURL.protocol === 'wss:'),
                 secureProxy: (parsedProxyURL.protocol === 'https:'),
@@ -36372,7 +36402,7 @@ exports.default = Connection;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 264 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36495,7 +36525,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -36585,17 +36615,6 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 266 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
 /* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36656,7 +36675,7 @@ var tls = __webpack_require__(!(function webpackMissingModule() { var e = new Er
 var url = __webpack_require__(24);
 var Agent = __webpack_require__(269);
 var inherits = __webpack_require__(36).inherits;
-var debug = __webpack_require__(289)('https-proxy-agent');
+var debug = __webpack_require__(288)('https-proxy-agent');
 
 /**
  * Module exports.
@@ -36887,7 +36906,7 @@ function isDefaultPort(port, secure) {
 
 __webpack_require__(270);
 const inherits = __webpack_require__(36).inherits;
-const promisify = __webpack_require__(286);
+const promisify = __webpack_require__(285);
 const EventEmitter = __webpack_require__(23).EventEmitter;
 
 module.exports = Agent;
@@ -37132,9 +37151,9 @@ function validateParams (params) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var ClientRequest = __webpack_require__(273)
-var response = __webpack_require__(83)
-var extend = __webpack_require__(284)
-var statusCodes = __webpack_require__(285)
+var response = __webpack_require__(84)
+var extend = __webpack_require__(283)
+var statusCodes = __webpack_require__(284)
 var url = __webpack_require__(24)
 
 var http = exports
@@ -37222,11 +37241,11 @@ http.METHODS = [
 /* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(82)
+/* WEBPACK VAR INJECTION */(function(Buffer, global, process) {var capability = __webpack_require__(83)
 var inherits = __webpack_require__(3)
-var response = __webpack_require__(83)
+var response = __webpack_require__(84)
 var stream = __webpack_require__(40)
-var toArrayBuffer = __webpack_require__(283)
+var toArrayBuffer = __webpack_require__(282)
 
 var IncomingMessage = response.IncomingMessage
 var rStates = response.readyStates
@@ -37552,21 +37571,10 @@ var unsafeHeaders = [
 /* 274 */
 /***/ (function(module, exports) {
 
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 275 */
-/***/ (function(module, exports) {
-
 /* (ignored) */
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37575,7 +37583,7 @@ module.exports = Array.isArray || function (arr) {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Buffer = __webpack_require__(55).Buffer;
-var util = __webpack_require__(277);
+var util = __webpack_require__(276);
 
 function copyBuffer(src, target, offset) {
   src.copy(target, offset);
@@ -37651,13 +37659,13 @@ if (util && util.inspect && util.inspect.custom) {
 }
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 278 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
@@ -37710,7 +37718,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(279);
+__webpack_require__(278);
 // On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -37724,7 +37732,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 279 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -37917,7 +37925,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(17)))
 
 /***/ }),
-/* 280 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -37991,7 +37999,7 @@ function config (name) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 281 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable node/no-deprecated-api */
@@ -38059,7 +38067,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 
 /***/ }),
-/* 282 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38092,7 +38100,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 module.exports = PassThrough;
 
-var Transform = __webpack_require__(87);
+var Transform = __webpack_require__(88);
 
 /*<replacement>*/
 var util = __webpack_require__(41);
@@ -38112,7 +38120,7 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 };
 
 /***/ }),
-/* 283 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(4).Buffer
@@ -38145,7 +38153,7 @@ module.exports = function (buf) {
 
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports) {
 
 module.exports = extend
@@ -38170,7 +38178,7 @@ function extend() {
 
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -38240,7 +38248,7 @@ module.exports = {
 
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38253,7 +38261,7 @@ module.exports = function () {
 
     // Get a promise object. This may be native, or it may be polyfilled
 
-    var ES6Promise = __webpack_require__(287);
+    var ES6Promise = __webpack_require__(286);
 
     /**
      * thatLooksLikeAPromiseToMe()
@@ -38331,7 +38339,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38406,12 +38414,12 @@ module.exports = function () {
     }
 
     //  Otherwise, return the es6-promise polyfill by @jaffathecake.
-    return __webpack_require__(288).Promise;
+    return __webpack_require__(287).Promise;
 }();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
@@ -39597,7 +39605,7 @@ return Promise$1;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(9)))
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -39606,7 +39614,7 @@ return Promise$1;
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(290);
+exports = module.exports = __webpack_require__(289);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -39799,7 +39807,7 @@ function localstorage() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -39815,7 +39823,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(291);
+exports.humanize = __webpack_require__(290);
 
 /**
  * Active `debug` instances.
@@ -40030,7 +40038,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports) {
 
 /**
@@ -40188,12 +40196,13 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatLedgerClose = exports.getLedgerVersion = exports.isConnected = exports.disconnect = exports.connect = void 0;
 const common = __webpack_require__(0);
 function isConnected() {
     return this.connection.isConnected();
@@ -40227,26 +40236,26 @@ exports.formatLedgerClose = formatLedgerClose;
 
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 module.exports.parseBalanceChanges =
-  __webpack_require__(89).parseBalanceChanges
+  __webpack_require__(90).parseBalanceChanges
 module.exports.parseFinalBalances =
-  __webpack_require__(89).parseFinalBalances
+  __webpack_require__(90).parseFinalBalances
 module.exports.parseOrderbookChanges =
-  __webpack_require__(294).parseOrderbookChanges
+  __webpack_require__(293).parseOrderbookChanges
 module.exports.getAffectedAccounts =
   __webpack_require__(32).getAffectedAccounts
 module.exports.parseChannelChanges = 
-  __webpack_require__(296).parseChannelChanges;
+  __webpack_require__(295).parseChannelChanges;
 
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40255,7 +40264,7 @@ var _ = __webpack_require__(1)
 var utils = __webpack_require__(32)
 var GlobalBigNumber = __webpack_require__(7)
 var BigNumber = GlobalBigNumber.another({DECIMAL_PLACES: 40})
-var parseQuality = __webpack_require__(295)
+var parseQuality = __webpack_require__(294)
 
 var lsfSell = 0x00020000   // see "lsfSell" flag in rippled source code
 
@@ -40398,7 +40407,7 @@ exports.parseOrderbookChanges = function parseOrderbookChanges(metadata) {
 
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40431,7 +40440,7 @@ module.exports = parseQuality
 
 
 /***/ }),
-/* 296 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const normalizeNodes = __webpack_require__(32).normalizeNodes
@@ -40527,7 +40536,7 @@ module.exports.parseChannelChanges = parseChannelChanges
 
 
 /***/ }),
-/* 297 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40553,7 +40562,7 @@ function parsePayment(tx) {
     assert(tx.TransactionType === 'Payment');
     const source = {
         address: tx.Account,
-        maxAmount: removeGenericCounterparty(amount_1.default(tx.SendMax || tx.Amount), tx.Account),
+        maxAmount: removeGenericCounterparty((0, amount_1.default)(tx.SendMax || tx.Amount), tx.Account),
         tag: tx.SourceTag
     };
     const destination = {
@@ -40561,9 +40570,9 @@ function parsePayment(tx) {
         tag: tx.DestinationTag
         // Notice that `amount` is omitted to prevent misinterpretation
     };
-    return common_1.removeUndefined({
-        source: common_1.removeUndefined(source),
-        destination: common_1.removeUndefined(destination),
+    return (0, common_1.removeUndefined)({
+        source: (0, common_1.removeUndefined)(source),
+        destination: (0, common_1.removeUndefined)(destination),
         memos: utils.parseMemos(tx),
         invoiceID: tx.InvoiceID,
         paths: tx.Paths ? JSON.stringify(tx.Paths) : undefined,
@@ -40576,7 +40585,7 @@ exports.default = parsePayment;
 
 
 /***/ }),
-/* 298 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40597,13 +40606,13 @@ function parseFlag(flagsValue, trueValue, falseValue) {
 }
 function parseTrustline(tx) {
     assert(tx.TransactionType === 'TrustSet');
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         limit: tx.LimitAmount.value,
         currency: tx.LimitAmount.currency,
         counterparty: tx.LimitAmount.issuer,
-        memos: utils_1.parseMemos(tx),
-        qualityIn: utils_1.parseQuality(tx.QualityIn),
-        qualityOut: utils_1.parseQuality(tx.QualityOut),
+        memos: (0, utils_1.parseMemos)(tx),
+        qualityIn: (0, utils_1.parseQuality)(tx.QualityIn),
+        qualityOut: (0, utils_1.parseQuality)(tx.QualityOut),
         ripplingDisabled: parseFlag(tx.Flags, flags.SetNoJbcoin, flags.ClearNoJbcoin),
         frozen: parseFlag(tx.Flags, flags.SetFreeze, flags.ClearFreeze),
         authorized: parseFlag(tx.Flags, flags.SetAuth, 0)
@@ -40613,7 +40622,7 @@ exports.default = parseTrustline;
 
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40627,11 +40636,11 @@ const flags = common_1.txFlags.OfferCreate;
 function parseOrder(tx) {
     assert(tx.TransactionType === 'OfferCreate');
     const direction = (tx.Flags & flags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = amount_1.default(tx.TakerGets);
-    const takerPaysAmount = amount_1.default(tx.TakerPays);
+    const takerGetsAmount = (0, amount_1.default)(tx.TakerGets);
+    const takerPaysAmount = (0, amount_1.default)(tx.TakerPays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
@@ -40639,14 +40648,14 @@ function parseOrder(tx) {
         immediateOrCancel: ((tx.Flags & flags.ImmediateOrCancel) !== 0)
             || undefined,
         fillOrKill: ((tx.Flags & flags.FillOrKill) !== 0) || undefined,
-        expirationTime: utils_1.parseTimestamp(tx.Expiration)
+        expirationTime: (0, utils_1.parseTimestamp)(tx.Expiration)
     });
 }
 exports.default = parseOrder;
 
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40663,7 +40672,7 @@ exports.default = parseOrderCancellation;
 
 
 /***/ }),
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40673,7 +40682,7 @@ const _ = __webpack_require__(1);
 const assert = __webpack_require__(2);
 const common_1 = __webpack_require__(0);
 const AccountFlags = common_1.constants.AccountFlags;
-const fields_1 = __webpack_require__(90);
+const fields_1 = __webpack_require__(91);
 function getAccountRootModifiedNode(tx) {
     const modifiedNodes = tx.meta.AffectedNodes.filter(node => node.ModifiedNode.LedgerEntryType === 'AccountRoot');
     assert(modifiedNodes.length === 1);
@@ -40717,13 +40726,13 @@ function parseSettings(tx) {
     const txType = tx.TransactionType;
     assert(txType === 'AccountSet' || txType === 'SetRegularKey' ||
         txType === 'SignerListSet');
-    return _.assign({}, parseFlags(tx), fields_1.default(tx));
+    return _.assign({}, parseFlags(tx), (0, fields_1.default)(tx));
 }
 exports.default = parseSettings;
 
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40735,18 +40744,41 @@ const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parseEscrowCreation(tx) {
     assert(tx.TransactionType === 'EscrowCreate');
-    return common_1.removeUndefined({
-        amount: amount_1.default(tx.Amount).value,
+    return (0, common_1.removeUndefined)({
+        amount: (0, amount_1.default)(tx.Amount).value,
         destination: tx.Destination,
-        memos: utils_1.parseMemos(tx),
+        memos: (0, utils_1.parseMemos)(tx),
         condition: tx.Condition,
-        allowCancelAfter: utils_1.parseTimestamp(tx.CancelAfter),
-        allowExecuteAfter: utils_1.parseTimestamp(tx.FinishAfter),
+        allowCancelAfter: (0, utils_1.parseTimestamp)(tx.CancelAfter),
+        allowExecuteAfter: (0, utils_1.parseTimestamp)(tx.FinishAfter),
         sourceTag: tx.SourceTag,
         destinationTag: tx.DestinationTag
     });
 }
 exports.default = parseEscrowCreation;
+
+
+/***/ }),
+/* 302 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const assert = __webpack_require__(2);
+const utils_1 = __webpack_require__(10);
+const common_1 = __webpack_require__(0);
+function parseEscrowExecution(tx) {
+    assert(tx.TransactionType === 'EscrowFinish');
+    return (0, common_1.removeUndefined)({
+        memos: (0, utils_1.parseMemos)(tx),
+        owner: tx.Owner,
+        escrowSequence: tx.OfferSequence,
+        condition: tx.Condition,
+        fulfillment: tx.Fulfillment
+    });
+}
+exports.default = parseEscrowExecution;
 
 
 /***/ }),
@@ -40759,17 +40791,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-function parseEscrowExecution(tx) {
-    assert(tx.TransactionType === 'EscrowFinish');
-    return common_1.removeUndefined({
-        memos: utils_1.parseMemos(tx),
+function parseEscrowCancellation(tx) {
+    assert(tx.TransactionType === 'EscrowCancel');
+    return (0, common_1.removeUndefined)({
+        memos: (0, utils_1.parseMemos)(tx),
         owner: tx.Owner,
-        escrowSequence: tx.OfferSequence,
-        condition: tx.Condition,
-        fulfillment: tx.Fulfillment
+        escrowSequence: tx.OfferSequence
     });
 }
-exports.default = parseEscrowExecution;
+exports.default = parseEscrowCancellation;
 
 
 /***/ }),
@@ -40782,15 +40812,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-function parseEscrowCancellation(tx) {
-    assert(tx.TransactionType === 'EscrowCancel');
-    return common_1.removeUndefined({
-        memos: utils_1.parseMemos(tx),
-        owner: tx.Owner,
-        escrowSequence: tx.OfferSequence
+const amount_1 = __webpack_require__(14);
+function parseCheckCreate(tx) {
+    assert(tx.TransactionType === 'CheckCreate');
+    return (0, common_1.removeUndefined)({
+        destination: tx.Destination,
+        sendMax: (0, amount_1.default)(tx.SendMax),
+        destinationTag: tx.DestinationTag,
+        expiration: tx.Expiration && (0, utils_1.parseTimestamp)(tx.Expiration),
+        invoiceID: tx.InvoiceID
     });
 }
-exports.default = parseEscrowCancellation;
+exports.default = parseCheckCreate;
 
 
 /***/ }),
@@ -40801,20 +40834,17 @@ exports.default = parseEscrowCancellation;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
-const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
-function parseCheckCreate(tx) {
-    assert(tx.TransactionType === 'CheckCreate');
-    return common_1.removeUndefined({
-        destination: tx.Destination,
-        sendMax: amount_1.default(tx.SendMax),
-        destinationTag: tx.DestinationTag,
-        expiration: tx.Expiration && utils_1.parseTimestamp(tx.Expiration),
-        invoiceID: tx.InvoiceID
+function parseCheckCash(tx) {
+    assert(tx.TransactionType === 'CheckCash');
+    return (0, common_1.removeUndefined)({
+        checkID: tx.CheckID,
+        amount: tx.Amount && (0, amount_1.default)(tx.Amount),
+        deliverMin: tx.DeliverMin && (0, amount_1.default)(tx.DeliverMin)
     });
 }
-exports.default = parseCheckCreate;
+exports.default = parseCheckCash;
 
 
 /***/ }),
@@ -40826,16 +40856,13 @@ exports.default = parseCheckCreate;
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
 const common_1 = __webpack_require__(0);
-const amount_1 = __webpack_require__(14);
-function parseCheckCash(tx) {
-    assert(tx.TransactionType === 'CheckCash');
-    return common_1.removeUndefined({
-        checkID: tx.CheckID,
-        amount: tx.Amount && amount_1.default(tx.Amount),
-        deliverMin: tx.DeliverMin && amount_1.default(tx.DeliverMin)
+function parseCheckCancel(tx) {
+    assert(tx.TransactionType === 'CheckCancel');
+    return (0, common_1.removeUndefined)({
+        checkID: tx.CheckID
     });
 }
-exports.default = parseCheckCash;
+exports.default = parseCheckCancel;
 
 
 /***/ }),
@@ -40847,13 +40874,14 @@ exports.default = parseCheckCash;
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
 const common_1 = __webpack_require__(0);
-function parseCheckCancel(tx) {
-    assert(tx.TransactionType === 'CheckCancel');
-    return common_1.removeUndefined({
-        checkID: tx.CheckID
+function parseDepositPreauth(tx) {
+    assert(tx.TransactionType === 'DepositPreauth');
+    return (0, common_1.removeUndefined)({
+        authorize: tx.Authorize,
+        unauthorize: tx.Unauthorize
     });
 }
-exports.default = parseCheckCancel;
+exports.default = parseDepositPreauth;
 
 
 /***/ }),
@@ -40864,15 +40892,22 @@ exports.default = parseCheckCancel;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const assert = __webpack_require__(2);
+const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-function parseDepositPreauth(tx) {
-    assert(tx.TransactionType === 'DepositPreauth');
-    return common_1.removeUndefined({
-        authorize: tx.Authorize,
-        unauthorize: tx.Unauthorize
+const amount_1 = __webpack_require__(14);
+function parsePaymentChannelCreate(tx) {
+    assert(tx.TransactionType === 'PaymentChannelCreate');
+    return (0, common_1.removeUndefined)({
+        amount: (0, amount_1.default)(tx.Amount).value,
+        destination: tx.Destination,
+        settleDelay: tx.SettleDelay,
+        publicKey: tx.PublicKey,
+        cancelAfter: tx.CancelAfter && (0, utils_1.parseTimestamp)(tx.CancelAfter),
+        sourceTag: tx.SourceTag,
+        destinationTag: tx.DestinationTag
     });
 }
-exports.default = parseDepositPreauth;
+exports.default = parsePaymentChannelCreate;
 
 
 /***/ }),
@@ -40886,45 +40921,19 @@ const assert = __webpack_require__(2);
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
-function parsePaymentChannelCreate(tx) {
-    assert(tx.TransactionType === 'PaymentChannelCreate');
-    return common_1.removeUndefined({
-        amount: amount_1.default(tx.Amount).value,
-        destination: tx.Destination,
-        settleDelay: tx.SettleDelay,
-        publicKey: tx.PublicKey,
-        cancelAfter: tx.CancelAfter && utils_1.parseTimestamp(tx.CancelAfter),
-        sourceTag: tx.SourceTag,
-        destinationTag: tx.DestinationTag
-    });
-}
-exports.default = parsePaymentChannelCreate;
-
-
-/***/ }),
-/* 310 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const assert = __webpack_require__(2);
-const utils_1 = __webpack_require__(10);
-const common_1 = __webpack_require__(0);
-const amount_1 = __webpack_require__(14);
 function parsePaymentChannelFund(tx) {
     assert(tx.TransactionType === 'PaymentChannelFund');
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         channel: tx.Channel,
-        amount: amount_1.default(tx.Amount).value,
-        expiration: tx.Expiration && utils_1.parseTimestamp(tx.Expiration)
+        amount: (0, amount_1.default)(tx.Amount).value,
+        expiration: tx.Expiration && (0, utils_1.parseTimestamp)(tx.Expiration)
     });
 }
 exports.default = parsePaymentChannelFund;
 
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40936,10 +40945,10 @@ const amount_1 = __webpack_require__(14);
 const claimFlags = common_1.txFlags.PaymentChannelClaim;
 function parsePaymentChannelClaim(tx) {
     assert(tx.TransactionType === 'PaymentChannelClaim');
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         channel: tx.Channel,
-        balance: tx.Balance && amount_1.default(tx.Balance).value,
-        amount: tx.Amount && amount_1.default(tx.Amount).value,
+        balance: tx.Balance && (0, amount_1.default)(tx.Balance).value,
+        amount: tx.Amount && (0, amount_1.default)(tx.Amount).value,
         signature: tx.Signature,
         publicKey: tx.PublicKey,
         renew: Boolean(tx.Flags & claimFlags.Renew) || undefined,
@@ -40950,7 +40959,7 @@ exports.default = parsePaymentChannelClaim;
 
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40961,17 +40970,17 @@ const common_1 = __webpack_require__(0);
 function parseFeeUpdate(tx) {
     const baseFeeDrops = (new bignumber_js_1.default(tx.BaseFee, 16)).toString();
     return {
-        baseFeeJBC: common_1.dropsToJbc(baseFeeDrops),
+        baseFeeJBC: (0, common_1.dropsToJbc)(baseFeeDrops),
         referenceFeeUnits: tx.ReferenceFeeUnits,
-        reserveBaseJBC: common_1.dropsToJbc(tx.ReserveBase),
-        reserveIncrementJBC: common_1.dropsToJbc(tx.ReserveIncrement)
+        reserveBaseJBC: (0, common_1.dropsToJbc)(tx.ReserveBase),
+        reserveIncrementJBC: (0, common_1.dropsToJbc)(tx.ReserveIncrement)
     };
 }
 exports.default = parseFeeUpdate;
 
 
 /***/ }),
-/* 313 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40986,7 +40995,7 @@ exports.default = parseAmendment;
 
 
 /***/ }),
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40997,7 +41006,7 @@ const binary = __webpack_require__(42);
 const { computeTransactionHash } = __webpack_require__(50);
 const utils = __webpack_require__(19);
 const transaction_1 = __webpack_require__(58);
-const transaction_2 = __webpack_require__(88);
+const transaction_2 = __webpack_require__(89);
 const common_1 = __webpack_require__(0);
 function parseBinaryTransaction(transaction) {
     const tx = binary.decode(transaction.tx_blob);
@@ -41012,7 +41021,7 @@ function parseBinaryTransaction(transaction) {
 function parseAccountTxTransaction(tx, includeRawTransaction) {
     const _tx = tx.tx_blob ? parseBinaryTransaction(tx) : tx;
     // jbcoind uses a different response format for 'account_tx' than 'tx'
-    return transaction_1.default(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
+    return (0, transaction_1.default)(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
 }
 function counterpartyFilter(filters, tx) {
     if (tx.address === filters.counterparty) {
@@ -41124,7 +41133,7 @@ exports.default = getTransactions;
 
 
 /***/ }),
-/* 315 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41133,11 +41142,11 @@ var enums = __webpack_require__(33);var
 Field = enums.Field;
 var types = __webpack_require__(27);
 var binary = __webpack_require__(64);var _require =
-__webpack_require__(97),ShaMap = _require.ShaMap;
-var ledgerHashes = __webpack_require__(342);
+__webpack_require__(98),ShaMap = _require.ShaMap;
+var ledgerHashes = __webpack_require__(341);
 var hashes = __webpack_require__(49);
-var quality = __webpack_require__(343);
-var signing = __webpack_require__(344);var _require2 =
+var quality = __webpack_require__(342);
+var signing = __webpack_require__(343);var _require2 =
 __webpack_require__(43),HashPrefix = _require2.HashPrefix;
 
 
@@ -41154,13 +41163,13 @@ module.exports = _.assign({
 types);
 
 /***/ }),
-/* 316 */
+/* 315 */
 /***/ (function(module, exports) {
 
 module.exports = {"TYPES":{"Validation":10003,"Done":-1,"Hash128":4,"Blob":7,"AccountID":8,"Amount":6,"Hash256":5,"UInt8":16,"Vector256":19,"STObject":14,"Unknown":-2,"Transaction":10001,"Hash160":17,"PathSet":18,"LedgerEntry":10002,"UInt16":1,"NotPresent":0,"UInt64":3,"UInt32":2,"STArray":15},"LEDGER_ENTRY_TYPES":{"Any":-3,"Child":-2,"Invalid":-1,"AccountRoot":97,"DirectoryNode":100,"RippleState":114,"Ticket":84,"SignerList":83,"Offer":111,"LedgerHashes":104,"Amendments":102,"FeeSettings":115,"Escrow":117,"PayChannel":120,"DepositPreauth":112,"Check":67,"Nickname":110,"Contract":99,"GeneratorMap":103},"FIELDS":[["Generic",{"nth":0,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Unknown"}],["Invalid",{"nth":-1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Unknown"}],["LedgerEntryType",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["TransactionType",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["SignerWeight",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["Flags",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SourceTag",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Sequence",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["PreviousTxnLgrSeq",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LedgerSequence",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["CloseTime",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ParentCloseTime",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SigningTime",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Expiration",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["TransferRate",{"nth":11,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["WalletSize",{"nth":12,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OwnerCount",{"nth":13,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["DestinationTag",{"nth":14,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["HighQualityIn",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["HighQualityOut",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LowQualityIn",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LowQualityOut",{"nth":19,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["QualityIn",{"nth":20,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["QualityOut",{"nth":21,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["StampEscrow",{"nth":22,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["BondAmount",{"nth":23,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LoadFee",{"nth":24,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OfferSequence",{"nth":25,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["FirstLedgerSequence",{"nth":26,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LastLedgerSequence",{"nth":27,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["TransactionIndex",{"nth":28,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OperationLimit",{"nth":29,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReferenceFeeUnits",{"nth":30,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReserveBase",{"nth":31,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReserveIncrement",{"nth":32,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SetFlag",{"nth":33,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ClearFlag",{"nth":34,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SignerQuorum",{"nth":35,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["CancelAfter",{"nth":36,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["FinishAfter",{"nth":37,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["IndexNext",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["IndexPrevious",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["BookNode",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["OwnerNode",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["BaseFee",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["ExchangeRate",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["LowNode",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["HighNode",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["EmailHash",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash128"}],["LedgerHash",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["ParentHash",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TransactionHash",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["AccountHash",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["PreviousTxnID",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["LedgerIndex",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["WalletLocator",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["RootIndex",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["AccountTxnID",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["BookDirectory",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["InvoiceID",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Nickname",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Amendment",{"nth":19,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TicketID",{"nth":20,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Digest",{"nth":21,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["hash",{"nth":257,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Hash256"}],["index",{"nth":258,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Hash256"}],["Amount",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["Balance",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["LimitAmount",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["TakerPays",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["TakerGets",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["LowLimit",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["HighLimit",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["Fee",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["SendMax",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["DeliverMin",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["MinimumOffer",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["RippleEscrow",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["DeliveredAmount",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["taker_gets_funded",{"nth":258,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Amount"}],["taker_pays_funded",{"nth":259,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Amount"}],["PublicKey",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MessageKey",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["SigningPubKey",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["TxnSignature",{"nth":4,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Generator",{"nth":5,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Signature",{"nth":6,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Domain",{"nth":7,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["FundCode",{"nth":8,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["RemoveCode",{"nth":9,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["ExpireCode",{"nth":10,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["CreateCode",{"nth":11,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoType",{"nth":12,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoData",{"nth":13,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoFormat",{"nth":14,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Fulfillment",{"nth":16,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Condition",{"nth":17,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MasterSignature",{"nth":18,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Account",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Owner",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Destination",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Issuer",{"nth":4,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Authorize",{"nth":5,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Unauthorize",{"nth":6,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Target",{"nth":7,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["RegularKey",{"nth":8,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["ObjectEndMarker",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["TransactionMetaData",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["CreatedNode",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["DeletedNode",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["ModifiedNode",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["PreviousFields",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["FinalFields",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["NewFields",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["TemplateEntry",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Memo",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["SignerEntry",{"nth":11,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Signer",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Majority",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["ArrayEndMarker",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Signers",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":false,"type":"STArray"}],["SignerEntries",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Template",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Necessary",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Sufficient",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["AffectedNodes",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Memos",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Majorities",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["CloseResolution",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["Method",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["TransactionResult",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["TakerPaysCurrency",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerPaysIssuer",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerGetsCurrency",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerGetsIssuer",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["Paths",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"PathSet"}],["Indexes",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Hashes",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Amendments",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Transaction",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Transaction"}],["LedgerEntry",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"LedgerEntry"}],["Validation",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Validation"}],["SignerListID",{"nth":38,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SettleDelay",{"nth":39,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Channel",{"nth":22,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["ConsensusHash",{"nth":23,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["CheckID",{"nth":24,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TickSize",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["DestinationNode",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}]],"TRANSACTION_RESULTS":{"telNO_DST_PARTIAL":-393,"temBAD_SRC_ACCOUNT":-281,"tefPAST_SEQ":-189,"terNO_ACCOUNT":-96,"temREDUNDANT":-275,"tefCREATED":-194,"temDST_IS_SRC":-279,"terRETRY":-99,"temINVALID_FLAG":-276,"temBAD_SEND_XRP_LIMIT":-288,"terNO_LINE":-94,"tefBAD_AUTH":-196,"temBAD_EXPIRATION":-295,"temBAD_SEND_XRP_NO_DIRECT":-286,"temBAD_SEND_XRP_PATHS":-284,"tefBAD_LEDGER":-195,"tefNO_AUTH_REQUIRED":-190,"terOWNERS":-93,"terLAST":-91,"terNO_RIPPLE":-90,"temBAD_FEE":-294,"terPRE_SEQ":-92,"tefMASTER_DISABLED":-187,"temBAD_CURRENCY":-296,"tefDST_TAG_NEEDED":-193,"temBAD_SIGNATURE":-282,"tefFAILURE":-199,"telBAD_PATH_COUNT":-397,"temBAD_TRANSFER_RATE":-280,"tefWRONG_PRIOR":-188,"telBAD_DOMAIN":-398,"temBAD_AMOUNT":-298,"temBAD_AUTH_MASTER":-297,"temBAD_LIMIT":-292,"temBAD_ISSUER":-293,"telBAD_PUBLIC_KEY":-396,"tefBAD_ADD_AUTH":-197,"temBAD_OFFER":-291,"temBAD_SEND_XRP_PARTIAL":-285,"temDST_NEEDED":-278,"tefALREADY":-198,"temUNCERTAIN":-272,"telLOCAL_ERROR":-399,"temREDUNDANT_SEND_MAX":-274,"tefINTERNAL":-191,"temBAD_PATH_LOOP":-289,"tefEXCEPTION":-192,"temRIPPLE_EMPTY":-273,"telINSUF_FEE_P":-394,"temBAD_SEQUENCE":-283,"tefMAX_LEDGER":-186,"terFUNDS_SPENT":-98,"temBAD_SEND_XRP_MAX":-287,"telFAILED_PROCESSING":-395,"terINSUF_FEE_B":-97,"tesSUCCESS":0,"temBAD_PATH":-290,"temMALFORMED":-299,"temUNKNOWN":-271,"temINVALID":-277,"terNO_AUTH":-95,"temBAD_TICK_SIZE":-270,"tecCLAIM":100,"tecPATH_PARTIAL":101,"tecUNFUNDED_ADD":102,"tecUNFUNDED_OFFER":103,"tecUNFUNDED_PAYMENT":104,"tecFAILED_PROCESSING":105,"tecDIR_FULL":121,"tecINSUF_RESERVE_LINE":122,"tecINSUF_RESERVE_OFFER":123,"tecNO_DST":124,"tecNO_DST_INSUF_XRP":125,"tecNO_LINE_INSUF_RESERVE":126,"tecNO_LINE_REDUNDANT":127,"tecPATH_DRY":128,"tecUNFUNDED":129,"tecNO_ALTERNATIVE_KEY":130,"tecNO_REGULAR_KEY":131,"tecOWNERS":132,"tecNO_ISSUER":133,"tecNO_AUTH":134,"tecNO_LINE":135,"tecINSUFF_FEE":136,"tecFROZEN":137,"tecNO_TARGET":138,"tecNO_PERMISSION":139,"tecNO_ENTRY":140,"tecINSUFFICIENT_RESERVE":141,"tecNEED_MASTER_KEY":142,"tecDST_TAG_NEEDED":143,"tecINTERNAL":144,"tecOVERSIZE":145,"tecCRYPTOCONDITION_ERROR":146,"tecINVARIANT_FAILED":147,"tecEXPIRED":148,"tecDUPLICATE":149},"TRANSACTION_TYPES":{"Invalid":-1,"Payment":0,"EscrowCreate":1,"EscrowFinish":2,"AccountSet":3,"EscrowCancel":4,"SetRegularKey":5,"NickNameSet":6,"OfferCreate":7,"OfferCancel":8,"Contract":9,"TicketCreate":10,"TicketCancel":11,"SignerListSet":12,"PaymentChannelCreate":13,"PaymentChannelFund":14,"PaymentChannelClaim":15,"CheckCreate":16,"CheckCash":17,"CheckCancel":18,"DepositPreauth":19,"TrustSet":20,"EnableAmendment":100,"SetFee":101}}
 
 /***/ }),
-/* 317 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41173,7 +41182,7 @@ __webpack_require__(20),SerializedType = _require.SerializedType;var _require2 =
 __webpack_require__(11),bytesToHex = _require2.bytesToHex;var _require3 =
 __webpack_require__(63),Currency = _require3.Currency;var _require4 =
 __webpack_require__(59),AccountID = _require4.AccountID;var _require5 =
-__webpack_require__(91),UInt64 = _require5.UInt64;
+__webpack_require__(92),UInt64 = _require5.UInt64;
 
 var MIN_IOU_EXPONENT = -96;
 var MAX_IOU_EXPONENT = 80;
@@ -41363,13 +41372,13 @@ module.exports = {
   Amount: Amount };
 
 /***/ }),
-/* 318 */
+/* 317 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 319 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41403,7 +41412,7 @@ module.exports = {
   Blob: Blob };
 
 /***/ }),
-/* 320 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41419,7 +41428,7 @@ module.exports = {
   Hash128: Hash128 };
 
 /***/ }),
-/* 321 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41537,14 +41546,14 @@ module.exports = {
   PathSet: PathSet };
 
 /***/ }),
-/* 322 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var makeClass = __webpack_require__(5);var _require =
 __webpack_require__(20),ensureArrayLikeIs = _require.ensureArrayLikeIs,SerializedType = _require.SerializedType;var _require2 =
 __webpack_require__(33),Field = _require2.Field;var _require3 =
-__webpack_require__(93),STObject = _require3.STObject;var
+__webpack_require__(94),STObject = _require3.STObject;var
 ArrayEndMarker = Field.ArrayEndMarker;
 
 var STArray = makeClass({
@@ -41580,7 +41589,7 @@ module.exports = {
   STArray: STArray };
 
 /***/ }),
-/* 323 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41596,7 +41605,7 @@ module.exports = {
   UInt16: UInt16 };
 
 /***/ }),
-/* 324 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41612,7 +41621,7 @@ module.exports = {
   UInt32: UInt32 };
 
 /***/ }),
-/* 325 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41628,12 +41637,12 @@ module.exports = {
   UInt8: UInt8 };
 
 /***/ }),
-/* 326 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var makeClass = __webpack_require__(5);var _require =
-__webpack_require__(92),Hash256 = _require.Hash256;var _require2 =
+__webpack_require__(93),Hash256 = _require.Hash256;var _require2 =
 __webpack_require__(20),ensureArrayLikeIs = _require2.ensureArrayLikeIs,SerializedType = _require2.SerializedType;
 
 var Vector256 = makeClass({
@@ -41665,7 +41674,7 @@ module.exports = {
   Vector256: Vector256 };
 
 /***/ }),
-/* 327 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41769,7 +41778,7 @@ module.exports = {
   BinaryParser: BinaryParser };
 
 /***/ }),
-/* 328 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41783,7 +41792,7 @@ module.exports = {
  * See http://pajhome.org.uk/crypt/md5 for more info.
  */
 
-var makeHash = __webpack_require__(329)
+var makeHash = __webpack_require__(328)
 
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -41927,7 +41936,7 @@ module.exports = function md5 (buf) {
 
 
 /***/ }),
-/* 329 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41965,13 +41974,13 @@ module.exports = function hash (buf, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 330 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
 var inherits = __webpack_require__(3)
-var HashBase = __webpack_require__(331)
+var HashBase = __webpack_require__(330)
 
 function RIPEMD160 () {
   HashBase.call(this, 64)
@@ -42264,12 +42273,12 @@ module.exports = RIPEMD160
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 331 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(Buffer) {
-var Transform = __webpack_require__(94).Transform
+var Transform = __webpack_require__(95).Transform
 var inherits = __webpack_require__(3)
 
 function HashBase (blockSize) {
@@ -42355,35 +42364,35 @@ module.exports = HashBase
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 332 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(56);
 
 
 /***/ }),
-/* 333 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(26);
 
 
 /***/ }),
-/* 334 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(40).Transform
 
 
 /***/ }),
-/* 335 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(40).PassThrough
 
 
 /***/ }),
-/* 336 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var exports = module.exports = function SHA (algorithm) {
@@ -42395,16 +42404,16 @@ var exports = module.exports = function SHA (algorithm) {
   return new Algorithm()
 }
 
-exports.sha = __webpack_require__(337)
-exports.sha1 = __webpack_require__(338)
-exports.sha224 = __webpack_require__(339)
-exports.sha256 = __webpack_require__(95)
-exports.sha384 = __webpack_require__(340)
-exports.sha512 = __webpack_require__(96)
+exports.sha = __webpack_require__(336)
+exports.sha1 = __webpack_require__(337)
+exports.sha224 = __webpack_require__(338)
+exports.sha256 = __webpack_require__(96)
+exports.sha384 = __webpack_require__(339)
+exports.sha512 = __webpack_require__(97)
 
 
 /***/ }),
-/* 337 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -42504,7 +42513,7 @@ module.exports = Sha
 
 
 /***/ }),
-/* 338 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -42609,7 +42618,7 @@ module.exports = Sha1
 
 
 /***/ }),
-/* 339 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -42621,7 +42630,7 @@ module.exports = Sha1
  */
 
 var inherits = __webpack_require__(3)
-var Sha256 = __webpack_require__(95)
+var Sha256 = __webpack_require__(96)
 var Hash = __webpack_require__(34)
 var Buffer = __webpack_require__(21).Buffer
 
@@ -42668,11 +42677,11 @@ module.exports = Sha224
 
 
 /***/ }),
-/* 340 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var inherits = __webpack_require__(3)
-var SHA512 = __webpack_require__(96)
+var SHA512 = __webpack_require__(97)
 var Hash = __webpack_require__(34)
 var Buffer = __webpack_require__(21).Buffer
 
@@ -42731,11 +42740,11 @@ module.exports = Sha384
 
 
 /***/ }),
-/* 341 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(21).Buffer
-var Transform = __webpack_require__(94).Transform
+var Transform = __webpack_require__(95).Transform
 var StringDecoder = __webpack_require__(57).StringDecoder
 var inherits = __webpack_require__(3)
 
@@ -42836,7 +42845,7 @@ module.exports = CipherBase
 
 
 /***/ }),
-/* 342 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42845,7 +42854,7 @@ var BN = __webpack_require__(15);
 var assert = __webpack_require__(2);
 var types = __webpack_require__(27);var
 STObject = types.STObject,Hash256 = types.Hash256;var _require =
-__webpack_require__(97),ShaMap = _require.ShaMap;var _require2 =
+__webpack_require__(98),ShaMap = _require.ShaMap;var _require2 =
 __webpack_require__(43),HashPrefix = _require2.HashPrefix;var _require3 =
 __webpack_require__(49),Sha512Half = _require3.Sha512Half;var _require4 =
 __webpack_require__(64),BinarySerializer = _require4.BinarySerializer,serializeObject = _require4.serializeObject;
@@ -42913,7 +42922,7 @@ module.exports = {
   ledgerHash: ledgerHash };
 
 /***/ }),
-/* 343 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42939,7 +42948,7 @@ module.exports = {
   } };
 
 /***/ }),
-/* 344 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43010,12 +43019,12 @@ module.exports = {
   sign: sign };
 
 /***/ }),
-/* 345 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {return typeof obj;} : function (obj) {return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;};var assert = __webpack_require__(2);
-var coreTypes = __webpack_require__(346);var 
+var coreTypes = __webpack_require__(345);var 
 quality = 
 
 
@@ -43088,7 +43097,7 @@ module.exports = {
   decodeLedgerData: decodeLedgerData };
 
 /***/ }),
-/* 346 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43097,11 +43106,11 @@ var enums = __webpack_require__(35);var
 Field = enums.Field;
 var types = __webpack_require__(28);
 var binary = __webpack_require__(71);var _require = 
-__webpack_require__(101);var ShaMap = _require.ShaMap;
-var ledgerHashes = __webpack_require__(358);
+__webpack_require__(102);var ShaMap = _require.ShaMap;
+var ledgerHashes = __webpack_require__(357);
 var hashes = __webpack_require__(52);
-var quality = __webpack_require__(359);
-var signing = __webpack_require__(360);var _require2 = 
+var quality = __webpack_require__(358);
+var signing = __webpack_require__(359);var _require2 = 
 __webpack_require__(44);var HashPrefix = _require2.HashPrefix;
 
 
@@ -43118,13 +43127,13 @@ module.exports = _.assign({
 types);
 
 /***/ }),
-/* 347 */
+/* 346 */
 /***/ (function(module, exports) {
 
 module.exports = {"TYPES":{"Validation":10003,"Done":-1,"Hash128":4,"Blob":7,"AccountID":8,"Amount":6,"Hash256":5,"UInt8":16,"Vector256":19,"STObject":14,"Unknown":-2,"Transaction":10001,"Hash160":17,"PathSet":18,"LedgerEntry":10002,"UInt16":1,"NotPresent":0,"UInt64":3,"UInt32":2,"STArray":15},"LEDGER_ENTRY_TYPES":{"Any":-3,"Child":-2,"Invalid":-1,"AccountRoot":97,"DirectoryNode":100,"RippleState":114,"Ticket":84,"SignerList":83,"Offer":111,"LedgerHashes":104,"Amendments":102,"FeeSettings":115,"Escrow":117,"PayChannel":120,"Check":67,"Nickname":110,"Contract":99,"GeneratorMap":103},"FIELDS":[["Generic",{"nth":0,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Unknown"}],["Invalid",{"nth":-1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Unknown"}],["LedgerEntryType",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["TransactionType",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["SignerWeight",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt16"}],["Flags",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SourceTag",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Sequence",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["PreviousTxnLgrSeq",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LedgerSequence",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["CloseTime",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ParentCloseTime",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SigningTime",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Expiration",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["TransferRate",{"nth":11,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["WalletSize",{"nth":12,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OwnerCount",{"nth":13,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["DestinationTag",{"nth":14,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["HighQualityIn",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["HighQualityOut",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LowQualityIn",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LowQualityOut",{"nth":19,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["QualityIn",{"nth":20,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["QualityOut",{"nth":21,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["StampEscrow",{"nth":22,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["BondAmount",{"nth":23,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LoadFee",{"nth":24,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OfferSequence",{"nth":25,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["FirstLedgerSequence",{"nth":26,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["LastLedgerSequence",{"nth":27,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["TransactionIndex",{"nth":28,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["OperationLimit",{"nth":29,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReferenceFeeUnits",{"nth":30,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReserveBase",{"nth":31,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ReserveIncrement",{"nth":32,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SetFlag",{"nth":33,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["ClearFlag",{"nth":34,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SignerQuorum",{"nth":35,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["CancelAfter",{"nth":36,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["FinishAfter",{"nth":37,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["IndexNext",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["IndexPrevious",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["BookNode",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["OwnerNode",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["BaseFee",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["ExchangeRate",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["LowNode",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["HighNode",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}],["EmailHash",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash128"}],["LedgerHash",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["ParentHash",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TransactionHash",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["AccountHash",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["PreviousTxnID",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["LedgerIndex",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["WalletLocator",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["RootIndex",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["AccountTxnID",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["BookDirectory",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["InvoiceID",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Nickname",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Amendment",{"nth":19,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TicketID",{"nth":20,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["Digest",{"nth":21,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["hash",{"nth":257,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Hash256"}],["index",{"nth":258,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Hash256"}],["Amount",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["Balance",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["LimitAmount",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["TakerPays",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["TakerGets",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["LowLimit",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["HighLimit",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["Fee",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["SendMax",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["DeliverMin",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["MinimumOffer",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["RippleEscrow",{"nth":17,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["DeliveredAmount",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Amount"}],["taker_gets_funded",{"nth":258,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Amount"}],["taker_pays_funded",{"nth":259,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Amount"}],["PublicKey",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MessageKey",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["SigningPubKey",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["TxnSignature",{"nth":4,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Generator",{"nth":5,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Signature",{"nth":6,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Domain",{"nth":7,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["FundCode",{"nth":8,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["RemoveCode",{"nth":9,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["ExpireCode",{"nth":10,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["CreateCode",{"nth":11,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoType",{"nth":12,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoData",{"nth":13,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MemoFormat",{"nth":14,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Fulfillment",{"nth":16,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["Condition",{"nth":17,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Blob"}],["MasterSignature",{"nth":18,"isVLEncoded":true,"isSerialized":true,"isSigningField":false,"type":"Blob"}],["Account",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Owner",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Destination",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Issuer",{"nth":4,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["Target",{"nth":7,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["RegularKey",{"nth":8,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"AccountID"}],["ObjectEndMarker",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["TransactionMetaData",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["CreatedNode",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["DeletedNode",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["ModifiedNode",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["PreviousFields",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["FinalFields",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["NewFields",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["TemplateEntry",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Memo",{"nth":10,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["SignerEntry",{"nth":11,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Signer",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["Majority",{"nth":18,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STObject"}],["ArrayEndMarker",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Signers",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":false,"type":"STArray"}],["SignerEntries",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Template",{"nth":5,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Necessary",{"nth":6,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Sufficient",{"nth":7,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["AffectedNodes",{"nth":8,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Memos",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["Majorities",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"STArray"}],["CloseResolution",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["Method",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["TransactionResult",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["TakerPaysCurrency",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerPaysIssuer",{"nth":2,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerGetsCurrency",{"nth":3,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["TakerGetsIssuer",{"nth":4,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash160"}],["Paths",{"nth":1,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"PathSet"}],["Indexes",{"nth":1,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Hashes",{"nth":2,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Amendments",{"nth":3,"isVLEncoded":true,"isSerialized":true,"isSigningField":true,"type":"Vector256"}],["Transaction",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Transaction"}],["LedgerEntry",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"LedgerEntry"}],["Validation",{"nth":1,"isVLEncoded":false,"isSerialized":false,"isSigningField":false,"type":"Validation"}],["SignerListID",{"nth":38,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["SettleDelay",{"nth":39,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt32"}],["Channel",{"nth":22,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["ConsensusHash",{"nth":23,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["CheckID",{"nth":24,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"Hash256"}],["TickSize",{"nth":16,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt8"}],["DestinationNode",{"nth":9,"isVLEncoded":false,"isSerialized":true,"isSigningField":true,"type":"UInt64"}]],"TRANSACTION_RESULTS":{"telNO_DST_PARTIAL":-393,"temBAD_SRC_ACCOUNT":-281,"tefPAST_SEQ":-189,"terNO_ACCOUNT":-96,"temREDUNDANT":-275,"tefCREATED":-194,"temDST_IS_SRC":-279,"terRETRY":-99,"temINVALID_FLAG":-276,"temBAD_SEND_XRP_LIMIT":-288,"terNO_LINE":-94,"tefBAD_AUTH":-196,"temBAD_EXPIRATION":-295,"temBAD_SEND_XRP_NO_DIRECT":-286,"temBAD_SEND_XRP_PATHS":-284,"tefBAD_LEDGER":-195,"tefNO_AUTH_REQUIRED":-190,"terOWNERS":-93,"terLAST":-91,"terNO_RIPPLE":-90,"temBAD_FEE":-294,"terPRE_SEQ":-92,"tefMASTER_DISABLED":-187,"temBAD_CURRENCY":-296,"tefDST_TAG_NEEDED":-193,"temBAD_SIGNATURE":-282,"tefFAILURE":-199,"telBAD_PATH_COUNT":-397,"temBAD_TRANSFER_RATE":-280,"tefWRONG_PRIOR":-188,"telBAD_DOMAIN":-398,"temBAD_AMOUNT":-298,"temBAD_AUTH_MASTER":-297,"temBAD_LIMIT":-292,"temBAD_ISSUER":-293,"telBAD_PUBLIC_KEY":-396,"tefBAD_ADD_AUTH":-197,"temBAD_OFFER":-291,"temBAD_SEND_XRP_PARTIAL":-285,"temDST_NEEDED":-278,"tefALREADY":-198,"temUNCERTAIN":-272,"telLOCAL_ERROR":-399,"temREDUNDANT_SEND_MAX":-274,"tefINTERNAL":-191,"temBAD_PATH_LOOP":-289,"tefEXCEPTION":-192,"temRIPPLE_EMPTY":-273,"telINSUF_FEE_P":-394,"temBAD_SEQUENCE":-283,"tefMAX_LEDGER":-186,"terFUNDS_SPENT":-98,"temBAD_SEND_XRP_MAX":-287,"telFAILED_PROCESSING":-395,"terINSUF_FEE_B":-97,"tesSUCCESS":0,"temBAD_PATH":-290,"temMALFORMED":-299,"temUNKNOWN":-271,"temINVALID":-277,"terNO_AUTH":-95,"temBAD_TICK_SIZE":-270,"tecCLAIM":100,"tecPATH_PARTIAL":101,"tecUNFUNDED_ADD":102,"tecUNFUNDED_OFFER":103,"tecUNFUNDED_PAYMENT":104,"tecFAILED_PROCESSING":105,"tecDIR_FULL":121,"tecINSUF_RESERVE_LINE":122,"tecINSUF_RESERVE_OFFER":123,"tecNO_DST":124,"tecNO_DST_INSUF_XRP":125,"tecNO_LINE_INSUF_RESERVE":126,"tecNO_LINE_REDUNDANT":127,"tecPATH_DRY":128,"tecUNFUNDED":129,"tecNO_ALTERNATIVE_KEY":130,"tecNO_REGULAR_KEY":131,"tecOWNERS":132,"tecNO_ISSUER":133,"tecNO_AUTH":134,"tecNO_LINE":135,"tecINSUFF_FEE":136,"tecFROZEN":137,"tecNO_TARGET":138,"tecNO_PERMISSION":139,"tecNO_ENTRY":140,"tecINSUFFICIENT_RESERVE":141,"tecNEED_MASTER_KEY":142,"tecDST_TAG_NEEDED":143,"tecINTERNAL":144,"tecOVERSIZE":145,"tecCRYPTOCONDITION_ERROR":146,"tecINVARIANT_FAILED":147,"tecEXPIRED":148},"TRANSACTION_TYPES":{"Invalid":-1,"Payment":0,"EscrowCreate":1,"EscrowFinish":2,"AccountSet":3,"EscrowCancel":4,"SetRegularKey":5,"NickNameSet":6,"OfferCreate":7,"OfferCancel":8,"Contract":9,"TicketCreate":10,"TicketCancel":11,"SignerListSet":12,"PaymentChannelCreate":13,"PaymentChannelFund":14,"PaymentChannelClaim":15,"CheckCreate":16,"CheckCash":17,"CheckCancel":18,"TrustSet":20,"EnableAmendment":100,"SetFee":101}}
 
 /***/ }),
-/* 348 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43137,7 +43146,7 @@ __webpack_require__(22);var SerializedType = _require.SerializedType;var _requir
 __webpack_require__(12);var bytesToHex = _require2.bytesToHex;var _require3 = 
 __webpack_require__(70);var Currency = _require3.Currency;var _require4 = 
 __webpack_require__(66);var AccountID = _require4.AccountID;var _require5 = 
-__webpack_require__(98);var UInt64 = _require5.UInt64;
+__webpack_require__(99);var UInt64 = _require5.UInt64;
 
 var MIN_IOU_EXPONENT = -96;
 var MAX_IOU_EXPONENT = 80;
@@ -43325,7 +43334,7 @@ module.exports = {
   Amount: Amount };
 
 /***/ }),
-/* 349 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43359,7 +43368,7 @@ module.exports = {
   Blob: Blob };
 
 /***/ }),
-/* 350 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43375,7 +43384,7 @@ module.exports = {
   Hash128: Hash128 };
 
 /***/ }),
-/* 351 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43493,14 +43502,14 @@ module.exports = {
   PathSet: PathSet };
 
 /***/ }),
-/* 352 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var makeClass = __webpack_require__(6);var _require = 
 __webpack_require__(22);var ensureArrayLikeIs = _require.ensureArrayLikeIs;var SerializedType = _require.SerializedType;var _require2 = 
 __webpack_require__(35);var Field = _require2.Field;var _require3 = 
-__webpack_require__(100);var STObject = _require3.STObject;var 
+__webpack_require__(101);var STObject = _require3.STObject;var 
 ArrayEndMarker = Field.ArrayEndMarker;
 
 var STArray = makeClass({ 
@@ -43536,7 +43545,7 @@ module.exports = {
   STArray: STArray };
 
 /***/ }),
-/* 353 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43552,7 +43561,7 @@ module.exports = {
   UInt16: UInt16 };
 
 /***/ }),
-/* 354 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43568,7 +43577,7 @@ module.exports = {
   UInt32: UInt32 };
 
 /***/ }),
-/* 355 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43584,12 +43593,12 @@ module.exports = {
   UInt8: UInt8 };
 
 /***/ }),
-/* 356 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 var makeClass = __webpack_require__(6);var _require = 
-__webpack_require__(99);var Hash256 = _require.Hash256;var _require2 = 
+__webpack_require__(100);var Hash256 = _require.Hash256;var _require2 = 
 __webpack_require__(22);var ensureArrayLikeIs = _require2.ensureArrayLikeIs;var SerializedType = _require2.SerializedType;
 
 var Vector256 = makeClass({ 
@@ -43621,7 +43630,7 @@ module.exports = {
   Vector256: Vector256 };
 
 /***/ }),
-/* 357 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43725,7 +43734,7 @@ module.exports = {
   BinaryParser: BinaryParser };
 
 /***/ }),
-/* 358 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43734,7 +43743,7 @@ var BN = __webpack_require__(15);
 var assert = __webpack_require__(2);
 var types = __webpack_require__(28);var 
 STObject = types.STObject;var Hash256 = types.Hash256;var _require = 
-__webpack_require__(101);var ShaMap = _require.ShaMap;var _require2 = 
+__webpack_require__(102);var ShaMap = _require.ShaMap;var _require2 = 
 __webpack_require__(44);var HashPrefix = _require2.HashPrefix;var _require3 = 
 __webpack_require__(52);var Sha512Half = _require3.Sha512Half;var _require4 = 
 __webpack_require__(71);var BinarySerializer = _require4.BinarySerializer;var serializeObject = _require4.serializeObject;
@@ -43802,7 +43811,7 @@ module.exports = {
   ledgerHash: ledgerHash };
 
 /***/ }),
-/* 359 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43827,7 +43836,7 @@ module.exports = {
     return mantissa.times('1e' + exponent);} };
 
 /***/ }),
-/* 360 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43898,7 +43907,7 @@ module.exports = {
   sign: sign };
 
 /***/ }),
-/* 361 */
+/* 360 */
 /***/ (function(module, exports) {
 
 
@@ -43929,23 +43938,24 @@ module.exports = {
 
 
 /***/ }),
-/* 362 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = __webpack_require__(1);
 const common_1 = __webpack_require__(0);
-const account_trustline_1 = __webpack_require__(363);
+const account_trustline_1 = __webpack_require__(362);
 function currencyFilter(currency, trustline) {
     return currency === null || trustline.specification.currency === currency;
 }
@@ -43972,7 +43982,7 @@ exports.default = getTrustlines;
 
 
 /***/ }),
-/* 363 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -43983,18 +43993,18 @@ const common_1 = __webpack_require__(0);
 // jbcoind 'account_lines' returns a different format for
 // trustlines than 'tx'
 function parseAccountTrustline(trustline) {
-    const specification = common_1.removeUndefined({
+    const specification = (0, common_1.removeUndefined)({
         limit: trustline.limit,
         currency: trustline.currency,
         counterparty: trustline.account,
-        qualityIn: utils_1.parseQuality(trustline.quality_in) || undefined,
-        qualityOut: utils_1.parseQuality(trustline.quality_out) || undefined,
+        qualityIn: (0, utils_1.parseQuality)(trustline.quality_in) || undefined,
+        qualityOut: (0, utils_1.parseQuality)(trustline.quality_out) || undefined,
         ripplingDisabled: trustline.no_jbcoin || undefined,
         frozen: trustline.freeze || undefined,
         authorized: trustline.authorized || undefined
     });
     // jbcoind doesn't provide the counterparty's qualities
-    const counterparty = common_1.removeUndefined({
+    const counterparty = (0, common_1.removeUndefined)({
         limit: trustline.limit_peer,
         ripplingDisabled: trustline.no_jbcoin_peer || undefined,
         frozen: trustline.freeze_peer || undefined,
@@ -44009,7 +44019,7 @@ exports.default = parseAccountTrustline;
 
 
 /***/ }),
-/* 364 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44057,16 +44067,17 @@ exports.default = getBalances;
 
 
 /***/ }),
-/* 365 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -44117,7 +44128,7 @@ exports.default = getBalanceSheet;
 
 
 /***/ }),
-/* 366 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44127,7 +44138,7 @@ const _ = __webpack_require__(1);
 const bignumber_js_1 = __webpack_require__(7);
 const utils_1 = __webpack_require__(19);
 const common_1 = __webpack_require__(0);
-const pathfind_1 = __webpack_require__(367);
+const pathfind_1 = __webpack_require__(366);
 const NotFoundError = common_1.errors.NotFoundError;
 const ValidationError = common_1.errors.ValidationError;
 function addParams(request, result) {
@@ -44140,13 +44151,13 @@ function requestPathFind(connection, pathfind) {
     const destinationAmount = _.assign({
         // This is converted back to drops by toJbcoindAmount()
         value: pathfind.destination.amount.currency === 'JBC' ?
-            common_1.dropsToJbc('-1') : '-1'
+            (0, common_1.dropsToJbc)('-1') : '-1'
     }, pathfind.destination.amount);
     const request = {
         command: 'jbcoin_path_find',
         source_account: pathfind.source.address,
         destination_account: pathfind.destination.address,
-        destination_amount: common_1.toJbcoindAmount(destinationAmount)
+        destination_amount: (0, common_1.toJbcoindAmount)(destinationAmount)
     };
     if (typeof request.destination_amount === 'object'
         && !request.destination_amount.issuer) {
@@ -44158,14 +44169,14 @@ function requestPathFind(connection, pathfind) {
         request.destination_amount.issuer = request.destination_account;
     }
     if (pathfind.source.currencies && pathfind.source.currencies.length > 0) {
-        request.source_currencies = pathfind.source.currencies.map(amount => utils_1.renameCounterpartyToIssuer(amount));
+        request.source_currencies = pathfind.source.currencies.map(amount => (0, utils_1.renameCounterpartyToIssuer)(amount));
     }
     if (pathfind.source.amount) {
         if (pathfind.destination.amount.value !== undefined) {
             throw new ValidationError('Cannot specify both source.amount'
                 + ' and destination.amount.value in getPaths');
         }
-        request.send_max = common_1.toJbcoindAmount(pathfind.source.amount);
+        request.send_max = (0, common_1.toJbcoindAmount)(pathfind.source.amount);
         if (typeof request.send_max !== 'string' && !request.send_max.issuer) {
             request.send_max.issuer = pathfind.source.address;
         }
@@ -44194,7 +44205,7 @@ function conditionallyAddDirectJBCPath(connection, address, paths) {
         || !_.includes(paths.destination_currencies, 'JBC')) {
         return Promise.resolve(paths);
     }
-    return utils_1.getJBCBalance(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
+    return (0, utils_1.getJBCBalance)(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
 }
 function filterSourceFundsLowPaths(pathfind, paths) {
     if (pathfind.source.amount &&
@@ -44204,7 +44215,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
                 return false;
             }
             const pathfindSourceAmountValue = new bignumber_js_1.default(pathfind.source.amount.currency === 'JBC' ?
-                common_1.jbcToDrops(pathfind.source.amount.value) :
+                (0, common_1.jbcToDrops)(pathfind.source.amount.value) :
                 pathfind.source.amount.value);
             const altSourceAmountValue = new bignumber_js_1.default(typeof alt.source_amount === 'string' ?
                 alt.source_amount :
@@ -44216,7 +44227,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
 }
 function formatResponse(pathfind, paths) {
     if (paths.alternatives && paths.alternatives.length > 0) {
-        return pathfind_1.default(paths);
+        return (0, pathfind_1.default)(paths);
     }
     if (paths.destination_currencies !== undefined &&
         !_.includes(paths.destination_currencies, pathfind.destination.amount.currency)) {
@@ -44250,7 +44261,7 @@ exports.default = getPaths;
 
 
 /***/ }),
-/* 367 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44274,10 +44285,10 @@ function parseAlternative(sourceAddress, destinationAddress, destinationAmount, 
     // we use "maxAmount"/"minAmount" here so that the result can be passed
     // directly to preparePayment
     const amounts = (alternative.destination_amount !== undefined) ?
-        { source: { amount: amount_1.default(alternative.source_amount) },
-            destination: { minAmount: amount_1.default(alternative.destination_amount) } } :
-        { source: { maxAmount: amount_1.default(alternative.source_amount) },
-            destination: { amount: amount_1.default(destinationAmount) } };
+        { source: { amount: (0, amount_1.default)(alternative.source_amount) },
+            destination: { minAmount: (0, amount_1.default)(alternative.destination_amount) } } :
+        { source: { maxAmount: (0, amount_1.default)(alternative.source_amount) },
+            destination: { amount: (0, amount_1.default)(destinationAmount) } };
     return {
         source: createAdjustment(sourceAddress, amounts.source),
         destination: createAdjustment(destinationAddress, amounts.destination),
@@ -44294,28 +44305,29 @@ exports.default = parsePathfind;
 
 
 /***/ }),
-/* 368 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const _ = __webpack_require__(1);
 const common_1 = __webpack_require__(0);
-const account_order_1 = __webpack_require__(369);
+const account_order_1 = __webpack_require__(368);
 function formatResponse(address, responses) {
     let orders = [];
     for (const response of responses) {
         const offers = response.offers.map(offer => {
-            return account_order_1.parseAccountOrder(address, offer);
+            return (0, account_order_1.parseAccountOrder)(address, offer);
         });
         orders = orders.concat(offers);
     }
@@ -44339,17 +44351,18 @@ exports.default = getOrders;
 
 
 /***/ }),
-/* 369 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseAccountOrder = void 0;
 const bignumber_js_1 = __webpack_require__(7);
 const amount_1 = __webpack_require__(14);
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-const flags_1 = __webpack_require__(105);
+const flags_1 = __webpack_require__(106);
 // TODO: remove this function once jbcoind provides quality directly
 function computeQuality(takerGets, takerPays) {
     const quotient = new bignumber_js_1.default(takerPays.value).dividedBy(takerGets.value);
@@ -44359,22 +44372,22 @@ function computeQuality(takerGets, takerPays) {
 // the flags are also different
 function parseAccountOrder(address, order) {
     const direction = (order.flags & flags_1.orderFlags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = amount_1.default(order.taker_gets);
-    const takerPaysAmount = amount_1.default(order.taker_pays);
+    const takerGetsAmount = (0, amount_1.default)(order.taker_gets);
+    const takerPaysAmount = (0, amount_1.default)(order.taker_pays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
     // note: immediateOrCancel and fillOrKill orders cannot enter the order book
     // so we can omit those flags here
-    const specification = common_1.removeUndefined({
+    const specification = (0, common_1.removeUndefined)({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
         passive: ((order.flags & flags_1.orderFlags.Passive) !== 0) || undefined,
         // jbcoind currently does not provide "expiration" in account_offers
-        expirationTime: utils_1.parseTimestamp(order.expiration)
+        expirationTime: (0, utils_1.parseTimestamp)(order.expiration)
     });
     const makerExchangeRate = order.quality ?
-        utils_1.adjustQualityForJBC(order.quality.toString(), takerGetsAmount.currency, takerPaysAmount.currency) :
+        (0, utils_1.adjustQualityForJBC)(order.quality.toString(), takerGetsAmount.currency, takerPaysAmount.currency) :
         computeQuality(takerGetsAmount, takerPaysAmount);
     const properties = {
         maker: address,
@@ -44387,23 +44400,25 @@ exports.parseAccountOrder = parseAccountOrder;
 
 
 /***/ }),
-/* 370 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getOrderbook = exports.formatBidsAndAsks = void 0;
 const _ = __webpack_require__(1);
 const utils = __webpack_require__(19);
-const orderbook_order_1 = __webpack_require__(371);
+const orderbook_order_1 = __webpack_require__(370);
 const common_1 = __webpack_require__(0);
 const bignumber_js_1 = __webpack_require__(7);
 function isSameIssue(a, b) {
@@ -44482,68 +44497,71 @@ exports.getOrderbook = getOrderbook;
 
 
 /***/ }),
-/* 371 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseOrderbookOrder = void 0;
 const _ = __webpack_require__(1);
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
-const flags_1 = __webpack_require__(105);
+const flags_1 = __webpack_require__(106);
 const amount_1 = __webpack_require__(14);
 function parseOrderbookOrder(data) {
     const direction = (data.Flags & flags_1.orderFlags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = amount_1.default(data.TakerGets);
-    const takerPaysAmount = amount_1.default(data.TakerPays);
+    const takerGetsAmount = (0, amount_1.default)(data.TakerGets);
+    const takerPaysAmount = (0, amount_1.default)(data.TakerPays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
     // note: immediateOrCancel and fillOrKill orders cannot enter the order book
     // so we can omit those flags here
-    const specification = common_1.removeUndefined({
+    const specification = (0, common_1.removeUndefined)({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
         passive: ((data.Flags & flags_1.orderFlags.Passive) !== 0) || undefined,
-        expirationTime: utils_1.parseTimestamp(data.Expiration)
+        expirationTime: (0, utils_1.parseTimestamp)(data.Expiration)
     });
     const properties = {
         maker: data.Account,
         sequence: data.Sequence,
-        makerExchangeRate: utils_1.adjustQualityForJBC(data.quality, takerGetsAmount.currency, takerPaysAmount.currency)
+        makerExchangeRate: (0, utils_1.adjustQualityForJBC)(data.quality, takerGetsAmount.currency, takerPaysAmount.currency)
     };
     const takerGetsFunded = data.taker_gets_funded ?
-        amount_1.default(data.taker_gets_funded) : undefined;
+        (0, amount_1.default)(data.taker_gets_funded) : undefined;
     const takerPaysFunded = data.taker_pays_funded ?
-        amount_1.default(data.taker_pays_funded) : undefined;
-    const available = common_1.removeUndefined({
+        (0, amount_1.default)(data.taker_pays_funded) : undefined;
+    const available = (0, common_1.removeUndefined)({
         fundedAmount: takerGetsFunded,
         priceOfFundedAmount: takerPaysFunded
     });
     const state = _.isEmpty(available) ? undefined : available;
-    return common_1.removeUndefined({ specification, properties, state, data });
+    return (0, common_1.removeUndefined)({ specification, properties, state, data });
 }
 exports.parseOrderbookOrder = parseOrderbookOrder;
 
 
 /***/ }),
-/* 372 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSettings = exports.parseAccountFlags = void 0;
 const _ = __webpack_require__(1);
-const fields_1 = __webpack_require__(90);
+const fields_1 = __webpack_require__(91);
 const common_1 = __webpack_require__(0);
 const AccountFlags = common_1.constants.AccountFlags;
 function parseAccountFlags(value, options = {}) {
@@ -44564,7 +44582,7 @@ exports.parseAccountFlags = parseAccountFlags;
 function formatSettings(response) {
     const data = response.account_data;
     const parsedFlags = parseAccountFlags(data.Flags, { excludeFalse: true });
-    const parsedFields = fields_1.default(data);
+    const parsedFields = (0, fields_1.default)(data);
     return _.assign({}, parsedFlags, parsedFields);
 }
 function getSettings(address, options = {}) {
@@ -44585,16 +44603,17 @@ exports.getSettings = getSettings;
 
 
 /***/ }),
-/* 373 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -44602,9 +44621,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = __webpack_require__(0);
 function formatAccountInfo(response) {
     const data = response.account_data;
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         sequence: data.Sequence,
-        jbcBalance: common_1.dropsToJbc(data.Balance),
+        jbcBalance: (0, common_1.dropsToJbc)(data.Balance),
         ownerCount: data.OwnerCount,
         previousInitiatedTransactionID: data.AccountTxnID,
         previousAffectingTransactionID: data.PreviousTxnID,
@@ -44628,16 +44647,17 @@ exports.default = getAccountInfo;
 
 
 /***/ }),
-/* 374 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -44648,7 +44668,7 @@ function getAccountObjects(address, options = {}) {
         // Don't validate the options so that new types can be passed
         // through to jbcoind. jbcoind validates requests.
         // Make Request
-        const response = yield this.request('account_objects', common_1.removeUndefined({
+        const response = yield this.request('account_objects', (0, common_1.removeUndefined)({
             account: address,
             type: options.type,
             ledger_hash: options.ledgerHash,
@@ -44664,21 +44684,22 @@ exports.default = getAccountObjects;
 
 
 /***/ }),
-/* 375 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const payment_channel_1 = __webpack_require__(376);
+const payment_channel_1 = __webpack_require__(375);
 const common_1 = __webpack_require__(0);
 const NotFoundError = common_1.errors.NotFoundError;
 function formatResponse(response) {
@@ -44686,7 +44707,7 @@ function formatResponse(response) {
         response.node.LedgerEntryType !== 'PayChannel') {
         throw new NotFoundError('Payment channel ledger entry not found');
     }
-    return payment_channel_1.parsePaymentChannel(response.node);
+    return (0, payment_channel_1.parsePaymentChannel)(response.node);
 }
 function getPaymentChannel(id) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -44706,24 +44727,25 @@ exports.default = getPaymentChannel;
 
 
 /***/ }),
-/* 376 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parsePaymentChannel = void 0;
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parsePaymentChannel(data) {
-    return common_1.removeUndefined({
+    return (0, common_1.removeUndefined)({
         account: data.Account,
-        amount: common_1.dropsToJbc(data.Amount),
-        balance: common_1.dropsToJbc(data.Balance),
+        amount: (0, common_1.dropsToJbc)(data.Amount),
+        balance: (0, common_1.dropsToJbc)(data.Balance),
         destination: data.Destination,
         publicKey: data.PublicKey,
         settleDelay: data.SettleDelay,
-        expiration: utils_1.parseTimestamp(data.Expiration),
-        cancelAfter: utils_1.parseTimestamp(data.CancelAfter),
+        expiration: (0, utils_1.parseTimestamp)(data.Expiration),
+        cancelAfter: (0, utils_1.parseTimestamp)(data.CancelAfter),
         sourceTag: data.SourceTag,
         destinationTag: data.DestinationTag,
         previousAffectingTransactionID: data.PreviousTxnID,
@@ -44734,7 +44756,7 @@ exports.parsePaymentChannel = parsePaymentChannel;
 
 
 /***/ }),
-/* 377 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44788,7 +44810,7 @@ function createMaximalAmount(amount) {
         maxValue = maxJBCValue;
     }
     else if (amount.currency === 'drops') {
-        maxValue = common_1.jbcToDrops(maxJBCValue);
+        maxValue = (0, common_1.jbcToDrops)(maxJBCValue);
     }
     else {
         maxValue = maxIOUValue;
@@ -44874,7 +44896,7 @@ exports.default = preparePayment;
 
 
 /***/ }),
-/* 378 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44931,7 +44953,7 @@ exports.default = prepareTrustline;
 
 
 /***/ }),
-/* 379 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44966,7 +44988,7 @@ function createOrderTransaction(account, order) {
         txJSON.Flags |= offerFlags.FillOrKill;
     }
     if (order.expirationTime !== undefined) {
-        txJSON.Expiration = common_1.iso8601ToJbcoinTime(order.expirationTime);
+        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(order.expirationTime);
     }
     if (order.orderToReplace !== undefined) {
         txJSON.OfferSequence = order.orderToReplace;
@@ -44985,7 +45007,7 @@ exports.default = prepareOrder;
 
 
 /***/ }),
-/* 380 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45014,7 +45036,7 @@ exports.default = prepareOrderCancellation;
 
 
 /***/ }),
-/* 381 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45029,16 +45051,16 @@ function createEscrowCreationTransaction(account, payment) {
         TransactionType: 'EscrowCreate',
         Account: account,
         Destination: payment.destination,
-        Amount: common_1.jbcToDrops(payment.amount)
+        Amount: (0, common_1.jbcToDrops)(payment.amount)
     };
     if (payment.condition !== undefined) {
         txJSON.Condition = payment.condition;
     }
     if (payment.allowCancelAfter !== undefined) {
-        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(payment.allowCancelAfter);
+        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowCancelAfter);
     }
     if (payment.allowExecuteAfter !== undefined) {
-        txJSON.FinishAfter = common_1.iso8601ToJbcoinTime(payment.allowExecuteAfter);
+        txJSON.FinishAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowExecuteAfter);
     }
     if (payment.sourceTag !== undefined) {
         txJSON.SourceTag = payment.sourceTag;
@@ -45065,7 +45087,7 @@ exports.default = prepareEscrowCreation;
 
 
 /***/ }),
-/* 382 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45106,7 +45128,7 @@ exports.default = prepareEscrowExecution;
 
 
 /***/ }),
-/* 383 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45136,7 +45158,7 @@ exports.default = prepareEscrowCancellation;
 
 
 /***/ }),
-/* 384 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45148,13 +45170,13 @@ function createPaymentChannelCreateTransaction(account, paymentChannel) {
     const txJSON = {
         Account: account,
         TransactionType: 'PaymentChannelCreate',
-        Amount: common_1.jbcToDrops(paymentChannel.amount),
+        Amount: (0, common_1.jbcToDrops)(paymentChannel.amount),
         Destination: paymentChannel.destination,
         SettleDelay: paymentChannel.settleDelay,
         PublicKey: paymentChannel.publicKey.toUpperCase()
     };
     if (paymentChannel.cancelAfter !== undefined) {
-        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(paymentChannel.cancelAfter);
+        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(paymentChannel.cancelAfter);
     }
     if (paymentChannel.sourceTag !== undefined) {
         txJSON.SourceTag = paymentChannel.sourceTag;
@@ -45173,7 +45195,7 @@ exports.default = preparePaymentChannelCreate;
 
 
 /***/ }),
-/* 385 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45186,10 +45208,10 @@ function createPaymentChannelFundTransaction(account, fund) {
         Account: account,
         TransactionType: 'PaymentChannelFund',
         Channel: fund.channel,
-        Amount: common_1.jbcToDrops(fund.amount)
+        Amount: (0, common_1.jbcToDrops)(fund.amount)
     };
     if (fund.expiration !== undefined) {
-        txJSON.Expiration = common_1.iso8601ToJbcoinTime(fund.expiration);
+        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(fund.expiration);
     }
     return txJSON;
 }
@@ -45202,7 +45224,7 @@ exports.default = preparePaymentChannelFund;
 
 
 /***/ }),
-/* 386 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45220,10 +45242,10 @@ function createPaymentChannelClaimTransaction(account, claim) {
         Flags: 0
     };
     if (claim.balance !== undefined) {
-        txJSON.Balance = common_1.jbcToDrops(claim.balance);
+        txJSON.Balance = (0, common_1.jbcToDrops)(claim.balance);
     }
     if (claim.amount !== undefined) {
-        txJSON.Amount = common_1.jbcToDrops(claim.amount);
+        txJSON.Amount = (0, common_1.jbcToDrops)(claim.amount);
     }
     if (Boolean(claim.signature) !== Boolean(claim.publicKey)) {
         throw new ValidationError('"signature" and "publicKey" fields on'
@@ -45256,7 +45278,7 @@ exports.default = preparePaymentChannelClaim;
 
 
 /***/ }),
-/* 387 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45276,7 +45298,7 @@ function createCheckCreateTransaction(account, check) {
         txJSON.DestinationTag = check.destinationTag;
     }
     if (check.expiration !== undefined) {
-        txJSON.Expiration = common_1.iso8601ToJbcoinTime(check.expiration);
+        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(check.expiration);
     }
     if (check.invoiceID !== undefined) {
         txJSON.InvoiceID = check.invoiceID;
@@ -45292,7 +45314,7 @@ exports.default = prepareCheckCreate;
 
 
 /***/ }),
-/* 388 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45317,7 +45339,7 @@ exports.default = prepareCheckCancel;
 
 
 /***/ }),
-/* 389 */
+/* 388 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45354,7 +45376,7 @@ exports.default = prepareCheckCash;
 
 
 /***/ }),
-/* 390 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45473,7 +45495,7 @@ exports.default = prepareSettings;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 391 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45501,7 +45523,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
         throw new utils.common.errors.ValidationError('txJSON must not contain "TxnSignature" or "Signers" properties');
     }
     const fee = new bignumber_js_1.BigNumber(tx.Fee);
-    const maxFeeDrops = common_1.jbcToDrops(api._maxFeeJBC);
+    const maxFeeDrops = (0, common_1.jbcToDrops)(api._maxFeeJBC);
     if (fee.greaterThan(maxFeeDrops)) {
         throw new utils.common.errors.ValidationError(`"Fee" should not exceed "${maxFeeDrops}". ` +
             'To use a higher fee, set `maxFeeJBC` in the JbcoinAPI constructor.');
@@ -45521,7 +45543,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
     const serialized = binary.encode(tx);
     return {
         signedTransaction: serialized,
-        id: ripple_hashes_1.computeBinaryTransactionHash(serialized)
+        id: (0, ripple_hashes_1.computeBinaryTransactionHash)(serialized)
     };
 }
 function sign(txJSON, secret, options, keypair) {
@@ -45543,7 +45565,7 @@ exports.default = sign;
 
 
 /***/ }),
-/* 392 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45557,7 +45579,7 @@ const ripple_address_codec_1 = __webpack_require__(30);
 const common_1 = __webpack_require__(0);
 const ripple_hashes_1 = __webpack_require__(50);
 function addressToBigNumber(address) {
-    const hex = (new Buffer(ripple_address_codec_1.decodeAddress(address))).toString('hex');
+    const hex = (new Buffer((0, ripple_address_codec_1.decodeAddress)(address))).toString('hex');
     return new bignumber_js_1.default(hex, 16);
 }
 function compareSigners(a, b) {
@@ -45577,7 +45599,7 @@ function combine(signedTransactions) {
     const signers = unsortedSigners.sort(compareSigners);
     const signedTx = _.assign({}, tx, { Signers: signers });
     const signedTransaction = binary.encode(signedTx);
-    const id = ripple_hashes_1.computeBinaryTransactionHash(signedTransaction);
+    const id = (0, ripple_hashes_1.computeBinaryTransactionHash)(signedTransaction);
     return { signedTransaction, id };
 }
 exports.default = combine;
@@ -45585,16 +45607,17 @@ exports.default = combine;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4).Buffer))
 
 /***/ }),
-/* 393 */
+/* 392 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -45642,12 +45665,13 @@ exports.default = submit;
 
 
 /***/ }),
-/* 394 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateAddressAPI = void 0;
 const keypairs = __webpack_require__(31);
 const common = __webpack_require__(0);
 const { errors, validate } = common;
@@ -45667,19 +45691,20 @@ exports.generateAddressAPI = generateAddressAPI;
 
 
 /***/ }),
-/* 395 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deriveAddress = exports.deriveKeypair = void 0;
 const ripple_keypairs_1 = __webpack_require__(31);
-exports.deriveKeypair = ripple_keypairs_1.deriveKeypair;
-exports.deriveAddress = ripple_keypairs_1.deriveAddress;
+Object.defineProperty(exports, "deriveKeypair", { enumerable: true, get: function () { return ripple_keypairs_1.deriveKeypair; } });
+Object.defineProperty(exports, "deriveAddress", { enumerable: true, get: function () { return ripple_keypairs_1.deriveAddress; } });
 
 
 /***/ }),
-/* 396 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45780,7 +45805,7 @@ exports.default = computeLedgerHash;
 
 
 /***/ }),
-/* 397 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45802,7 +45827,7 @@ exports.default = signPaymentChannelClaim;
 
 
 /***/ }),
-/* 398 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45815,7 +45840,7 @@ function verifyPaymentChannelClaim(channel, amount, signature, publicKey) {
     common_1.validate.verifyPaymentChannelClaim({ channel, amount, signature, publicKey });
     const signingData = binary.encodeForSigningClaim({
         channel: channel,
-        amount: common_1.jbcToDrops(amount)
+        amount: (0, common_1.jbcToDrops)(amount)
     });
     return keypairs.verify(signingData, signature, publicKey);
 }
@@ -45823,22 +45848,23 @@ exports.default = verifyPaymentChannelClaim;
 
 
 /***/ }),
-/* 399 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = __webpack_require__(0);
-const ledger_1 = __webpack_require__(400);
+const ledger_1 = __webpack_require__(399);
 function getLedger(options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         // 1. Validate
@@ -45852,19 +45878,20 @@ function getLedger(options = {}) {
             accounts: options.includeState
         });
         // 3. Return Formatted Response
-        return ledger_1.parseLedger(response.ledger);
+        return (0, ledger_1.parseLedger)(response.ledger);
     });
 }
 exports.default = getLedger;
 
 
 /***/ }),
-/* 400 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseLedger = void 0;
 const _ = __webpack_require__(1);
 const common_1 = __webpack_require__(0);
 const transaction_1 = __webpack_require__(58);
@@ -45874,7 +45901,7 @@ function parseTransactionWrapper(ledgerVersion, tx) {
         meta: tx.metaData,
         ledger_index: ledgerVersion
     });
-    const result = transaction_1.default(transaction, true);
+    const result = (0, transaction_1.default)(transaction, true);
     if (!result.outcome.ledgerVersion) {
         result.outcome.ledgerVersion = ledgerVersion;
     }
@@ -45902,15 +45929,15 @@ function parseState(state) {
 }
 function parseLedger(ledger) {
     const ledgerVersion = parseInt(ledger.ledger_index || ledger.seqNum, 10);
-    return common_1.removeUndefined(Object.assign({
+    return (0, common_1.removeUndefined)(Object.assign({
         stateHash: ledger.account_hash,
-        closeTime: common_1.jbcoinTimeToISO8601(ledger.close_time),
+        closeTime: (0, common_1.jbcoinTimeToISO8601)(ledger.close_time),
         closeTimeResolution: ledger.close_time_resolution,
         closeFlags: ledger.close_flags,
         ledgerHash: ledger.hash || ledger.ledger_hash,
         ledgerVersion: ledgerVersion,
         parentLedgerHash: ledger.parent_hash,
-        parentCloseTime: common_1.jbcoinTimeToISO8601(ledger.parent_close_time),
+        parentCloseTime: (0, common_1.jbcoinTimeToISO8601)(ledger.parent_close_time),
         totalDrops: ledger.total_coins || ledger.totalCoins,
         transactionHash: ledger.transaction_hash
     }, parseTransactions(ledger.transactions, ledgerVersion), parseState(ledger.accountState)));
@@ -45919,20 +45946,22 @@ exports.parseLedger = parseLedger;
 
 
 /***/ }),
-/* 401 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JbcoinAPIBroadcast = void 0;
 const _ = __webpack_require__(1);
 const api_1 = __webpack_require__(72);
 class JbcoinAPIBroadcast extends api_1.JbcoinAPI {

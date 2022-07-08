@@ -20,7 +20,7 @@ function parsePayment(tx) {
     assert(tx.TransactionType === 'Payment');
     const source = {
         address: tx.Account,
-        maxAmount: removeGenericCounterparty(amount_1.default(tx.SendMax || tx.Amount), tx.Account),
+        maxAmount: removeGenericCounterparty((0, amount_1.default)(tx.SendMax || tx.Amount), tx.Account),
         tag: tx.SourceTag
     };
     const destination = {
@@ -28,9 +28,9 @@ function parsePayment(tx) {
         tag: tx.DestinationTag
         // Notice that `amount` is omitted to prevent misinterpretation
     };
-    return common_1.removeUndefined({
-        source: common_1.removeUndefined(source),
-        destination: common_1.removeUndefined(destination),
+    return (0, common_1.removeUndefined)({
+        source: (0, common_1.removeUndefined)(source),
+        destination: (0, common_1.removeUndefined)(destination),
         memos: utils.parseMemos(tx),
         invoiceID: tx.InvoiceID,
         paths: tx.Paths ? JSON.stringify(tx.Paths) : undefined,

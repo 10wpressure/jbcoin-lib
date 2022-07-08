@@ -12,10 +12,10 @@ function createPaymentChannelClaimTransaction(account, claim) {
         Flags: 0
     };
     if (claim.balance !== undefined) {
-        txJSON.Balance = common_1.jbcToDrops(claim.balance);
+        txJSON.Balance = (0, common_1.jbcToDrops)(claim.balance);
     }
     if (claim.amount !== undefined) {
-        txJSON.Amount = common_1.jbcToDrops(claim.amount);
+        txJSON.Amount = (0, common_1.jbcToDrops)(claim.amount);
     }
     if (Boolean(claim.signature) !== Boolean(claim.publicKey)) {
         throw new ValidationError('"signature" and "publicKey" fields on'

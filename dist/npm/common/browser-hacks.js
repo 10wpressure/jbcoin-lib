@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.setPrototypeOf = exports.getConstructorName = void 0;
 function setPrototypeOf(object, prototype) {
     // Object.setPrototypeOf not supported on Internet Explorer 9
     Object.setPrototypeOf ? Object.setPrototypeOf(object, prototype) :

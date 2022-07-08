@@ -289,7 +289,7 @@ class Connection extends EventEmitter {
 
   connect() {
     this._clearReconnectTimer()
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!this._url) {
         reject(new ConnectionError(
           'Cannot connect because no server was specified'))
@@ -331,7 +331,7 @@ class Connection extends EventEmitter {
       this._clearReconnectTimer()
       this._retry = 0
     }
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       if (this._state === WebSocket.CLOSED) {
         resolve()
       } else if (this._state === WebSocket.CLOSING) {

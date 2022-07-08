@@ -68,7 +68,7 @@ function createHTTPServer(options, httpPort) {
       if (httpServer === null) {
         return Promise.reject('Not started')
       }
-      return new Promise(resolve => {
+      return new Promise<void>(resolve => {
         jbcoinAPI.disconnect()
         httpServer.close(() => {
           httpServer = null

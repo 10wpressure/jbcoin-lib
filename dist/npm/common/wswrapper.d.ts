@@ -13,6 +13,6 @@ declare class WSWrapper extends EventEmitter {
     constructor(url: any, _protocols: any, _websocketOptions: any);
     close(): void;
     send(message: any): void;
-    readonly readyState: number;
+    get readyState(): number;
 }
 export = WSWrapper;

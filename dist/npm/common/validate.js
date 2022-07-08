@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.instructions = exports.apiOptions = exports.verifyPaymentChannelClaim = exports.signPaymentChannelClaim = exports.generateAddress = exports.computeLedgerHash = exports.submit = exports.combine = exports.sign = exports.prepareCheckCancel = exports.prepareCheckCash = exports.prepareCheckCreate = exports.preparePaymentChannelClaim = exports.preparePaymentChannelFund = exports.preparePaymentChannelCreate = exports.prepareEscrowExecution = exports.prepareEscrowCancellation = exports.prepareEscrowCreation = exports.prepareSettings = exports.prepareTrustline = exports.prepareOrderCancellation = exports.prepareOrder = exports.preparePayment = exports.getLedger = exports.getPaymentChannel = exports.getTransaction = exports.getOrderbook = exports.getOrders = exports.getBalanceSheet = exports.getBalances = exports.getTrustlines = exports.getAccountInfo = exports.getSettings = exports.getTransactions = exports.getPaths = void 0;
 const _ = require("lodash");
 const errors_1 = require("./errors");
 const schema_validator_1 = require("./schema-validator");
@@ -15,7 +16,7 @@ function validateLedgerRange(options) {
     }
 }
 function validateOptions(schema, instance) {
-    schema_validator_1.schemaValidate(schema, instance);
+    (0, schema_validator_1.schemaValidate)(schema, instance);
     validateLedgerRange(instance.options);
 }
 exports.getPaths = _.partial(schema_validator_1.schemaValidate, 'getPathsParameters');

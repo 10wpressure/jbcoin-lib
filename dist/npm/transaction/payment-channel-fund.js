@@ -7,10 +7,10 @@ function createPaymentChannelFundTransaction(account, fund) {
         Account: account,
         TransactionType: 'PaymentChannelFund',
         Channel: fund.channel,
-        Amount: common_1.jbcToDrops(fund.amount)
+        Amount: (0, common_1.jbcToDrops)(fund.amount)
     };
     if (fund.expiration !== undefined) {
-        txJSON.Expiration = common_1.iso8601ToJbcoinTime(fund.expiration);
+        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(fund.expiration);
     }
     return txJSON;
 }

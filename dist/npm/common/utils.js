@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isValidSecret = exports.iso8601ToJbcoinTime = exports.jbcoinTimeToISO8601 = exports.removeUndefined = exports.convertKeysFromSnakeCaseToCamelCase = exports.toJbcoindAmount = exports.jbcToDrops = exports.dropsToJbc = void 0;
 const _ = require("lodash");
 const bignumber_js_1 = require("bignumber.js");
 const ripple_keypairs_1 = require("ripple-keypairs");
 const errors_1 = require("./errors");
 function isValidSecret(secret) {
     try {
-        ripple_keypairs_1.deriveKeypair(secret);
+        (0, ripple_keypairs_1.deriveKeypair)(secret);
         return true;
     }
     catch (err) {

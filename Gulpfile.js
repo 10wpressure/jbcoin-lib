@@ -166,19 +166,19 @@ gulp.task('build-core', function(callback) {
   webpack(getWebpackConfig('-core.js', configOverrides), callback);
 });
 
-gulp.task('bower-build', ['build'], function() {
+gulp.task('bower-build', gulp.series('build'), function() {
   return gulp.src(['./build/jbcoin-', '.js'].join(pkg.version))
   .pipe(rename('jbcoin.js'))
   .pipe(gulp.dest('./dist/bower'));
 });
 
-gulp.task('bower-build-min', ['build-min'], function() {
+gulp.task('bower-build-min', gulp.series('build-min'), function() {
   return gulp.src(['./build/jbcoin-', '-min.js'].join(pkg.version))
   .pipe(rename('jbcoin-min.js'))
   .pipe(gulp.dest('./dist/bower'));
 });
 
-gulp.task('bower-build-debug', ['build-debug'], function() {
+gulp.task('bower-build-debug', gulp.series('build-debug'), function() {
   return gulp.src(['./build/jbcoin-', '-debug.js'].join(pkg.version))
   .pipe(rename('jbcoin-debug.js'))
   .pipe(gulp.dest('./dist/bower'));
@@ -190,8 +190,8 @@ gulp.task('bower-version', function() {
   .pipe(gulp.dest('./dist/bower'));
 });
 
-gulp.task('bower', ['bower-build', 'bower-build-min', 'bower-build-debug',
-                    'bower-version']);
+gulp.task('bower', gulp.series('bower-build', 'bower-build-min', 'bower-build-debug',
+                    'bower-version'));
 
 gulp.task('watch', function() {
   gulp.watch('src/*', ['build-debug']);
@@ -213,4 +213,4 @@ gulp.task('version-beta', function() {
   .pipe(gulp.dest('./'));
 });
 
-gulp.task('default', ['build', 'build-debug', 'build-min']);
+gulp.task('default', gulp.series('build', 'build-debug', 'build-min'));

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatLedgerClose = exports.getLedgerVersion = exports.isConnected = exports.disconnect = exports.connect = void 0;
 const common = require("../common");
 function isConnected() {
     return this.connection.isConnected();

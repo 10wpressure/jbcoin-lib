@@ -29,7 +29,7 @@ function createOrderTransaction(account, order) {
         txJSON.Flags |= offerFlags.FillOrKill;
     }
     if (order.expirationTime !== undefined) {
-        txJSON.Expiration = common_1.iso8601ToJbcoinTime(order.expirationTime);
+        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(order.expirationTime);
     }
     if (order.orderToReplace !== undefined) {
         txJSON.OfferSequence = order.orderToReplace;

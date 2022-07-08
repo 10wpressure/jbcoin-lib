@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LedgerVersionError = exports.MissingLedgerHistoryError = exports.PendingLedgerVersionError = exports.NotFoundError = exports.ValidationError = exports.ResponseFormatError = exports.TimeoutError = exports.JbcoindNotInitializedError = exports.DisconnectedError = exports.NotConnectedError = exports.JbcoindError = exports.ConnectionError = exports.UnexpectedError = exports.JbcoinError = void 0;
 const util_1 = require("util");
 const browserHacks = require("./browser-hacks");
 class JbcoinError extends Error {
@@ -15,7 +16,7 @@ class JbcoinError extends Error {
     toString() {
         let result = '[' + this.name + '(' + this.message;
         if (this.data) {
-            result += ', ' + util_1.inspect(this.data);
+            result += ', ' + (0, util_1.inspect)(this.data);
         }
         result += ')]';
         return result;

@@ -48,7 +48,7 @@ function parseSettings(tx) {
     const txType = tx.TransactionType;
     assert(txType === 'AccountSet' || txType === 'SetRegularKey' ||
         txType === 'SignerListSet');
-    return _.assign({}, parseFlags(tx), fields_1.default(tx));
+    return _.assign({}, parseFlags(tx), (0, fields_1.default)(tx));
 }
 exports.default = parseSettings;
 //# sourceMappingURL=settings.js.map

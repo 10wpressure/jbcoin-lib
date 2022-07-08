@@ -74,14 +74,14 @@ function parseTransaction(tx, includeRawTransaction) {
     if (!parser) {
         includeRawTransaction = true;
     }
-    const outcome = utils_1.parseOutcome(tx);
-    return common_1.removeUndefined({
+    const outcome = (0, utils_1.parseOutcome)(tx);
+    return (0, common_1.removeUndefined)({
         type: type,
         address: tx.Account,
         sequence: tx.Sequence,
         id: tx.hash,
-        specification: common_1.removeUndefined(specification),
-        outcome: outcome ? common_1.removeUndefined(outcome) : undefined,
+        specification: (0, common_1.removeUndefined)(specification),
+        outcome: outcome ? (0, common_1.removeUndefined)(outcome) : undefined,
         rawTransaction: includeRawTransaction ? JSON.stringify(tx) : undefined
     });
 }

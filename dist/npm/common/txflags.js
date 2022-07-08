@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.txFlagIndices = exports.txFlags = void 0;
 const txFlags = {
     // Universal flags can apply to any transaction type
     Universal: {

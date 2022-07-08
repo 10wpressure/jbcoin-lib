@@ -18,10 +18,10 @@ function parseAlternative(sourceAddress, destinationAddress, destinationAmount, 
     // we use "maxAmount"/"minAmount" here so that the result can be passed
     // directly to preparePayment
     const amounts = (alternative.destination_amount !== undefined) ?
-        { source: { amount: amount_1.default(alternative.source_amount) },
-            destination: { minAmount: amount_1.default(alternative.destination_amount) } } :
-        { source: { maxAmount: amount_1.default(alternative.source_amount) },
-            destination: { amount: amount_1.default(destinationAmount) } };
+        { source: { amount: (0, amount_1.default)(alternative.source_amount) },
+            destination: { minAmount: (0, amount_1.default)(alternative.destination_amount) } } :
+        { source: { maxAmount: (0, amount_1.default)(alternative.source_amount) },
+            destination: { amount: (0, amount_1.default)(destinationAmount) } };
     return {
         source: createAdjustment(sourceAddress, amounts.source),
         destination: createAdjustment(destinationAddress, amounts.destination),

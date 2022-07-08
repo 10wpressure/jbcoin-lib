@@ -202,8 +202,8 @@ class Connection extends events_1.EventEmitter {
     _createWebSocket() {
         const options = {};
         if (this._proxyURL !== undefined) {
-            const parsedURL = url_1.parse(this._url);
-            const parsedProxyURL = url_1.parse(this._proxyURL);
+            const parsedURL = (0, url_1.parse)(this._url);
+            const parsedProxyURL = (0, url_1.parse)(this._proxyURL);
             const proxyOverrides = _.omitBy({
                 secureEndpoint: (parsedURL.protocol === 'wss:'),
                 secureProxy: (parsedProxyURL.protocol === 'https:'),
