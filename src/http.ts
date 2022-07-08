@@ -22,6 +22,7 @@ function createHTTPServer(options, httpPort) {
     try {
       let args = args_
       if (!_.isArray(args_)) {
+        // @ts-ignore
         const fnParameters = jayson.Utils.getParameterNames(jbcoinAPI[fnName])
         args = fnParameters.map(name => args_[name])
         const defaultArgs = _.omit(args_, fnParameters)
@@ -43,11 +44,13 @@ function createHTTPServer(options, httpPort) {
 
   const methods = {}
   _.forEach(methodNames, fn => {
+    // @ts-ignore
     methods[fn] = jayson.Method((args, cb) => {
       applyPromiseWithCallback(fn, cb, args)
     }, {collect: true})
   })
 
+  // @ts-ignore
   const server = jayson.server(methods)
   let httpServer = null
 
