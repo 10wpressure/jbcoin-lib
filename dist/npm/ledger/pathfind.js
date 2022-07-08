@@ -17,13 +17,13 @@ function requestPathFind(connection, pathfind) {
     const destinationAmount = _.assign({
         // This is converted back to drops by toJbcoindAmount()
         value: pathfind.destination.amount.currency === 'JBC' ?
-            (0, common_1.dropsToJbc)('-1') : '-1'
+            common_1.dropsToJbc('-1') : '-1'
     }, pathfind.destination.amount);
     const request = {
         command: 'jbcoin_path_find',
         source_account: pathfind.source.address,
         destination_account: pathfind.destination.address,
-        destination_amount: (0, common_1.toJbcoindAmount)(destinationAmount)
+        destination_amount: common_1.toJbcoindAmount(destinationAmount)
     };
     if (typeof request.destination_amount === 'object'
         && !request.destination_amount.issuer) {
@@ -35,14 +35,14 @@ function requestPathFind(connection, pathfind) {
         request.destination_amount.issuer = request.destination_account;
     }
     if (pathfind.source.currencies && pathfind.source.currencies.length > 0) {
-        request.source_currencies = pathfind.source.currencies.map(amount => (0, utils_1.renameCounterpartyToIssuer)(amount));
+        request.source_currencies = pathfind.source.currencies.map(amount => utils_1.renameCounterpartyToIssuer(amount));
     }
     if (pathfind.source.amount) {
         if (pathfind.destination.amount.value !== undefined) {
             throw new ValidationError('Cannot specify both source.amount'
                 + ' and destination.amount.value in getPaths');
         }
-        request.send_max = (0, common_1.toJbcoindAmount)(pathfind.source.amount);
+        request.send_max = common_1.toJbcoindAmount(pathfind.source.amount);
         if (typeof request.send_max !== 'string' && !request.send_max.issuer) {
             request.send_max.issuer = pathfind.source.address;
         }
@@ -71,7 +71,7 @@ function conditionallyAddDirectJBCPath(connection, address, paths) {
         || !_.includes(paths.destination_currencies, 'JBC')) {
         return Promise.resolve(paths);
     }
-    return (0, utils_1.getJBCBalance)(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
+    return utils_1.getJBCBalance(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
 }
 function filterSourceFundsLowPaths(pathfind, paths) {
     if (pathfind.source.amount &&
@@ -81,7 +81,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
                 return false;
             }
             const pathfindSourceAmountValue = new bignumber_js_1.default(pathfind.source.amount.currency === 'JBC' ?
-                (0, common_1.jbcToDrops)(pathfind.source.amount.value) :
+                common_1.jbcToDrops(pathfind.source.amount.value) :
                 pathfind.source.amount.value);
             const altSourceAmountValue = new bignumber_js_1.default(typeof alt.source_amount === 'string' ?
                 alt.source_amount :
@@ -93,7 +93,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
 }
 function formatResponse(pathfind, paths) {
     if (paths.alternatives && paths.alternatives.length > 0) {
-        return (0, pathfind_1.default)(paths);
+        return pathfind_1.default(paths);
     }
     if (paths.destination_currencies !== undefined &&
         !_.includes(paths.destination_currencies, pathfind.destination.amount.currency)) {

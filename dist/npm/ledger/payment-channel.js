@@ -17,7 +17,7 @@ function formatResponse(response) {
         response.node.LedgerEntryType !== 'PayChannel') {
         throw new NotFoundError('Payment channel ledger entry not found');
     }
-    return (0, payment_channel_1.parsePaymentChannel)(response.node);
+    return payment_channel_1.parsePaymentChannel(response.node);
 }
 function getPaymentChannel(id) {
     return __awaiter(this, void 0, void 0, function* () {

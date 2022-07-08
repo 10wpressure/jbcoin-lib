@@ -8,11 +8,11 @@ const flags = common_1.txFlags.OfferCreate;
 function parseOrder(tx) {
     assert(tx.TransactionType === 'OfferCreate');
     const direction = (tx.Flags & flags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = (0, amount_1.default)(tx.TakerGets);
-    const takerPaysAmount = (0, amount_1.default)(tx.TakerPays);
+    const takerGetsAmount = amount_1.default(tx.TakerGets);
+    const takerPaysAmount = amount_1.default(tx.TakerPays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
@@ -20,7 +20,7 @@ function parseOrder(tx) {
         immediateOrCancel: ((tx.Flags & flags.ImmediateOrCancel) !== 0)
             || undefined,
         fillOrKill: ((tx.Flags & flags.FillOrKill) !== 0) || undefined,
-        expirationTime: (0, utils_1.parseTimestamp)(tx.Expiration)
+        expirationTime: utils_1.parseTimestamp(tx.Expiration)
     });
 }
 exports.default = parseOrder;

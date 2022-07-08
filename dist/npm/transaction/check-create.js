@@ -14,7 +14,7 @@ function createCheckCreateTransaction(account, check) {
         txJSON.DestinationTag = check.destinationTag;
     }
     if (check.expiration !== undefined) {
-        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(check.expiration);
+        txJSON.Expiration = common_1.iso8601ToJbcoinTime(check.expiration);
     }
     if (check.invoiceID !== undefined) {
         txJSON.InvoiceID = check.invoiceID;

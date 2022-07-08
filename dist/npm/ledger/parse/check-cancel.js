@@ -4,7 +4,7 @@ const assert = require("assert");
 const common_1 = require("../../common");
 function parseCheckCancel(tx) {
     assert(tx.TransactionType === 'CheckCancel');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         checkID: tx.CheckID
     });
 }

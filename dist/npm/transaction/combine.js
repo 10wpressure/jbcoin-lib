@@ -8,7 +8,7 @@ const ripple_address_codec_1 = require("ripple-address-codec");
 const common_1 = require("../common");
 const ripple_hashes_1 = require("ripple-hashes");
 function addressToBigNumber(address) {
-    const hex = (new Buffer((0, ripple_address_codec_1.decodeAddress)(address))).toString('hex');
+    const hex = (new Buffer(ripple_address_codec_1.decodeAddress(address))).toString('hex');
     return new bignumber_js_1.default(hex, 16);
 }
 function compareSigners(a, b) {
@@ -28,7 +28,7 @@ function combine(signedTransactions) {
     const signers = unsortedSigners.sort(compareSigners);
     const signedTx = _.assign({}, tx, { Signers: signers });
     const signedTransaction = binary.encode(signedTx);
-    const id = (0, ripple_hashes_1.computeBinaryTransactionHash)(signedTransaction);
+    const id = ripple_hashes_1.computeBinaryTransactionHash(signedTransaction);
     return { signedTransaction, id };
 }
 exports.default = combine;

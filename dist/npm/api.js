@@ -130,7 +130,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         if (serverURL !== undefined) {
             this.connection = new common_1.Connection(serverURL, options);
             this.connection.on('ledgerClosed', message => {
-                this.emit('ledger', (0, server_1.formatLedgerClose)(message));
+                this.emit('ledger', server_1.formatLedgerClose(message));
             });
             this.connection.on('error', (errorCode, errorMessage, data) => {
                 this.emit('error', errorCode, errorMessage, data);
@@ -211,7 +211,7 @@ class JbcoinAPI extends events_1.EventEmitter {
             let lastBatchLength;
             const results = [];
             do {
-                const countRemaining = (0, utils_1.clamp)(countTo - count, 10, 400);
+                const countRemaining = utils_1.clamp(countTo - count, 10, 400);
                 const repeatProps = Object.assign(Object.assign({}, params), { limit: countRemaining, marker });
                 const singleResult = yield this.request(command, repeatProps);
                 const collectedData = singleResult[collectKey];

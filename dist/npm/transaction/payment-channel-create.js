@@ -6,13 +6,13 @@ function createPaymentChannelCreateTransaction(account, paymentChannel) {
     const txJSON = {
         Account: account,
         TransactionType: 'PaymentChannelCreate',
-        Amount: (0, common_1.jbcToDrops)(paymentChannel.amount),
+        Amount: common_1.jbcToDrops(paymentChannel.amount),
         Destination: paymentChannel.destination,
         SettleDelay: paymentChannel.settleDelay,
         PublicKey: paymentChannel.publicKey.toUpperCase()
     };
     if (paymentChannel.cancelAfter !== undefined) {
-        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(paymentChannel.cancelAfter);
+        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(paymentChannel.cancelAfter);
     }
     if (paymentChannel.sourceTag !== undefined) {
         txJSON.SourceTag = paymentChannel.sourceTag;

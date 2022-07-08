@@ -134,13 +134,13 @@ function loadSchemas() {
         if (instance === undefined) {
             return true;
         }
-        return (0, ripple_address_codec_1.isValidAddress)(instance);
+        return ripple_address_codec_1.isValidAddress(instance);
     };
     validator.customFormats.secret = function (instance) {
         if (instance === undefined) {
             return true;
         }
-        return (0, utils_1.isValidSecret)(instance);
+        return utils_1.isValidSecret(instance);
     };
     // Register under the root URI '/'
     _.forEach(schemas, schema => validator.addSchema(schema, '/' + schema.title));

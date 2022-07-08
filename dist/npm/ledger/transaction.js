@@ -67,7 +67,7 @@ function formatResponse(options, tx) {
     if (tx.validated !== true || !isTransactionInRange(tx, options)) {
         throw new common_1.errors.NotFoundError('Transaction not found');
     }
-    return (0, transaction_1.default)(tx, options.includeRawTransaction);
+    return transaction_1.default(tx, options.includeRawTransaction);
 }
 function getTransaction(id, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {

@@ -16,7 +16,7 @@ class JbcoinError extends Error {
     toString() {
         let result = '[' + this.name + '(' + this.message;
         if (this.data) {
-            result += ', ' + (0, util_1.inspect)(this.data);
+            result += ', ' + util_1.inspect(this.data);
         }
         result += ')]';
         return result;

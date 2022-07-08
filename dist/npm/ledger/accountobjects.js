@@ -15,7 +15,7 @@ function getAccountObjects(address, options = {}) {
         // Don't validate the options so that new types can be passed
         // through to jbcoind. jbcoind validates requests.
         // Make Request
-        const response = yield this.request('account_objects', (0, common_1.removeUndefined)({
+        const response = yield this.request('account_objects', common_1.removeUndefined({
             account: address,
             type: options.type,
             ledger_hash: options.ledgerHash,

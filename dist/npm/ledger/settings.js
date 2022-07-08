@@ -32,7 +32,7 @@ exports.parseAccountFlags = parseAccountFlags;
 function formatSettings(response) {
     const data = response.account_data;
     const parsedFlags = parseAccountFlags(data.Flags, { excludeFalse: true });
-    const parsedFields = (0, fields_1.default)(data);
+    const parsedFields = fields_1.default(data);
     return _.assign({}, parsedFlags, parsedFields);
 }
 function getSettings(address, options = {}) {

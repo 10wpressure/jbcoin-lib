@@ -6,12 +6,12 @@ const common_1 = require("../../common");
 const amount_1 = require("./amount");
 function parsePaymentChannelCreate(tx) {
     assert(tx.TransactionType === 'PaymentChannelCreate');
-    return (0, common_1.removeUndefined)({
-        amount: (0, amount_1.default)(tx.Amount).value,
+    return common_1.removeUndefined({
+        amount: amount_1.default(tx.Amount).value,
         destination: tx.Destination,
         settleDelay: tx.SettleDelay,
         publicKey: tx.PublicKey,
-        cancelAfter: tx.CancelAfter && (0, utils_1.parseTimestamp)(tx.CancelAfter),
+        cancelAfter: tx.CancelAfter && utils_1.parseTimestamp(tx.CancelAfter),
         sourceTag: tx.SourceTag,
         destinationTag: tx.DestinationTag
     });

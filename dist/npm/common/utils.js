@@ -7,7 +7,7 @@ const ripple_keypairs_1 = require("ripple-keypairs");
 const errors_1 = require("./errors");
 function isValidSecret(secret) {
     try {
-        (0, ripple_keypairs_1.deriveKeypair)(secret);
+        ripple_keypairs_1.deriveKeypair(secret);
         return true;
     }
     catch (err) {

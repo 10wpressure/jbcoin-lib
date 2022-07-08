@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("../common");
 function formatAccountInfo(response) {
     const data = response.account_data;
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         sequence: data.Sequence,
-        jbcBalance: (0, common_1.dropsToJbc)(data.Balance),
+        jbcBalance: common_1.dropsToJbc(data.Balance),
         ownerCount: data.OwnerCount,
         previousInitiatedTransactionID: data.AccountTxnID,
         previousAffectingTransactionID: data.PreviousTxnID,

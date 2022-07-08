@@ -5,10 +5,10 @@ const common_1 = require("../../common");
 const amount_1 = require("./amount");
 function parseCheckCash(tx) {
     assert(tx.TransactionType === 'CheckCash');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         checkID: tx.CheckID,
-        amount: tx.Amount && (0, amount_1.default)(tx.Amount),
-        deliverMin: tx.DeliverMin && (0, amount_1.default)(tx.DeliverMin)
+        amount: tx.Amount && amount_1.default(tx.Amount),
+        deliverMin: tx.DeliverMin && amount_1.default(tx.DeliverMin)
     });
 }
 exports.default = parseCheckCash;

@@ -21,7 +21,7 @@ function renameKeys(object, mapping) {
 }
 function getServerInfo() {
     return this.request('server_info').then(response => {
-        const info = (0, utils_1.convertKeysFromSnakeCaseToCamelCase)(response.info);
+        const info = utils_1.convertKeysFromSnakeCaseToCamelCase(response.info);
         renameKeys(info, { hostid: 'hostID' });
         if (info.validatedLedger) {
             renameKeys(info.validatedLedger, {

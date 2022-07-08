@@ -20,7 +20,7 @@ function parseBinaryTransaction(transaction) {
 function parseAccountTxTransaction(tx, includeRawTransaction) {
     const _tx = tx.tx_blob ? parseBinaryTransaction(tx) : tx;
     // jbcoind uses a different response format for 'account_tx' than 'tx'
-    return (0, transaction_1.default)(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
+    return transaction_1.default(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
 }
 function counterpartyFilter(filters, tx) {
     if (tx.address === filters.counterparty) {

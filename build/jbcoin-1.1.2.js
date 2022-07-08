@@ -71,7 +71,7 @@ var jbcoin =
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.txFlags = exports.Connection = exports.jbcoinTimeToISO8601 = exports.iso8601ToJbcoinTime = exports.convertKeysFromSnakeCaseToCamelCase = exports.removeUndefined = exports.toJbcoindAmount = exports.jbcToDrops = exports.dropsToJbc = exports.serverInfo = exports.validate = exports.errors = exports.constants = void 0;
+exports.serverInfo = exports.validate = exports.errors = exports.constants = void 0;
 const constants = __webpack_require__(108);
 exports.constants = constants;
 const errors = __webpack_require__(29);
@@ -5566,15 +5566,15 @@ function parseDeliveredAmount(tx) {
     }
     // parsable delivered_amount
     if (tx.meta.delivered_amount) {
-        return (0, amount_1.default)(tx.meta.delivered_amount);
+        return amount_1.default(tx.meta.delivered_amount);
     }
     // DeliveredAmount only present on partial payments
     if (tx.meta.DeliveredAmount) {
-        return (0, amount_1.default)(tx.meta.DeliveredAmount);
+        return amount_1.default(tx.meta.DeliveredAmount);
     }
     // no partial payment flag, use tx.Amount
     if (tx.Amount && !isPartialPayment(tx)) {
-        return (0, amount_1.default)(tx.Amount);
+        return amount_1.default(tx.Amount);
     }
     // DeliveredAmount field was introduced at
     // ledger 4594095 - after that point its absence
@@ -5583,7 +5583,7 @@ function parseDeliveredAmount(tx) {
     // transferred with a partial payment before
     // that date must be derived from metadata.
     if (tx.Amount && tx.ledger_index > 4594094) {
-        return (0, amount_1.default)(tx.Amount);
+        return amount_1.default(tx.Amount);
     }
     return undefined;
 }
@@ -13872,7 +13872,7 @@ class JbcoinError extends Error {
     toString() {
         let result = '[' + this.name + '(' + this.message;
         if (this.data) {
-            result += ', ' + (0, util_1.inspect)(this.data);
+            result += ', ' + util_1.inspect(this.data);
         }
         result += ')]';
         return result;
@@ -21405,7 +21405,7 @@ const ripple_keypairs_1 = __webpack_require__(31);
 const errors_1 = __webpack_require__(29);
 function isValidSecret(secret) {
     try {
-        (0, ripple_keypairs_1.deriveKeypair)(secret);
+        ripple_keypairs_1.deriveKeypair(secret);
         return true;
     }
     catch (err) {
@@ -22679,14 +22679,14 @@ function parseTransaction(tx, includeRawTransaction) {
     if (!parser) {
         includeRawTransaction = true;
     }
-    const outcome = (0, utils_1.parseOutcome)(tx);
-    return (0, common_1.removeUndefined)({
+    const outcome = utils_1.parseOutcome(tx);
+    return common_1.removeUndefined({
         type: type,
         address: tx.Account,
         sequence: tx.Sequence,
         id: tx.hash,
-        specification: (0, common_1.removeUndefined)(specification),
-        outcome: outcome ? (0, common_1.removeUndefined)(outcome) : undefined,
+        specification: common_1.removeUndefined(specification),
+        outcome: outcome ? common_1.removeUndefined(outcome) : undefined,
         rawTransaction: includeRawTransaction ? JSON.stringify(tx) : undefined
     });
 }
@@ -23684,7 +23684,7 @@ class JbcoinAPI extends events_1.EventEmitter {
         if (serverURL !== undefined) {
             this.connection = new common_1.Connection(serverURL, options);
             this.connection.on('ledgerClosed', message => {
-                this.emit('ledger', (0, server_1.formatLedgerClose)(message));
+                this.emit('ledger', server_1.formatLedgerClose(message));
             });
             this.connection.on('error', (errorCode, errorMessage, data) => {
                 this.emit('error', errorCode, errorMessage, data);
@@ -23765,7 +23765,7 @@ class JbcoinAPI extends events_1.EventEmitter {
             let lastBatchLength;
             const results = [];
             do {
-                const countRemaining = (0, utils_1.clamp)(countTo - count, 10, 400);
+                const countRemaining = utils_1.clamp(countTo - count, 10, 400);
                 const repeatProps = Object.assign(Object.assign({}, params), { limit: countRemaining, marker });
                 const singleResult = yield this.request(command, repeatProps);
                 const collectedData = singleResult[collectKey];
@@ -24003,13 +24003,13 @@ function loadSchemas() {
         if (instance === undefined) {
             return true;
         }
-        return (0, ripple_address_codec_1.isValidAddress)(instance);
+        return ripple_address_codec_1.isValidAddress(instance);
     };
     validator.customFormats.secret = function (instance) {
         if (instance === undefined) {
             return true;
         }
-        return (0, utils_1.isValidSecret)(instance);
+        return utils_1.isValidSecret(instance);
     };
     // Register under the root URI '/'
     _.forEach(schemas, schema => validator.addSchema(schema, '/' + schema.title));
@@ -24706,7 +24706,7 @@ function renameKeys(object, mapping) {
 }
 function getServerInfo() {
     return this.request('server_info').then(response => {
-        const info = (0, utils_1.convertKeysFromSnakeCaseToCamelCase)(response.info);
+        const info = utils_1.convertKeysFromSnakeCaseToCamelCase(response.info);
         renameKeys(info, { hostid: 'hostID' });
         if (info.validatedLedger) {
             renameKeys(info.validatedLedger, {
@@ -26523,7 +26523,7 @@ function formatResponse(options, tx) {
     if (tx.validated !== true || !isTransactionInRange(tx, options)) {
         throw new common_1.errors.NotFoundError('Transaction not found');
     }
-    return (0, transaction_1.default)(tx, options.includeRawTransaction);
+    return transaction_1.default(tx, options.includeRawTransaction);
 }
 function getTransaction(id, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -28208,7 +28208,6 @@ exports.trustlineFlags = trustlineFlags;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JbcoinAPIBroadcast = exports.JbcoinAPI = void 0;
 var api_1 = __webpack_require__(72);
 Object.defineProperty(exports, "JbcoinAPI", { enumerable: true, get: function () { return api_1.JbcoinAPI; } });
 // Broadcast api is experimental
@@ -28384,7 +28383,7 @@ function validateLedgerRange(options) {
     }
 }
 function validateOptions(schema, instance) {
-    (0, schema_validator_1.schemaValidate)(schema, instance);
+    schema_validator_1.schemaValidate(schema, instance);
     validateLedgerRange(instance.options);
 }
 exports.getPaths = _.partial(schema_validator_1.schemaValidate, 'getPathsParameters');
@@ -36194,8 +36193,8 @@ class Connection extends events_1.EventEmitter {
     _createWebSocket() {
         const options = {};
         if (this._proxyURL !== undefined) {
-            const parsedURL = (0, url_1.parse)(this._url);
-            const parsedProxyURL = (0, url_1.parse)(this._proxyURL);
+            const parsedURL = url_1.parse(this._url);
+            const parsedProxyURL = url_1.parse(this._proxyURL);
             const proxyOverrides = _.omitBy({
                 secureEndpoint: (parsedURL.protocol === 'wss:'),
                 secureProxy: (parsedProxyURL.protocol === 'https:'),
@@ -40562,7 +40561,7 @@ function parsePayment(tx) {
     assert(tx.TransactionType === 'Payment');
     const source = {
         address: tx.Account,
-        maxAmount: removeGenericCounterparty((0, amount_1.default)(tx.SendMax || tx.Amount), tx.Account),
+        maxAmount: removeGenericCounterparty(amount_1.default(tx.SendMax || tx.Amount), tx.Account),
         tag: tx.SourceTag
     };
     const destination = {
@@ -40570,9 +40569,9 @@ function parsePayment(tx) {
         tag: tx.DestinationTag
         // Notice that `amount` is omitted to prevent misinterpretation
     };
-    return (0, common_1.removeUndefined)({
-        source: (0, common_1.removeUndefined)(source),
-        destination: (0, common_1.removeUndefined)(destination),
+    return common_1.removeUndefined({
+        source: common_1.removeUndefined(source),
+        destination: common_1.removeUndefined(destination),
         memos: utils.parseMemos(tx),
         invoiceID: tx.InvoiceID,
         paths: tx.Paths ? JSON.stringify(tx.Paths) : undefined,
@@ -40606,13 +40605,13 @@ function parseFlag(flagsValue, trueValue, falseValue) {
 }
 function parseTrustline(tx) {
     assert(tx.TransactionType === 'TrustSet');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         limit: tx.LimitAmount.value,
         currency: tx.LimitAmount.currency,
         counterparty: tx.LimitAmount.issuer,
-        memos: (0, utils_1.parseMemos)(tx),
-        qualityIn: (0, utils_1.parseQuality)(tx.QualityIn),
-        qualityOut: (0, utils_1.parseQuality)(tx.QualityOut),
+        memos: utils_1.parseMemos(tx),
+        qualityIn: utils_1.parseQuality(tx.QualityIn),
+        qualityOut: utils_1.parseQuality(tx.QualityOut),
         ripplingDisabled: parseFlag(tx.Flags, flags.SetNoJbcoin, flags.ClearNoJbcoin),
         frozen: parseFlag(tx.Flags, flags.SetFreeze, flags.ClearFreeze),
         authorized: parseFlag(tx.Flags, flags.SetAuth, 0)
@@ -40636,11 +40635,11 @@ const flags = common_1.txFlags.OfferCreate;
 function parseOrder(tx) {
     assert(tx.TransactionType === 'OfferCreate');
     const direction = (tx.Flags & flags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = (0, amount_1.default)(tx.TakerGets);
-    const takerPaysAmount = (0, amount_1.default)(tx.TakerPays);
+    const takerGetsAmount = amount_1.default(tx.TakerGets);
+    const takerPaysAmount = amount_1.default(tx.TakerPays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
@@ -40648,7 +40647,7 @@ function parseOrder(tx) {
         immediateOrCancel: ((tx.Flags & flags.ImmediateOrCancel) !== 0)
             || undefined,
         fillOrKill: ((tx.Flags & flags.FillOrKill) !== 0) || undefined,
-        expirationTime: (0, utils_1.parseTimestamp)(tx.Expiration)
+        expirationTime: utils_1.parseTimestamp(tx.Expiration)
     });
 }
 exports.default = parseOrder;
@@ -40726,7 +40725,7 @@ function parseSettings(tx) {
     const txType = tx.TransactionType;
     assert(txType === 'AccountSet' || txType === 'SetRegularKey' ||
         txType === 'SignerListSet');
-    return _.assign({}, parseFlags(tx), (0, fields_1.default)(tx));
+    return _.assign({}, parseFlags(tx), fields_1.default(tx));
 }
 exports.default = parseSettings;
 
@@ -40744,13 +40743,13 @@ const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parseEscrowCreation(tx) {
     assert(tx.TransactionType === 'EscrowCreate');
-    return (0, common_1.removeUndefined)({
-        amount: (0, amount_1.default)(tx.Amount).value,
+    return common_1.removeUndefined({
+        amount: amount_1.default(tx.Amount).value,
         destination: tx.Destination,
-        memos: (0, utils_1.parseMemos)(tx),
+        memos: utils_1.parseMemos(tx),
         condition: tx.Condition,
-        allowCancelAfter: (0, utils_1.parseTimestamp)(tx.CancelAfter),
-        allowExecuteAfter: (0, utils_1.parseTimestamp)(tx.FinishAfter),
+        allowCancelAfter: utils_1.parseTimestamp(tx.CancelAfter),
+        allowExecuteAfter: utils_1.parseTimestamp(tx.FinishAfter),
         sourceTag: tx.SourceTag,
         destinationTag: tx.DestinationTag
     });
@@ -40770,8 +40769,8 @@ const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parseEscrowExecution(tx) {
     assert(tx.TransactionType === 'EscrowFinish');
-    return (0, common_1.removeUndefined)({
-        memos: (0, utils_1.parseMemos)(tx),
+    return common_1.removeUndefined({
+        memos: utils_1.parseMemos(tx),
         owner: tx.Owner,
         escrowSequence: tx.OfferSequence,
         condition: tx.Condition,
@@ -40793,8 +40792,8 @@ const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parseEscrowCancellation(tx) {
     assert(tx.TransactionType === 'EscrowCancel');
-    return (0, common_1.removeUndefined)({
-        memos: (0, utils_1.parseMemos)(tx),
+    return common_1.removeUndefined({
+        memos: utils_1.parseMemos(tx),
         owner: tx.Owner,
         escrowSequence: tx.OfferSequence
     });
@@ -40815,11 +40814,11 @@ const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
 function parseCheckCreate(tx) {
     assert(tx.TransactionType === 'CheckCreate');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         destination: tx.Destination,
-        sendMax: (0, amount_1.default)(tx.SendMax),
+        sendMax: amount_1.default(tx.SendMax),
         destinationTag: tx.DestinationTag,
-        expiration: tx.Expiration && (0, utils_1.parseTimestamp)(tx.Expiration),
+        expiration: tx.Expiration && utils_1.parseTimestamp(tx.Expiration),
         invoiceID: tx.InvoiceID
     });
 }
@@ -40838,10 +40837,10 @@ const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
 function parseCheckCash(tx) {
     assert(tx.TransactionType === 'CheckCash');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         checkID: tx.CheckID,
-        amount: tx.Amount && (0, amount_1.default)(tx.Amount),
-        deliverMin: tx.DeliverMin && (0, amount_1.default)(tx.DeliverMin)
+        amount: tx.Amount && amount_1.default(tx.Amount),
+        deliverMin: tx.DeliverMin && amount_1.default(tx.DeliverMin)
     });
 }
 exports.default = parseCheckCash;
@@ -40858,7 +40857,7 @@ const assert = __webpack_require__(2);
 const common_1 = __webpack_require__(0);
 function parseCheckCancel(tx) {
     assert(tx.TransactionType === 'CheckCancel');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         checkID: tx.CheckID
     });
 }
@@ -40876,7 +40875,7 @@ const assert = __webpack_require__(2);
 const common_1 = __webpack_require__(0);
 function parseDepositPreauth(tx) {
     assert(tx.TransactionType === 'DepositPreauth');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         authorize: tx.Authorize,
         unauthorize: tx.Unauthorize
     });
@@ -40897,12 +40896,12 @@ const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
 function parsePaymentChannelCreate(tx) {
     assert(tx.TransactionType === 'PaymentChannelCreate');
-    return (0, common_1.removeUndefined)({
-        amount: (0, amount_1.default)(tx.Amount).value,
+    return common_1.removeUndefined({
+        amount: amount_1.default(tx.Amount).value,
         destination: tx.Destination,
         settleDelay: tx.SettleDelay,
         publicKey: tx.PublicKey,
-        cancelAfter: tx.CancelAfter && (0, utils_1.parseTimestamp)(tx.CancelAfter),
+        cancelAfter: tx.CancelAfter && utils_1.parseTimestamp(tx.CancelAfter),
         sourceTag: tx.SourceTag,
         destinationTag: tx.DestinationTag
     });
@@ -40923,10 +40922,10 @@ const common_1 = __webpack_require__(0);
 const amount_1 = __webpack_require__(14);
 function parsePaymentChannelFund(tx) {
     assert(tx.TransactionType === 'PaymentChannelFund');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         channel: tx.Channel,
-        amount: (0, amount_1.default)(tx.Amount).value,
-        expiration: tx.Expiration && (0, utils_1.parseTimestamp)(tx.Expiration)
+        amount: amount_1.default(tx.Amount).value,
+        expiration: tx.Expiration && utils_1.parseTimestamp(tx.Expiration)
     });
 }
 exports.default = parsePaymentChannelFund;
@@ -40945,10 +40944,10 @@ const amount_1 = __webpack_require__(14);
 const claimFlags = common_1.txFlags.PaymentChannelClaim;
 function parsePaymentChannelClaim(tx) {
     assert(tx.TransactionType === 'PaymentChannelClaim');
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         channel: tx.Channel,
-        balance: tx.Balance && (0, amount_1.default)(tx.Balance).value,
-        amount: tx.Amount && (0, amount_1.default)(tx.Amount).value,
+        balance: tx.Balance && amount_1.default(tx.Balance).value,
+        amount: tx.Amount && amount_1.default(tx.Amount).value,
         signature: tx.Signature,
         publicKey: tx.PublicKey,
         renew: Boolean(tx.Flags & claimFlags.Renew) || undefined,
@@ -40970,10 +40969,10 @@ const common_1 = __webpack_require__(0);
 function parseFeeUpdate(tx) {
     const baseFeeDrops = (new bignumber_js_1.default(tx.BaseFee, 16)).toString();
     return {
-        baseFeeJBC: (0, common_1.dropsToJbc)(baseFeeDrops),
+        baseFeeJBC: common_1.dropsToJbc(baseFeeDrops),
         referenceFeeUnits: tx.ReferenceFeeUnits,
-        reserveBaseJBC: (0, common_1.dropsToJbc)(tx.ReserveBase),
-        reserveIncrementJBC: (0, common_1.dropsToJbc)(tx.ReserveIncrement)
+        reserveBaseJBC: common_1.dropsToJbc(tx.ReserveBase),
+        reserveIncrementJBC: common_1.dropsToJbc(tx.ReserveIncrement)
     };
 }
 exports.default = parseFeeUpdate;
@@ -41021,7 +41020,7 @@ function parseBinaryTransaction(transaction) {
 function parseAccountTxTransaction(tx, includeRawTransaction) {
     const _tx = tx.tx_blob ? parseBinaryTransaction(tx) : tx;
     // jbcoind uses a different response format for 'account_tx' than 'tx'
-    return (0, transaction_1.default)(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
+    return transaction_1.default(_.assign({}, _tx.tx, { meta: _tx.meta, validated: _tx.validated }), includeRawTransaction);
 }
 function counterpartyFilter(filters, tx) {
     if (tx.address === filters.counterparty) {
@@ -43993,18 +43992,18 @@ const common_1 = __webpack_require__(0);
 // jbcoind 'account_lines' returns a different format for
 // trustlines than 'tx'
 function parseAccountTrustline(trustline) {
-    const specification = (0, common_1.removeUndefined)({
+    const specification = common_1.removeUndefined({
         limit: trustline.limit,
         currency: trustline.currency,
         counterparty: trustline.account,
-        qualityIn: (0, utils_1.parseQuality)(trustline.quality_in) || undefined,
-        qualityOut: (0, utils_1.parseQuality)(trustline.quality_out) || undefined,
+        qualityIn: utils_1.parseQuality(trustline.quality_in) || undefined,
+        qualityOut: utils_1.parseQuality(trustline.quality_out) || undefined,
         ripplingDisabled: trustline.no_jbcoin || undefined,
         frozen: trustline.freeze || undefined,
         authorized: trustline.authorized || undefined
     });
     // jbcoind doesn't provide the counterparty's qualities
-    const counterparty = (0, common_1.removeUndefined)({
+    const counterparty = common_1.removeUndefined({
         limit: trustline.limit_peer,
         ripplingDisabled: trustline.no_jbcoin_peer || undefined,
         frozen: trustline.freeze_peer || undefined,
@@ -44151,13 +44150,13 @@ function requestPathFind(connection, pathfind) {
     const destinationAmount = _.assign({
         // This is converted back to drops by toJbcoindAmount()
         value: pathfind.destination.amount.currency === 'JBC' ?
-            (0, common_1.dropsToJbc)('-1') : '-1'
+            common_1.dropsToJbc('-1') : '-1'
     }, pathfind.destination.amount);
     const request = {
         command: 'jbcoin_path_find',
         source_account: pathfind.source.address,
         destination_account: pathfind.destination.address,
-        destination_amount: (0, common_1.toJbcoindAmount)(destinationAmount)
+        destination_amount: common_1.toJbcoindAmount(destinationAmount)
     };
     if (typeof request.destination_amount === 'object'
         && !request.destination_amount.issuer) {
@@ -44169,14 +44168,14 @@ function requestPathFind(connection, pathfind) {
         request.destination_amount.issuer = request.destination_account;
     }
     if (pathfind.source.currencies && pathfind.source.currencies.length > 0) {
-        request.source_currencies = pathfind.source.currencies.map(amount => (0, utils_1.renameCounterpartyToIssuer)(amount));
+        request.source_currencies = pathfind.source.currencies.map(amount => utils_1.renameCounterpartyToIssuer(amount));
     }
     if (pathfind.source.amount) {
         if (pathfind.destination.amount.value !== undefined) {
             throw new ValidationError('Cannot specify both source.amount'
                 + ' and destination.amount.value in getPaths');
         }
-        request.send_max = (0, common_1.toJbcoindAmount)(pathfind.source.amount);
+        request.send_max = common_1.toJbcoindAmount(pathfind.source.amount);
         if (typeof request.send_max !== 'string' && !request.send_max.issuer) {
             request.send_max.issuer = pathfind.source.address;
         }
@@ -44205,7 +44204,7 @@ function conditionallyAddDirectJBCPath(connection, address, paths) {
         || !_.includes(paths.destination_currencies, 'JBC')) {
         return Promise.resolve(paths);
     }
-    return (0, utils_1.getJBCBalance)(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
+    return utils_1.getJBCBalance(connection, address, undefined).then(jbcBalance => addDirectJbcPath(paths, jbcBalance));
 }
 function filterSourceFundsLowPaths(pathfind, paths) {
     if (pathfind.source.amount &&
@@ -44215,7 +44214,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
                 return false;
             }
             const pathfindSourceAmountValue = new bignumber_js_1.default(pathfind.source.amount.currency === 'JBC' ?
-                (0, common_1.jbcToDrops)(pathfind.source.amount.value) :
+                common_1.jbcToDrops(pathfind.source.amount.value) :
                 pathfind.source.amount.value);
             const altSourceAmountValue = new bignumber_js_1.default(typeof alt.source_amount === 'string' ?
                 alt.source_amount :
@@ -44227,7 +44226,7 @@ function filterSourceFundsLowPaths(pathfind, paths) {
 }
 function formatResponse(pathfind, paths) {
     if (paths.alternatives && paths.alternatives.length > 0) {
-        return (0, pathfind_1.default)(paths);
+        return pathfind_1.default(paths);
     }
     if (paths.destination_currencies !== undefined &&
         !_.includes(paths.destination_currencies, pathfind.destination.amount.currency)) {
@@ -44285,10 +44284,10 @@ function parseAlternative(sourceAddress, destinationAddress, destinationAmount, 
     // we use "maxAmount"/"minAmount" here so that the result can be passed
     // directly to preparePayment
     const amounts = (alternative.destination_amount !== undefined) ?
-        { source: { amount: (0, amount_1.default)(alternative.source_amount) },
-            destination: { minAmount: (0, amount_1.default)(alternative.destination_amount) } } :
-        { source: { maxAmount: (0, amount_1.default)(alternative.source_amount) },
-            destination: { amount: (0, amount_1.default)(destinationAmount) } };
+        { source: { amount: amount_1.default(alternative.source_amount) },
+            destination: { minAmount: amount_1.default(alternative.destination_amount) } } :
+        { source: { maxAmount: amount_1.default(alternative.source_amount) },
+            destination: { amount: amount_1.default(destinationAmount) } };
     return {
         source: createAdjustment(sourceAddress, amounts.source),
         destination: createAdjustment(destinationAddress, amounts.destination),
@@ -44327,7 +44326,7 @@ function formatResponse(address, responses) {
     let orders = [];
     for (const response of responses) {
         const offers = response.offers.map(offer => {
-            return (0, account_order_1.parseAccountOrder)(address, offer);
+            return account_order_1.parseAccountOrder(address, offer);
         });
         orders = orders.concat(offers);
     }
@@ -44372,22 +44371,22 @@ function computeQuality(takerGets, takerPays) {
 // the flags are also different
 function parseAccountOrder(address, order) {
     const direction = (order.flags & flags_1.orderFlags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = (0, amount_1.default)(order.taker_gets);
-    const takerPaysAmount = (0, amount_1.default)(order.taker_pays);
+    const takerGetsAmount = amount_1.default(order.taker_gets);
+    const takerPaysAmount = amount_1.default(order.taker_pays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
     // note: immediateOrCancel and fillOrKill orders cannot enter the order book
     // so we can omit those flags here
-    const specification = (0, common_1.removeUndefined)({
+    const specification = common_1.removeUndefined({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
         passive: ((order.flags & flags_1.orderFlags.Passive) !== 0) || undefined,
         // jbcoind currently does not provide "expiration" in account_offers
-        expirationTime: (0, utils_1.parseTimestamp)(order.expiration)
+        expirationTime: utils_1.parseTimestamp(order.expiration)
     });
     const makerExchangeRate = order.quality ?
-        (0, utils_1.adjustQualityForJBC)(order.quality.toString(), takerGetsAmount.currency, takerPaysAmount.currency) :
+        utils_1.adjustQualityForJBC(order.quality.toString(), takerGetsAmount.currency, takerPaysAmount.currency) :
         computeQuality(takerGetsAmount, takerPaysAmount);
     const properties = {
         maker: address,
@@ -44511,34 +44510,34 @@ const flags_1 = __webpack_require__(106);
 const amount_1 = __webpack_require__(14);
 function parseOrderbookOrder(data) {
     const direction = (data.Flags & flags_1.orderFlags.Sell) === 0 ? 'buy' : 'sell';
-    const takerGetsAmount = (0, amount_1.default)(data.TakerGets);
-    const takerPaysAmount = (0, amount_1.default)(data.TakerPays);
+    const takerGetsAmount = amount_1.default(data.TakerGets);
+    const takerPaysAmount = amount_1.default(data.TakerPays);
     const quantity = (direction === 'buy') ? takerPaysAmount : takerGetsAmount;
     const totalPrice = (direction === 'buy') ? takerGetsAmount : takerPaysAmount;
     // note: immediateOrCancel and fillOrKill orders cannot enter the order book
     // so we can omit those flags here
-    const specification = (0, common_1.removeUndefined)({
+    const specification = common_1.removeUndefined({
         direction: direction,
         quantity: quantity,
         totalPrice: totalPrice,
         passive: ((data.Flags & flags_1.orderFlags.Passive) !== 0) || undefined,
-        expirationTime: (0, utils_1.parseTimestamp)(data.Expiration)
+        expirationTime: utils_1.parseTimestamp(data.Expiration)
     });
     const properties = {
         maker: data.Account,
         sequence: data.Sequence,
-        makerExchangeRate: (0, utils_1.adjustQualityForJBC)(data.quality, takerGetsAmount.currency, takerPaysAmount.currency)
+        makerExchangeRate: utils_1.adjustQualityForJBC(data.quality, takerGetsAmount.currency, takerPaysAmount.currency)
     };
     const takerGetsFunded = data.taker_gets_funded ?
-        (0, amount_1.default)(data.taker_gets_funded) : undefined;
+        amount_1.default(data.taker_gets_funded) : undefined;
     const takerPaysFunded = data.taker_pays_funded ?
-        (0, amount_1.default)(data.taker_pays_funded) : undefined;
-    const available = (0, common_1.removeUndefined)({
+        amount_1.default(data.taker_pays_funded) : undefined;
+    const available = common_1.removeUndefined({
         fundedAmount: takerGetsFunded,
         priceOfFundedAmount: takerPaysFunded
     });
     const state = _.isEmpty(available) ? undefined : available;
-    return (0, common_1.removeUndefined)({ specification, properties, state, data });
+    return common_1.removeUndefined({ specification, properties, state, data });
 }
 exports.parseOrderbookOrder = parseOrderbookOrder;
 
@@ -44582,7 +44581,7 @@ exports.parseAccountFlags = parseAccountFlags;
 function formatSettings(response) {
     const data = response.account_data;
     const parsedFlags = parseAccountFlags(data.Flags, { excludeFalse: true });
-    const parsedFields = (0, fields_1.default)(data);
+    const parsedFields = fields_1.default(data);
     return _.assign({}, parsedFlags, parsedFields);
 }
 function getSettings(address, options = {}) {
@@ -44621,9 +44620,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = __webpack_require__(0);
 function formatAccountInfo(response) {
     const data = response.account_data;
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         sequence: data.Sequence,
-        jbcBalance: (0, common_1.dropsToJbc)(data.Balance),
+        jbcBalance: common_1.dropsToJbc(data.Balance),
         ownerCount: data.OwnerCount,
         previousInitiatedTransactionID: data.AccountTxnID,
         previousAffectingTransactionID: data.PreviousTxnID,
@@ -44668,7 +44667,7 @@ function getAccountObjects(address, options = {}) {
         // Don't validate the options so that new types can be passed
         // through to jbcoind. jbcoind validates requests.
         // Make Request
-        const response = yield this.request('account_objects', (0, common_1.removeUndefined)({
+        const response = yield this.request('account_objects', common_1.removeUndefined({
             account: address,
             type: options.type,
             ledger_hash: options.ledgerHash,
@@ -44707,7 +44706,7 @@ function formatResponse(response) {
         response.node.LedgerEntryType !== 'PayChannel') {
         throw new NotFoundError('Payment channel ledger entry not found');
     }
-    return (0, payment_channel_1.parsePaymentChannel)(response.node);
+    return payment_channel_1.parsePaymentChannel(response.node);
 }
 function getPaymentChannel(id) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -44737,15 +44736,15 @@ exports.parsePaymentChannel = void 0;
 const utils_1 = __webpack_require__(10);
 const common_1 = __webpack_require__(0);
 function parsePaymentChannel(data) {
-    return (0, common_1.removeUndefined)({
+    return common_1.removeUndefined({
         account: data.Account,
-        amount: (0, common_1.dropsToJbc)(data.Amount),
-        balance: (0, common_1.dropsToJbc)(data.Balance),
+        amount: common_1.dropsToJbc(data.Amount),
+        balance: common_1.dropsToJbc(data.Balance),
         destination: data.Destination,
         publicKey: data.PublicKey,
         settleDelay: data.SettleDelay,
-        expiration: (0, utils_1.parseTimestamp)(data.Expiration),
-        cancelAfter: (0, utils_1.parseTimestamp)(data.CancelAfter),
+        expiration: utils_1.parseTimestamp(data.Expiration),
+        cancelAfter: utils_1.parseTimestamp(data.CancelAfter),
         sourceTag: data.SourceTag,
         destinationTag: data.DestinationTag,
         previousAffectingTransactionID: data.PreviousTxnID,
@@ -44810,7 +44809,7 @@ function createMaximalAmount(amount) {
         maxValue = maxJBCValue;
     }
     else if (amount.currency === 'drops') {
-        maxValue = (0, common_1.jbcToDrops)(maxJBCValue);
+        maxValue = common_1.jbcToDrops(maxJBCValue);
     }
     else {
         maxValue = maxIOUValue;
@@ -44988,7 +44987,7 @@ function createOrderTransaction(account, order) {
         txJSON.Flags |= offerFlags.FillOrKill;
     }
     if (order.expirationTime !== undefined) {
-        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(order.expirationTime);
+        txJSON.Expiration = common_1.iso8601ToJbcoinTime(order.expirationTime);
     }
     if (order.orderToReplace !== undefined) {
         txJSON.OfferSequence = order.orderToReplace;
@@ -45051,16 +45050,16 @@ function createEscrowCreationTransaction(account, payment) {
         TransactionType: 'EscrowCreate',
         Account: account,
         Destination: payment.destination,
-        Amount: (0, common_1.jbcToDrops)(payment.amount)
+        Amount: common_1.jbcToDrops(payment.amount)
     };
     if (payment.condition !== undefined) {
         txJSON.Condition = payment.condition;
     }
     if (payment.allowCancelAfter !== undefined) {
-        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowCancelAfter);
+        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(payment.allowCancelAfter);
     }
     if (payment.allowExecuteAfter !== undefined) {
-        txJSON.FinishAfter = (0, common_1.iso8601ToJbcoinTime)(payment.allowExecuteAfter);
+        txJSON.FinishAfter = common_1.iso8601ToJbcoinTime(payment.allowExecuteAfter);
     }
     if (payment.sourceTag !== undefined) {
         txJSON.SourceTag = payment.sourceTag;
@@ -45170,13 +45169,13 @@ function createPaymentChannelCreateTransaction(account, paymentChannel) {
     const txJSON = {
         Account: account,
         TransactionType: 'PaymentChannelCreate',
-        Amount: (0, common_1.jbcToDrops)(paymentChannel.amount),
+        Amount: common_1.jbcToDrops(paymentChannel.amount),
         Destination: paymentChannel.destination,
         SettleDelay: paymentChannel.settleDelay,
         PublicKey: paymentChannel.publicKey.toUpperCase()
     };
     if (paymentChannel.cancelAfter !== undefined) {
-        txJSON.CancelAfter = (0, common_1.iso8601ToJbcoinTime)(paymentChannel.cancelAfter);
+        txJSON.CancelAfter = common_1.iso8601ToJbcoinTime(paymentChannel.cancelAfter);
     }
     if (paymentChannel.sourceTag !== undefined) {
         txJSON.SourceTag = paymentChannel.sourceTag;
@@ -45208,10 +45207,10 @@ function createPaymentChannelFundTransaction(account, fund) {
         Account: account,
         TransactionType: 'PaymentChannelFund',
         Channel: fund.channel,
-        Amount: (0, common_1.jbcToDrops)(fund.amount)
+        Amount: common_1.jbcToDrops(fund.amount)
     };
     if (fund.expiration !== undefined) {
-        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(fund.expiration);
+        txJSON.Expiration = common_1.iso8601ToJbcoinTime(fund.expiration);
     }
     return txJSON;
 }
@@ -45242,10 +45241,10 @@ function createPaymentChannelClaimTransaction(account, claim) {
         Flags: 0
     };
     if (claim.balance !== undefined) {
-        txJSON.Balance = (0, common_1.jbcToDrops)(claim.balance);
+        txJSON.Balance = common_1.jbcToDrops(claim.balance);
     }
     if (claim.amount !== undefined) {
-        txJSON.Amount = (0, common_1.jbcToDrops)(claim.amount);
+        txJSON.Amount = common_1.jbcToDrops(claim.amount);
     }
     if (Boolean(claim.signature) !== Boolean(claim.publicKey)) {
         throw new ValidationError('"signature" and "publicKey" fields on'
@@ -45298,7 +45297,7 @@ function createCheckCreateTransaction(account, check) {
         txJSON.DestinationTag = check.destinationTag;
     }
     if (check.expiration !== undefined) {
-        txJSON.Expiration = (0, common_1.iso8601ToJbcoinTime)(check.expiration);
+        txJSON.Expiration = common_1.iso8601ToJbcoinTime(check.expiration);
     }
     if (check.invoiceID !== undefined) {
         txJSON.InvoiceID = check.invoiceID;
@@ -45523,7 +45522,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
         throw new utils.common.errors.ValidationError('txJSON must not contain "TxnSignature" or "Signers" properties');
     }
     const fee = new bignumber_js_1.BigNumber(tx.Fee);
-    const maxFeeDrops = (0, common_1.jbcToDrops)(api._maxFeeJBC);
+    const maxFeeDrops = common_1.jbcToDrops(api._maxFeeJBC);
     if (fee.greaterThan(maxFeeDrops)) {
         throw new utils.common.errors.ValidationError(`"Fee" should not exceed "${maxFeeDrops}". ` +
             'To use a higher fee, set `maxFeeJBC` in the JbcoinAPI constructor.');
@@ -45543,7 +45542,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
     const serialized = binary.encode(tx);
     return {
         signedTransaction: serialized,
-        id: (0, ripple_hashes_1.computeBinaryTransactionHash)(serialized)
+        id: ripple_hashes_1.computeBinaryTransactionHash(serialized)
     };
 }
 function sign(txJSON, secret, options, keypair) {
@@ -45579,7 +45578,7 @@ const ripple_address_codec_1 = __webpack_require__(30);
 const common_1 = __webpack_require__(0);
 const ripple_hashes_1 = __webpack_require__(50);
 function addressToBigNumber(address) {
-    const hex = (new Buffer((0, ripple_address_codec_1.decodeAddress)(address))).toString('hex');
+    const hex = (new Buffer(ripple_address_codec_1.decodeAddress(address))).toString('hex');
     return new bignumber_js_1.default(hex, 16);
 }
 function compareSigners(a, b) {
@@ -45599,7 +45598,7 @@ function combine(signedTransactions) {
     const signers = unsortedSigners.sort(compareSigners);
     const signedTx = _.assign({}, tx, { Signers: signers });
     const signedTransaction = binary.encode(signedTx);
-    const id = (0, ripple_hashes_1.computeBinaryTransactionHash)(signedTransaction);
+    const id = ripple_hashes_1.computeBinaryTransactionHash(signedTransaction);
     return { signedTransaction, id };
 }
 exports.default = combine;
@@ -45840,7 +45839,7 @@ function verifyPaymentChannelClaim(channel, amount, signature, publicKey) {
     common_1.validate.verifyPaymentChannelClaim({ channel, amount, signature, publicKey });
     const signingData = binary.encodeForSigningClaim({
         channel: channel,
-        amount: (0, common_1.jbcToDrops)(amount)
+        amount: common_1.jbcToDrops(amount)
     });
     return keypairs.verify(signingData, signature, publicKey);
 }
@@ -45878,7 +45877,7 @@ function getLedger(options = {}) {
             accounts: options.includeState
         });
         // 3. Return Formatted Response
-        return (0, ledger_1.parseLedger)(response.ledger);
+        return ledger_1.parseLedger(response.ledger);
     });
 }
 exports.default = getLedger;
@@ -45901,7 +45900,7 @@ function parseTransactionWrapper(ledgerVersion, tx) {
         meta: tx.metaData,
         ledger_index: ledgerVersion
     });
-    const result = (0, transaction_1.default)(transaction, true);
+    const result = transaction_1.default(transaction, true);
     if (!result.outcome.ledgerVersion) {
         result.outcome.ledgerVersion = ledgerVersion;
     }
@@ -45929,15 +45928,15 @@ function parseState(state) {
 }
 function parseLedger(ledger) {
     const ledgerVersion = parseInt(ledger.ledger_index || ledger.seqNum, 10);
-    return (0, common_1.removeUndefined)(Object.assign({
+    return common_1.removeUndefined(Object.assign({
         stateHash: ledger.account_hash,
-        closeTime: (0, common_1.jbcoinTimeToISO8601)(ledger.close_time),
+        closeTime: common_1.jbcoinTimeToISO8601(ledger.close_time),
         closeTimeResolution: ledger.close_time_resolution,
         closeFlags: ledger.close_flags,
         ledgerHash: ledger.hash || ledger.ledger_hash,
         ledgerVersion: ledgerVersion,
         parentLedgerHash: ledger.parent_hash,
-        parentCloseTime: (0, common_1.jbcoinTimeToISO8601)(ledger.parent_close_time),
+        parentCloseTime: common_1.jbcoinTimeToISO8601(ledger.parent_close_time),
         totalDrops: ledger.total_coins || ledger.totalCoins,
         transactionHash: ledger.transaction_hash
     }, parseTransactions(ledger.transactions, ledgerVersion), parseState(ledger.accountState)));

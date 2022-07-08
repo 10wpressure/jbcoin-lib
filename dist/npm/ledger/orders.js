@@ -16,7 +16,7 @@ function formatResponse(address, responses) {
     let orders = [];
     for (const response of responses) {
         const offers = response.offers.map(offer => {
-            return (0, account_order_1.parseAccountOrder)(address, offer);
+            return account_order_1.parseAccountOrder(address, offer);
         });
         orders = orders.concat(offers);
     }

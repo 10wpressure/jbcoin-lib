@@ -22,7 +22,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
         throw new utils.common.errors.ValidationError('txJSON must not contain "TxnSignature" or "Signers" properties');
     }
     const fee = new bignumber_js_1.BigNumber(tx.Fee);
-    const maxFeeDrops = (0, common_1.jbcToDrops)(api._maxFeeJBC);
+    const maxFeeDrops = common_1.jbcToDrops(api._maxFeeJBC);
     if (fee.greaterThan(maxFeeDrops)) {
         throw new utils.common.errors.ValidationError(`"Fee" should not exceed "${maxFeeDrops}". ` +
             'To use a higher fee, set `maxFeeJBC` in the JbcoinAPI constructor.');
@@ -42,7 +42,7 @@ function signWithKeypair(api, txJSON, keypair, options = {
     const serialized = binary.encode(tx);
     return {
         signedTransaction: serialized,
-        id: (0, ripple_hashes_1.computeBinaryTransactionHash)(serialized)
+        id: ripple_hashes_1.computeBinaryTransactionHash(serialized)
     };
 }
 function sign(txJSON, secret, options, keypair) {

@@ -24,7 +24,7 @@ function getLedger(options = {}) {
             accounts: options.includeState
         });
         // 3. Return Formatted Response
-        return (0, ledger_1.parseLedger)(response.ledger);
+        return ledger_1.parseLedger(response.ledger);
     });
 }
 exports.default = getLedger;

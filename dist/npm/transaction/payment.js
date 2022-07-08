@@ -48,7 +48,7 @@ function createMaximalAmount(amount) {
         maxValue = maxJBCValue;
     }
     else if (amount.currency === 'drops') {
-        maxValue = (0, common_1.jbcToDrops)(maxJBCValue);
+        maxValue = common_1.jbcToDrops(maxJBCValue);
     }
     else {
         maxValue = maxIOUValue;

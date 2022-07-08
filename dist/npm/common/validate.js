@@ -16,7 +16,7 @@ function validateLedgerRange(options) {
     }
 }
 function validateOptions(schema, instance) {
-    (0, schema_validator_1.schemaValidate)(schema, instance);
+    schema_validator_1.schemaValidate(schema, instance);
     validateLedgerRange(instance.options);
 }
 exports.getPaths = _.partial(schema_validator_1.schemaValidate, 'getPathsParameters');

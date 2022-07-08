@@ -62,15 +62,15 @@ function parseDeliveredAmount(tx) {
     }
     // parsable delivered_amount
     if (tx.meta.delivered_amount) {
-        return (0, amount_1.default)(tx.meta.delivered_amount);
+        return amount_1.default(tx.meta.delivered_amount);
     }
     // DeliveredAmount only present on partial payments
     if (tx.meta.DeliveredAmount) {
-        return (0, amount_1.default)(tx.meta.DeliveredAmount);
+        return amount_1.default(tx.meta.DeliveredAmount);
     }
     // no partial payment flag, use tx.Amount
     if (tx.Amount && !isPartialPayment(tx)) {
-        return (0, amount_1.default)(tx.Amount);
+        return amount_1.default(tx.Amount);
     }
     // DeliveredAmount field was introduced at
     // ledger 4594095 - after that point its absence
@@ -79,7 +79,7 @@ function parseDeliveredAmount(tx) {
     // transferred with a partial payment before
     // that date must be derived from metadata.
     if (tx.Amount && tx.ledger_index > 4594094) {
-        return (0, amount_1.default)(tx.Amount);
+        return amount_1.default(tx.Amount);
     }
     return undefined;
 }

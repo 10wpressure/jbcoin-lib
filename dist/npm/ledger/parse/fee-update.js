@@ -5,10 +5,10 @@ const common_1 = require("../../common");
 function parseFeeUpdate(tx) {
     const baseFeeDrops = (new bignumber_js_1.default(tx.BaseFee, 16)).toString();
     return {
-        baseFeeJBC: (0, common_1.dropsToJbc)(baseFeeDrops),
+        baseFeeJBC: common_1.dropsToJbc(baseFeeDrops),
         referenceFeeUnits: tx.ReferenceFeeUnits,
-        reserveBaseJBC: (0, common_1.dropsToJbc)(tx.ReserveBase),
-        reserveIncrementJBC: (0, common_1.dropsToJbc)(tx.ReserveIncrement)
+        reserveBaseJBC: common_1.dropsToJbc(tx.ReserveBase),
+        reserveIncrementJBC: common_1.dropsToJbc(tx.ReserveIncrement)
     };
 }
 exports.default = parseFeeUpdate;
